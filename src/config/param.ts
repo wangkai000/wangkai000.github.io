@@ -5,15 +5,15 @@ export const navFilter = [
   { label: '首页', route: '/', children: [] },
   { label: '文章', route: '/blog', children: [] },
   { label: '项目', route: '/project', children: [] },
-  // { label: 'bento', route: '/bento', children: [] },
+  { label: 'bento', route: '/bento', children: [] },
   { label: '关于', route: '/about', children: [] },
   // { label: 'README', route: '/README', children: [] },
 ]
 
 export const SITE = {
-  title: '博客',
-  author: '天渺studio',
-  description: '记录 kai 的不枯燥生活',
+  title: '天渺工作室',
+  author: '天渺工作室',
+  description: '记录 kai 的history',
   profileContent: '我是kai，目前生活在深圳的开发者。我很喜欢 Vue、React、Android、Flutter、Nodejs。目前从事前端开发和Nodejs、Android开发 。',
   keywords: 'kai, Blog, 前端, Vue, 博客',
   coordinate: [113.84835620042, 22.63484765642],
@@ -55,8 +55,8 @@ export const bentoCommonComponentsCfg = [
  */
 export const bentoCustomComponentsCfg = [
   { id: 'StrokeText', x: 2, y: 2, width: 1, height: 1, index: 0 },
-  { id: 'Sticker8', x: 3, y: 3, width: 1, height: 1, index: 0 },
-  { id: 'Cover', x: 0, y: 2, width: 1, height: 2, index: 0 },
+  // { id: 'Sticker8', x: 3, y: 3, width: 1, height: 1, index: 0 },
+  // { id: 'Cover', x: 0, y: 2, width: 1, height: 2, index: 0 },
 ]
 
 /**

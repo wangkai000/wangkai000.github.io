@@ -57,7 +57,7 @@ watch(() => route.path, (val) => {
 // 2. 设置当前选中的 item 的背景
 function refreshActiveTab(item: typeof navFilter[0], index: number) {
   // a. 设置标题
-  appTitle.value = item.label === '组件' ? 'Arvin' : item.label
+  appTitle.value = item.label === '组件' ? 'tianMiao' : item.label
 
   // b. 设置头部动画
   currentItemIndex.value = index
@@ -173,6 +173,7 @@ function startJelloHideAnimate() {
   overflow: hidden;
   user-select: none;
   box-shadow: var(--ui-second-box-shadow);
+  overflow-x: auto;
 }
 .nav-item {
   position: relative;
