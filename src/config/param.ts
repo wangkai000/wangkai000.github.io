@@ -1,5 +1,5 @@
-export const appName = 'Arvin'
-export const appDescription = 'Arvin Web App'
+export const appName = 'tianMiao'
+export const appDescription = 'tianMiao Web App'
 
 export const navFilter = [
   { label: '首页', route: '/', children: [] },
@@ -24,7 +24,7 @@ export const SITE = {
   mail: 'mailto:1071231288@qq.com',
   homePage: '/',
   profilePage: '/profile',
-  twitterId: 'ArvinnWang',
+  twitterId: 'tianMiao',
   twitterUrl: 'https://twitter.com/',
   githubId: 'pinky-pig',
   githubHome: 'https://github.com/',
@@ -67,15 +67,15 @@ export const PROJECTS = [
     name: 'kai',
     desc: '个人网站...',
     cover: 'https://cdn.jsdelivr.net/gh/pinky-pig/pic-bed/images20230625154539.png',
-    demoUrl: 'https://baidu.me/',
-    repoUrl: 'https://github.com/',
+    demoUrl: 'baidu.com',
+    repoUrl: 'baidu.com',
   },
   {
     name: 'Superellipse SVG',
     desc: 'SVG 超椭圆生成器，支持直接下载及用作 SVG background-image',
     cover: 'https://cdn.jsdelivr.net/gh/pinky-pig/pic-bed/images20230728150846.png',
-    demoUrl: 'https://superellipse.mmeme.me/',
-    repoUrl: 'https://github.com/pinky-pig/superellipse-svg',
+    demoUrl: 'https://baidu.com',
+    repoUrl: 'https://baidu.com',
   },
 ]
 
