@@ -3,7 +3,7 @@
 </p>
 
 <p align='center'>
- Personal Blog Website <b>Arvin</b><sup><em>(Vue)</em></sup><br>
+ Personal Blog Website <b>kai</b><sup><em>(Vue)</em></sup><br>
 </p>
 
 <br>

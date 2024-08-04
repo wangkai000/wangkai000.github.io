@@ -23,7 +23,7 @@ cover: https://cdn.jsdelivr.net/gh/pinky-pig/pic-bed/images20230614204503.png
 
 **实现**
 
-- [heti](https://github.com/sivan/heti) 设置中文排版布局
+- [heti](https://github.com/) 设置中文排版布局
 - [Prose components](https://content.nuxtjs.org/api/components/prose/) 重写
 - [@nuxt-themes](https://github.com/nuxt-themes) 直接应用官方主题
 

@@ -5,7 +5,7 @@ export const navFilter = [
   { label: '首页', route: '/', children: [] },
   { label: '文章', route: '/blog', children: [] },
   { label: '项目', route: '/project', children: [] },
-  { label: 'bento', route: '/bento', children: [] },
+  // { label: 'bento', route: '/bento', children: [] },
   { label: '关于', route: '/about', children: [] },
   // { label: 'README', route: '/README', children: [] },
 ]

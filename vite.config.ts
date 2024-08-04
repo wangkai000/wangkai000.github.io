@@ -44,7 +44,8 @@ export default defineConfig({
     },
   },
   build: {
-    target: 'esnext', // browsers can handle the latest ES features
+    target: 'es2019', // 1 browsers can handle the latest ES features
+    outDir: 'docs',
   },
 
   plugins: [
