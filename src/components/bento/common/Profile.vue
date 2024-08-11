@@ -80,7 +80,7 @@ async function typeSentence1() {
         <div ref="avatarImgRef" class="avatar-img absolute left-0 top-0 z-20 mb-8 h-[96px] w-[96px] rounded-full dark:bg-[var(--header-avatar-bg)]">
           <Icon v-if="currentAvatar === 'Arvin'" icon="fluent-emoji:partying-face" class="h-full w-full" />
 
-          <img v-else ref="avatarImgRef" class="h-full w-full" src="/logo.png" alt="">
+          <img v-else ref="avatarImgRef" class="h-full w-full rounded-full" src="/logo_me.jpg" alt="">
         </div>
         <div ref="avatarBgRef" class="avatar-bg" />
       </div>

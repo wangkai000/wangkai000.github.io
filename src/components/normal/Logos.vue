@@ -11,7 +11,7 @@
     />
     <div flex flex-col children:mx-auto>
       <img inline-block h-18 w-18 src="/logo.png">
-      <span mt--2 text-purple5>Arvin</span>
+      <span mt--2 text-purple5>Kai</span>
     </div>
   </div>
 </template>
