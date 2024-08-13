@@ -13,7 +13,7 @@ import { SITE } from '~/config/param'
     >
     <img
       class="lozad pointer-events-none absolute left-0 top-0 h-auto w-[370px] select-none object-fill"
-      src="https://cdn.jsdelivr.net/gh/pinky-pig/pic-bed/imagesweekly.webp"
+      src="https://images.cnblogs.com/cnblogs_com/tianmiaogongzuoshi/2125649/o_230218174702_69b1bf50e81cb7e6bb4adf2af62ee12.jpg"
       style="transform: rotate(330deg) translate3d(100px, 10px, 10px);"
       alt=""
     >
