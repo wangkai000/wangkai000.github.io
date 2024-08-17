@@ -1,11 +1,5 @@
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
+<template>None common cell</template>
 
-<template>
-  None common cell
-</template>
-
-<style scoped>
-
-</style>
+<style scoped></style>

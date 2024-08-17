@@ -19,7 +19,8 @@
     "typecheck": "vue-tsc --noEmit",
     "up": "taze major -I",
     "postinstall": "npx simple-git-hooks",
-    "sizecheck": "npx vite-bundle-visualizer"
+    "sizecheck": "npx vite-bundle-visualizer",
+    "f": "pnpx prettier --write *"
   },
   "dependencies": {
     "@unhead/vue": "^1.9.6",

@@ -1,0 +1,1 @@
+{"version":3,"file":"home-CmWrwW-l.js","sources":["../../src/layouts/home.vue"],"sourcesContent":["<template>\n    <Suspense>\n        <RouterView />\n    </Suspense>\n</template>\n"],"names":["_openBlock","_createBlock","_Suspense","_withCtx"],"mappings":"qLAAA,OAAAA,IAEsBC,EAAAC,EAAA,KAAA,SAAAC,GAAA,IAAA"}

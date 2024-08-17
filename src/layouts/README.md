@@ -9,6 +9,6 @@ With [`unplugin-vue-router`](https://github.com/posva/unplugin-vue-router) and [
 ```vue
 <route lang="yaml">
 meta:
-  layout: home
+    layout: home
 </route>
 ```

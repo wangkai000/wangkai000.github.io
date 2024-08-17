@@ -1,11 +1,9 @@
 <script setup lang="ts">
-const { data: resData } = await useFetch('/api/vote')
+const { data: resData } = await useFetch("/api/vote");
 </script>
 
 <template>
-  {{ resData }}
+    {{ resData }}
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

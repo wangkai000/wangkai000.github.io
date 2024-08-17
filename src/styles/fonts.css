@@ -1,10 +1,10 @@
 @import url(https://gw.alipayobjects.com/os/k/font/lxgwwenkaiscreenr.css);
 
 @font-face {
-  font-family: 'Digital';
-  src: url('/fonts/DS-DIGIB.TTF');
-  font-weight: normal;
-  font-style: normal;
+    font-family: "Digital";
+    src: url("/fonts/DS-DIGIB.TTF");
+    font-weight: normal;
+    font-style: normal;
 }
 /* @font-face {
   font-family: 'LXGW WenKai Screen R';
@@ -13,5 +13,3 @@
   font-style: normal;
   font-display: swap;
 } */
-
-

@@ -1,43 +1,52 @@
 <script setup lang="ts">
 onMounted(() => {
-  addPaintModule()
-})
+    addPaintModule();
+});
 
-const container = ref<HTMLElement | null>(null)
-const xValue = ref('3')
-const yValue = ref('3')
-const xyValue = ref('3')
-const isChecked = ref(false)
+const container = ref<HTMLElement | null>(null);
+const xValue = ref("3");
+const yValue = ref("3");
+const xyValue = ref("3");
+const isChecked = ref(false);
 
-const minpos = 0
-const maxpos = 1000
-const minval = Math.log(0.6)
-const maxval = Math.log(15)
-const scale = (maxval - minval) / (maxpos - minpos)
+const minpos = 0;
+const maxpos = 1000;
+const minval = Math.log(0.6);
+const maxval = Math.log(15);
+const scale = (maxval - minval) / (maxpos - minpos);
 function adjustedValue(position: number) {
-  return Number(Math.exp((position - minpos) * scale + minval)).toFixed(2)
+    return Number(Math.exp((position - minpos) * scale + minval)).toFixed(2);
 }
 
 watch(xValue, (value: any) => {
-  const X = adjustedValue(Number(value))
-  container.value!.style.setProperty('--smooth-corners', `${X}, ${adjustedValue(Number(yValue.value))}`)
-})
+    const X = adjustedValue(Number(value));
+    container.value!.style.setProperty(
+        "--smooth-corners",
+        `${X}, ${adjustedValue(Number(yValue.value))}`,
+    );
+});
 
 watch(xyValue, (value: any) => {
-  const XY = adjustedValue(Number(value))
-  container.value!.style.setProperty('--smooth-corners', `${XY},${XY}`)
-})
+    const XY = adjustedValue(Number(value));
+    container.value!.style.setProperty("--smooth-corners", `${XY},${XY}`);
+});
 
 watch(yValue, (value: any) => {
-  const Y = adjustedValue(Number(value))
-  container.value!.style.setProperty('--smooth-corners', `${adjustedValue(Number(xValue.value))}, ${Y}`)
-})
+    const Y = adjustedValue(Number(value));
+    container.value!.style.setProperty(
+        "--smooth-corners",
+        `${adjustedValue(Number(xValue.value))}, ${Y}`,
+    );
+});
 
 function addPaintModule() {
-  if (CSS && 'paintWorklet' in CSS) {
-    try {
-      (CSS as any).paintWorklet.addModule(
-        URL.createObjectURL(new Blob([`
+    if (CSS && "paintWorklet" in CSS) {
+        try {
+            (CSS as any).paintWorklet.addModule(
+                URL.createObjectURL(
+                    new Blob(
+                        [
+                            `
         class SmoothCornersPainter {
           static get inputProperties() {
             return ['--smooth-corners']
@@ -110,45 +119,80 @@ function addPaintModule() {
         }
         catch (e) {}
 
-        `], { type: 'application/javascript' }))
-        ,
-      )
+        `,
+                        ],
+                        { type: "application/javascript" },
+                    ),
+                ),
+            );
+        } catch (error) {
+            console.error("CSS paintWorklet addModule :", error);
+        }
     }
-    catch (error) {
-      console.error('CSS paintWorklet addModule :', error)
-    }
-  }
 }
 </script>
 
 <template>
-  <div>
-    <div ref="container">
-      <div class="mask" />
-      <div v-if="isChecked">
-        <input id="rangeX" v-model="xValue" type="range" min="0" max="1000" step="0.1">
-        <label id="valueX" for="rangeX" class="value">{{ xValue }}</label>
-        <input id="rangeY" v-model="yValue" type="range" min="0" max="1000" step="0.1">
-        <label id="valueY" for="rangeY" class="value">{{ yValue }}</label>
-      </div>
-      <div v-else>
-        <input id="rangeXY" v-model="xyValue" type="range" min="0" max="1000" step="0.1">
-        <label id="valueXY" for="rangeXY" class="value">{{ yValue }}</label>
-      </div>
-      <div class="left">
-        <input id="assymetricalToggle" type="checkbox" @click="isChecked = !isChecked">
-        <label for="assymetricalToggle">Assymetrical superellipses</label>
-      </div>
+    <div>
+        <div ref="container">
+            <div class="mask" />
+            <div v-if="isChecked">
+                <input
+                    id="rangeX"
+                    v-model="xValue"
+                    type="range"
+                    min="0"
+                    max="1000"
+                    step="0.1"
+                />
+                <label id="valueX" for="rangeX" class="value">{{
+                    xValue
+                }}</label>
+                <input
+                    id="rangeY"
+                    v-model="yValue"
+                    type="range"
+                    min="0"
+                    max="1000"
+                    step="0.1"
+                />
+                <label id="valueY" for="rangeY" class="value">{{
+                    yValue
+                }}</label>
+            </div>
+            <div v-else>
+                <input
+                    id="rangeXY"
+                    v-model="xyValue"
+                    type="range"
+                    min="0"
+                    max="1000"
+                    step="0.1"
+                />
+                <label id="valueXY" for="rangeXY" class="value">{{
+                    yValue
+                }}</label>
+            </div>
+            <div class="left">
+                <input
+                    id="assymetricalToggle"
+                    type="checkbox"
+                    @click="isChecked = !isChecked"
+                />
+                <label for="assymetricalToggle"
+                    >Assymetrical superellipses</label
+                >
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
 .mask {
-  width: 100px;
-  height: 100px;
-  background: linear-gradient(#f34072, #d01257);
-  mask-image: paint(smooth-corners);
-  -webkit-mask-image: paint(smooth-corners);
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(#f34072, #d01257);
+    mask-image: paint(smooth-corners);
+    -webkit-mask-image: paint(smooth-corners);
 }
 </style>

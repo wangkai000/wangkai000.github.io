@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { AppSetup } from './utils/app'
+import { AppSetup } from "./utils/app";
 
-AppSetup()
+AppSetup();
 </script>
 
 <template>
-  <RouterView />
+    <RouterView />
 </template>

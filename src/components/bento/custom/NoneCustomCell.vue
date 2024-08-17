@@ -1,11 +1,5 @@
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
+<template>None Custom Cell</template>
 
-<template>
-  None Custom Cell
-</template>
-
-<style scoped>
-
-</style>
+<style scoped></style>

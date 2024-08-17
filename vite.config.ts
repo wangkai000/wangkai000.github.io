@@ -17,6 +17,7 @@ import Pages from 'vite-plugin-pages'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 
+
 import MarkdownItShiki from '@shikijs/markdown-it'
 import { rendererRich, transformerTwoslash } from '@shikijs/twoslash'
 import tailwind from 'tailwindcss'
@@ -46,6 +47,38 @@ export default defineConfig({
   build: {
     target: 'es2019', // 1 browsers can handle the latest ES features
     outDir: 'docs',
+    // 打包后生成的静态资源名（[name] 会被替换为文件名，[hash] 是内容的 hash 值）  
+    assetsDir: 'assets', 
+    // 打包后生成的 HTML 入口文件名  
+    entryFileNames: 'assets/[name]-[hash].js',
+    // 打包后生成的 CSS 文件名  
+    cssCodeSplit: true,  
+    rollupOptions: {
+      output: {  
+        // 自定义打包后的 chunk 文件名  
+        chunkFileNames: 'chunks/[name]-[hash].js',  
+        // 自定义打包后的 CSS 文件名  
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
+        manualChunks: {
+          // vue vue-router合并打包
+          vue: ['vue', 'vue-router'],
+       }
+      },  
+    },  
+  
+    // 启用/配置压缩  
+    minify: 'terser', // 使用 terser 压缩 JS  
+    // terserOptions: {}, // 你可以在这里配置 terser 的选项   
+  
+    // 启用/禁用 source map  
+    sourcemap: true,  
+  
+    // 启用/禁用构建后的清理（删除 outDir 目录）  
+    cleanCss: true,  
+  
+    // 启用/禁用构建后的文件大小报告  
+    brotliSize: false, // 启用 Brotli 压缩大小报告  
+    chunkSizeWarningLimit: 2000, // 警告的 chunk 大小限制（以 KB 为单位）
   },
 
   plugins: [
