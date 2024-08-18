@@ -21,7 +21,7 @@ export const SITE = {
     icon: "https://cdn.jsdelivr.net/gh/pinky-pig/pic-bed/imageslogo.svg",
     pic: "https://cdn.fliggy.coblogPagem/upic/2XFNGI.png",
     cv: "https://baidu.com/",
-    juejin: "https://juejin.cn/user/1169536102179325/posts",
+    justin: "https://juejin.cn/user/1169536102179325/posts",
     mail: "mailto:1071231288@qq.com",
     homePage: "/",
     profilePage: "/profile",

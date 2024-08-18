@@ -1,2 +1,0 @@
-import{a as r}from"../assets/app-Cg4_voFO.js";import{y as o,z as s,K as a,H as d,G as e}from"./vue-wdX2hzzr.js";const t={class:"card-outer border-0 dark:border-[5px] dark:border-[var(--card-border)] dark:border-solid"},c={class:"card-content"},i={key:0,class:"card-footer"};const f=r({},[["render",function(r,f){return o(),s("div",t,[a("div",c,[d(r.$slots,"default",{},void 0,!0)]),r.$slots.footer?(o(),s("div",i,[d(r.$slots,"footer",{},void 0,!0)])):e("",!0)])}],["__scopeId","data-v-9b9069f7"]]);export{f as U};
-//# sourceMappingURL=ShadowCard-Ca_NBfoD.js.map

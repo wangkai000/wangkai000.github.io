@@ -1,5 +1,6 @@
 ---
 title: About
+date: 2024/01/01
 ---
 
 <div class="text-center">
@@ -8,14 +9,20 @@ title: About
   <h3>About</h3>
 </div>
 
-[Vitesse](https://github.com/antfu/vitesse) is an opinionated [Vite](https://github.com/vitejs/vite) starter template made by [@antfu](https://github.com/antfu) for mocking apps swiftly. With **file-based routing**, **components auto importing**, **markdown support**, I18n, PWA and uses **UnoCSS** for styling and icons.
+来自远方的朋友,你好呀,相逢何必曾相识,虽然不知道你是谁,但你的到来我定然很高兴🍷🍷
 
-```js
-// syntax highlighting example
-function vitesse() {
-    const foo = "bar";
-    console.log(foo);
-}
-```
+🍭关于博主
 
-Check out the [GitHub repo](https://github.com/antfu/vitesse) for more details.
+吾为潇湘人氏，笔名有余，一介布衣, 暂落于星城，苟全于现世，现二十有多矣。吾生不才，混迹江湖多年，无门无派，仅谋得口生计，余无所成！！！
+
+别无它好，于生活，乐于羽球，健身，厨艺尚可，于技艺，喜于设计，忠于产品，热于技术，且闲时喜好瞎折腾！
+
+除却聪智，其余尚可，亦不勤学,望将勤补拙，虽不才，且尚有容人之量，亦有荐人之贤，上可厅堂，下可厨房，外可御敌，内可缝衣，盼终成大器....
+
+📋博主身份证
+
+性别 : 应该是个男的 年龄: 不到30 生日 : 这题不会做...
+
+星座 : 射手 兴趣 : keep codeing，独立开发，做音乐
+
+随心所欲不逾矩,同流世俗不和污

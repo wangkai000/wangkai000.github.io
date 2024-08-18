@@ -217,7 +217,7 @@ async function typeSentence1() {
             <a
                 title="掘金主页"
                 class="detail-arrow text-[#1F80FF]"
-                :href="SITE.juejin"
+                :href="SITE.justin"
                 target="_blank"
             >
                 <svg
