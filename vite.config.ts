@@ -59,8 +59,8 @@ export default defineConfig({
         // 自定义打包后的 CSS 文件名
         assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
         // manualChunks: {
-          // vue vue-router合并打包
-          // vue: ['vue', 'vue-router'],
+        // vue vue-router合并打包
+        // vue: ['vue', 'vue-router'],
         // },
       },
     },
