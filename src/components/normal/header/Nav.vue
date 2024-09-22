@@ -161,8 +161,7 @@ function startJelloHideAnimate() {
       >
         <div
           ref="bgInnerRef"
-          style="background-color: rgb(77 75 75 / 26%);"
-          class="h-full w-full rounded-[50px] "
+          class="h-full w-full rounded-[50px] border border-solid border-blue-700"
         />
       </div>
     </div>
