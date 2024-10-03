@@ -1,8 +1,10 @@
+<!-- eslint-disable antfu/top-level-function -->
 <script setup lang="ts">
 import { navFilter } from '~/config'
 
 const route = useRoute()
 const appTitle = useTitle()
+const mobileNavBool = ref(false)
 
 const navFilterOptionBgMode = computed(() => {
   if (isDark.value)
@@ -10,6 +12,17 @@ const navFilterOptionBgMode = computed(() => {
 
   return 'difference'
 })
+
+const mobileNavClick = () => {
+  mobileNavBool.value = !mobileNavBool.value
+}
+const mobileNavClickHide = () => {
+  mobileNavBool.value = false
+}
+const navMenuClick = async () => {
+  await nextTick()
+  mobileNavBool.value = false
+}
 // ------------------------------------data------------------------------------//
 // 每个 item 的宽高
 const navItemOptions = {
@@ -115,57 +128,76 @@ function startJelloHideAnimate() {
 </script>
 
 <template>
-  <ClientOnly>
-    <div class="nav-container">
-      <!-- item -->
+  <div id="pc-nav" class="nav-container">
+    <!-- item -->
 
-      <div v-for="item in navFilter" :key="item.label">
-        <HoverCard :open-delay="0" :close-delay="0">
-          <HoverCardTrigger>
-            <router-link
-              :to="item.route"
-              replace
-              class="nav-item"
-              :style="{
-                height: `${navItemOptions.height}px`,
-                width: `${navItemOptions.width}px`,
-              }"
-            >
-              {{ item.label }}
-            </router-link>
-          </HoverCardTrigger>
-          <HoverCardContent
-            v-if="item?.children?.length > 0"
-            :side-offset="15"
-            class="w-[120px]! p-[4px]!"
+    <div v-for="item in navFilter" :key="item.label">
+      <HoverCard :open-delay="0" :close-delay="0">
+        <HoverCardTrigger>
+          <router-link
+            :to="item.route"
+            replace
+            class="nav-item"
+            :style="{
+              height: `${navItemOptions.height}px`,
+              width: `${navItemOptions.width}px`,
+            }"
+          >
+            {{ item.label }}
+          </router-link>
+        </HoverCardTrigger>
+        <HoverCardContent
+          v-if="item?.children?.length > 0"
+          :side-offset="15"
+          class="w-[120px]! p-[4px]!"
+        >
+          <div
+            class="flex flex-col items-center justify-start text-[14px]"
           >
             <div
-              class="flex flex-col items-center justify-start text-[14px]"
+              v-for="it in item.children"
+              :key="(it as any).label"
+              class="option-item h-10 w-full flex cursor-pointer items-center justify-center"
             >
-              <div
-                v-for="it in item.children"
-                :key="(it as any).label"
-                class="option-item h-10 w-full flex cursor-pointer items-center justify-center"
-              >
-                {{ (it as any).label }}
-              </div>
+              {{ (it as any).label }}
             </div>
-          </HoverCardContent>
-        </HoverCard>
-      </div>
+          </div>
+        </HoverCardContent>
+      </HoverCard>
+    </div>
 
-      <!-- bg 外层移动，内层动画 -->
+    <!-- bg 外层移动，内层动画 -->
+    <div
+      :style="outerBgStyles"
+      class="pointer-events-none absolute left-0 top-0 transition-transform duration-300 ease-in-out"
+    >
       <div
-        :style="outerBgStyles"
-        class="pointer-events-none absolute left-0 top-0 transition-transform duration-300 ease-in-out"
-      >
-        <div
-          ref="bgInnerRef"
-          class="h-full w-full rounded-[50px] border border-solid border-blue-700"
-        />
+        ref="bgInnerRef"
+        class="h-full w-full rounded-[50px] border border-solid border-blue-700"
+      />
+    </div>
+  </div>
+  <div id="mobile-nav" class="nav-container">
+    <div class="flex justify-end">
+      <div class=" flex-col items-center cursor-pointer relative" @click="mobileNavClick">
+        ☰
       </div>
     </div>
-  </ClientOnly>
+  </div>
+  <div v-if="mobileNavBool" class="mobile-nav-div flex fixed ">
+    <div class="flex-1 nav-menu">
+      <router-link
+        v-for="item in navFilter"
+        :key="item.label"
+        class="nav-menu-link" replace
+        :to="item.route"
+        @click="navMenuClick"
+      >
+        {{ item.label }}
+      </router-link>
+    </div>
+    <div class="flex-1 opacity-0" @click="mobileNavClickHide" />
+  </div>
 </template>
 
 <style scoped>
@@ -199,5 +231,45 @@ function startJelloHideAnimate() {
   /* color: var(--nav-text); */
   color: var(--text-color);
   mix-blend-mode: v-bind(navFilterOptionBgMode);
+}
+
+#mobile-nav {
+  display: none;
+  width: 100%;
+}
+@media (max-width: 600px) {
+  #pc-nav {
+    display: none;
+  }
+  #mobile-nav {
+    display: block;
+    width: 100%;
+  }
+}
+.mobile-nav-div {
+  width: 100vw;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  /* background-color: #d3d2d2; */
+  /* opacity: 0.6; */
+}
+@media (min-width: 600px) {
+  .mobile-nav-div {
+    display: none;
+  }
+}
+.nav-menu {
+  background-color: #ddd;
+}
+
+.nav-menu-link {
+  height: 56px;
+  line-height: 56px;
+  padding: 0 10px;
+  display: block;
+}
+.nav-menu-link:active {
+  background: #ffffff;
 }
 </style>
