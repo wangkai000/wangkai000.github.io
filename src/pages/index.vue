@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Bento from "./bento.vue";
+import Bento from "./Bento.vue";
 </script>
 
 <template>
