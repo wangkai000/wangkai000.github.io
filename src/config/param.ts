@@ -83,10 +83,10 @@ export const PROJECTS = [
 ]
 
 export const giscusSetting = {
-  'data-repo': 'pinky-pig/Arvin',
-  'data-repo-id': 'R_kgDOLC_KIQ',
+  'data-repo': 'wangkai000/wangkai000.github.io',
+  'data-repo-id': 'R_kgDOJohJlw',
   'data-category': 'General',
-  'data-category-id': 'DIC_kwDOLC_KIc4CexE9',
+  'data-category-id': 'DIC_kwDOJohJl84CjIV4',
   'data-mapping': 'og:title',
   'data-strict': '0',
   'data-reactions-enabled': '1',
