@@ -117,6 +117,20 @@ const navFilter: NavItem[] = [
                 children: [],
                 title: "服务器推荐",
             },
+            {
+                label: "个人原创音乐",
+                route: "/Music",
+                icon: "🎵",
+                children: [],
+                title: "个人原创音乐",
+            },
+            {
+                label: "个人原创小说",
+                route: "/Novel",
+                icon: "📜",
+                children: [],
+                title: "个人原创小说",
+            },
         ],
     },
 ];
