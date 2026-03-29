@@ -90,6 +90,13 @@ const navFilter: NavItem[] = [
                 children: [],
             },
             {
+                label: "推荐书单",
+                route: "/bookList",
+                icon: "📕",
+                children: [],
+                title: "推荐书单",
+            },
+            {
                 label: "视频推荐",
                 route: "/video",
                 icon: "⏯️",
@@ -119,14 +126,14 @@ const navFilter: NavItem[] = [
             },
             {
                 label: "原创音乐",
-                route: "/Music",
+                route: "/music",
                 icon: "🎵",
                 children: [],
                 title: "个人原创音乐",
             },
             {
                 label: "原创小说",
-                route: "/Novel",
+                route: "/novel",
                 icon: "📜",
                 children: [],
                 title: "个人原创小说",
