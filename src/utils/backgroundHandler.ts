@@ -587,7 +587,7 @@ export function getCurrentWallpaper(): Wallpaper {
     {
       morning: [
         {
-          url: 'https://s3.bmp.ovh/imgs/2025/07/20/0b92b4ecf63c46dc.jpg',
+          url: 'https://s3.bmp.ovh/imgs/2025/11/23/87b59ec5ea63a6b2.jpg',
           description: '阳光正好，适合赖床，也适合出门走走',
         },
         {
