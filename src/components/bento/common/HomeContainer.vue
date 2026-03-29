@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <div class="w-full h-[300px] text-white flex items-center justify-center">
-    🌅 🌹 花有重开日，人无再少年 🌟 ⏳
-  </div>
+    <div class="w-full h-[300px] text-white flex items-center justify-center">
+        🌅 🌹 花有重开日，人无再少年 🌟 ⏳
+    </div>
 </template>
 
 <style scoped>
