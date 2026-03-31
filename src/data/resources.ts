@@ -872,4 +872,13 @@ export const resources: Resource[] = [
     imageUrl: 'https://www.wawaxiezuo.com/favicon.ico',
     imageError: false,
   },
+  {
+    id: 100,
+    title: 'MakemePulse',
+    description: '每个设计师都应该看20次+的的网站',
+    url: 'https://www.makemepulse.com/',
+    tags: ['设计', '资源'],
+    imageUrl: 'https://www.makemepulse.com/favicon.ico',
+    imageError: false,
+  },
 ]
