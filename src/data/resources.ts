@@ -871,4 +871,13 @@ export const resources: Resource[] = [
     imageUrl: 'https://polyomarket.com/favicon.ico',
     imageError: false,
   },
+  {
+    id: 102,
+    title: 'TapTap AI Maker',
+    description: 'TapTap 制造 是一款专为游戏爱好者打造的 零门槛 AI 游戏创作智能体。对话即创作，完成即发布。',
+    url: 'https://maker.taptap.cn/',
+    tags: ['AI', '游戏', '开发', '游戏开发引擎'],
+    imageUrl: 'https://maker.taptap.cn/taptap-maker-logo.svg',
+    imageError: false,
+  },
 ]
