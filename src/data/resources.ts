@@ -689,16 +689,6 @@ export const resources: Resource[] = [
     imageError: false,
   },
   {
-    id: 76,
-    title: 'The Block',
-    description:
-            'The Block: Bitcoin, Ethereum & Crypto News | Live Prices, Data & Indices',
-    url: 'https://www.theblock.co/',
-    tags: ['Web3.0'],
-    imageUrl: 'https://www.theblock.co/favicon.ico',
-    imageError: false,
-  },
-  {
     id: 77,
     title: 'Decrypt',
     description:
@@ -780,15 +770,6 @@ export const resources: Resource[] = [
     url: 'https://confluxnetwork.org/',
     tags: ['Web3.0'],
     imageUrl: 'https://confluxnetwork.org/favicon.ico',
-    imageError: false,
-  },
-  {
-    id: 86,
-    title: 'Artstation',
-    description: '全球最大的CG视觉作品网站，汇聚了众多创意作品，提升游戏美术审美',
-    url: 'https://www.artstation.com/',
-    tags: ['游戏', '设计', 'CG'],
-    imageUrl: 'https://www.artstation.com/favicon.ico',
     imageError: false,
   },
   {
@@ -879,6 +860,15 @@ export const resources: Resource[] = [
     url: 'https://www.makemepulse.com/',
     tags: ['设计', '资源'],
     imageUrl: 'https://www.makemepulse.com/favicon.ico',
+    imageError: false,
+  },
+  {
+    id: 101,
+    title: 'Polyomarket',
+    description: '一个基于区块链的事件预测市场平台',
+    url: 'https://polyomarket.com/',
+    tags: ['Web3.0', '预测市场'],
+    imageUrl: 'https://polyomarket.com/favicon.ico',
     imageError: false,
   },
 ]
