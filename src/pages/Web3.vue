@@ -8,37 +8,37 @@ let animationId: number
 let scene: THREE.Scene
 let camera: THREE.PerspectiveCamera
 let renderer: THREE.WebGLRenderer
+let auroraMaterial: THREE.ShaderMaterial
+const floatingObjects: THREE.Mesh[] = []
+let meteorTimeout: ReturnType<typeof setTimeout>
 
 // Mouse parallax state
 const mouse = { x: 0, y: 0 }
 const targetRotation = { x: 0, y: 0 }
 const currentRotation = { x: 0, y: 0 }
 
+// Day/Night mode
+const isNightMode = ref(true)
+
 function initThree() {
   const canvas = canvasRef.value
   if (!canvas)
     return
 
+  // Random day/night
+  isNightMode.value = Math.random() > 0.3
+
   // Scene
   scene = new THREE.Scene()
-  scene.fog = new THREE.FogExp2(0x0A0A1A, 0.002)
+  scene.fog = new THREE.FogExp2(isNightMode.value ? 0x0A0A1A : 0x1A2A4A, 0.0015)
 
   // Camera
-  camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000,
-  )
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
   camera.position.set(0, 2, 0)
   camera.lookAt(0, 10, -100)
 
   // Renderer
-  renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: true,
-    alpha: true,
-  })
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
@@ -46,9 +46,9 @@ function initThree() {
   const skyGeometry = new THREE.SphereGeometry(500, 32, 32)
   const skyMaterial = new THREE.ShaderMaterial({
     uniforms: {
-      topColor: { value: new THREE.Color(0x0A0A1A) },
-      middleColor: { value: new THREE.Color(0x1A0A2E) },
-      bottomColor: { value: new THREE.Color(0xFF4500) },
+      topColor: { value: new THREE.Color(isNightMode.value ? 0x0A0A1A : 0x87CEEB) },
+      middleColor: { value: new THREE.Color(isNightMode.value ? 0x1A0A2E : 0xFFA500) },
+      bottomColor: { value: new THREE.Color(isNightMode.value ? 0xFF4500 : 0xFFD700) },
       offset: { value: 0.4 },
       exponent: { value: 0.6 },
     },
@@ -83,42 +83,176 @@ function initThree() {
   const sky = new THREE.Mesh(skyGeometry, skyMaterial)
   scene.add(sky)
 
-  // Stars
-  const starsGeometry = new THREE.BufferGeometry()
-  const starsCount = 1000
-  const positions = new Float32Array(starsCount * 3)
-  for (let i = 0; i < starsCount * 3; i += 3) {
-    const theta = Math.random() * Math.PI * 2
-    const phi = Math.random() * Math.PI * 0.5
-    const r = 400
-    positions[i] = r * Math.sin(phi) * Math.cos(theta)
-    positions[i + 1] = r * Math.cos(phi) + 50
-    positions[i + 2] = r * Math.sin(phi) * Math.sin(theta)
+  // Stars (only in night mode)
+  if (isNightMode.value) {
+    const starsGeometry = new THREE.BufferGeometry()
+    const starsCount = 1500
+    const positions = new Float32Array(starsCount * 3)
+    for (let i = 0; i < starsCount * 3; i += 3) {
+      const theta = Math.random() * Math.PI * 2
+      const phi = Math.random() * Math.PI * 0.6
+      const r = 400
+      positions[i] = r * Math.sin(phi) * Math.cos(theta)
+      positions[i + 1] = r * Math.cos(phi) + 50
+      positions[i + 2] = r * Math.sin(phi) * Math.sin(theta)
+    }
+    starsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    const starsMaterial = new THREE.PointsMaterial({
+      color: 0xFFFFFF,
+      size: 1.5,
+      transparent: true,
+      opacity: 0.9,
+    })
+    const stars = new THREE.Points(starsGeometry, starsMaterial)
+    scene.add(stars)
   }
-  starsGeometry.setAttribute(
-    'position',
-    new THREE.BufferAttribute(positions, 3),
-  )
-  const starsMaterial = new THREE.PointsMaterial({
-    color: 0xFFFFFF,
-    size: 1,
-    transparent: true,
-    opacity: 0.8,
-  })
-  const stars = new THREE.Points(starsGeometry, starsMaterial)
-  scene.add(stars)
+
+  // Aurora (only in night mode)
+  if (isNightMode.value) {
+    const auroraGeometry = new THREE.PlaneGeometry(600, 100, 1, 20)
+    auroraMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 0 },
+        color1: { value: new THREE.Color(0x00FF88) },
+        color2: { value: new THREE.Color(0x00FFFF) },
+        color3: { value: new THREE.Color(0xFF00FF) },
+      },
+      vertexShader: `
+        uniform float time;
+        varying vec2 vUv;
+        varying float vY;
+        void main() {
+          vUv = uv;
+          vec3 pos = position;
+          pos.y += sin(pos.x * 0.02 + time) * 10.0;
+          pos.y += cos(pos.x * 0.03 + time * 1.5) * 5.0;
+          vY = pos.y;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float time;
+        uniform vec3 color1;
+        uniform vec3 color2;
+        uniform vec3 color3;
+        varying vec2 vUv;
+        varying float vY;
+        void main() {
+          float wave = sin(vUv.x * 10.0 + time) * 0.5 + 0.5;
+          float alpha = (1.0 - vUv.y) * 0.3 * wave;
+          vec3 color = mix(color1, color2, wave);
+          color = mix(color, color3, sin(vUv.x * 5.0 + time * 2.0) * 0.5 + 0.5);
+          gl_FragColor = vec4(color, alpha * 0.5);
+        }
+      `,
+      transparent: true,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+    })
+    const aurora = new THREE.Mesh(auroraGeometry, auroraMaterial)
+    aurora.position.set(0, 120, -300)
+    aurora.rotation.x = -0.3
+    scene.add(aurora)
+  }
+
+  // Cloud layers
+  for (let layer = 0; layer < 3; layer++) {
+    const cloudGroup = new THREE.Group()
+    const cloudCount = 8 + layer * 4
+    for (let i = 0; i < cloudCount; i++) {
+      const cloudGeometry = new THREE.PlaneGeometry(
+        80 + Math.random() * 120,
+        20 + Math.random() * 30,
+        1,
+        1,
+      )
+      const cloudMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+          color: { value: new THREE.Color(isNightMode.value ? 0x2A1A4A : 0xFFFFFF) },
+          opacity: { value: 0.1 - layer * 0.02 },
+        },
+        vertexShader: `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform vec3 color;
+          uniform float opacity;
+          varying vec2 vUv;
+          void main() {
+            float alpha = opacity * (1.0 - abs(vUv.x - 0.5) * 2.0);
+            alpha *= (1.0 - abs(vUv.y - 0.5) * 2.0);
+            gl_FragColor = vec4(color, alpha * 0.3);
+          }
+        `,
+        transparent: true,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      })
+      const cloud = new THREE.Mesh(cloudGeometry, cloudMaterial)
+      cloud.position.set(
+        (Math.random() - 0.5) * 600,
+        60 + layer * 30 + Math.random() * 20,
+        -100 - layer * 50 - Math.random() * 50,
+      )
+      cloud.rotation.z = (Math.random() - 0.5) * 0.2
+      cloudGroup.add(cloud)
+    }
+    scene.add(cloudGroup)
+  }
 
   // Create grid floor
   const gridSize = 800
   const divisions = 80
-  const gridHelper = new THREE.GridHelper(
-    gridSize,
-    divisions,
-    0xFF00FF,
-    0x00FFFF,
-  )
+  const gridHelper = new THREE.GridHelper(gridSize, divisions, 0xFF00FF, 0x00FFFF)
   gridHelper.position.y = 0
   scene.add(gridHelper)
+
+  // City skyline
+  const cityGroup = new THREE.Group()
+  const buildingCount = 30
+  for (let i = 0; i < buildingCount; i++) {
+    const width = 5 + Math.random() * 15
+    const height = 20 + Math.random() * 80
+    const depth = 5 + Math.random() * 15
+    const buildingGeometry = new THREE.BoxGeometry(width, height, depth)
+    const buildingMaterial = new THREE.MeshBasicMaterial({
+      color: isNightMode.value ? 0x0A0A2A : 0x2A3A5A,
+      transparent: true,
+      opacity: 0.9,
+    })
+    const building = new THREE.Mesh(buildingGeometry, buildingMaterial)
+    building.position.set(
+      -200 + i * 15 + Math.random() * 10,
+      height / 2,
+      -280 - Math.random() * 30,
+    )
+    cityGroup.add(building)
+
+    // Window lights (night only)
+    if (isNightMode.value && Math.random() > 0.5) {
+      const windowCount = Math.floor(Math.random() * 8) + 2
+      for (let w = 0; w < windowCount; w++) {
+        const windowGeometry = new THREE.PlaneGeometry(1, 1)
+        const windowMaterial = new THREE.MeshBasicMaterial({
+          color: Math.random() > 0.5 ? 0xFF00FF : 0x00FFFF,
+          transparent: true,
+          opacity: 0.8,
+        })
+        const windowMesh = new THREE.Mesh(windowGeometry, windowMaterial)
+        windowMesh.position.set(
+          (Math.random() - 0.5) * width * 0.8,
+          (Math.random() - 0.5) * height * 0.8,
+          depth / 2 + 0.1,
+        )
+        building.add(windowMesh)
+      }
+    }
+  }
+  scene.add(cityGroup)
 
   // Sun glow layers (outer to inner)
   const glowColors = [0xFF4500, 0xFF6B00, 0xFF00FF]
@@ -170,23 +304,59 @@ function initThree() {
   sun.position.set(0, 25, -200)
   scene.add(sun)
 
-  // Mountains (silhouette with slight color)
-  const mountainMaterial = new THREE.MeshBasicMaterial({ color: 0x1A0A2E })
-  for (let i = 0; i < 8; i++) {
-    const width = 100 + Math.random() * 150
-    const height = 30 + Math.random() * 50
+  // Mountains
+  const mountainMaterial = new THREE.MeshBasicMaterial({
+    color: isNightMode.value ? 0x1A0A2E : 0x3A4A6A,
+  })
+  for (let i = 0; i < 12; i++) {
+    const width = 80 + Math.random() * 150
+    const height = 40 + Math.random() * 60
     const mountainGeometry = new THREE.ConeGeometry(width, height, 4)
     const mountain = new THREE.Mesh(mountainGeometry, mountainMaterial)
     mountain.position.set(
-      -300 + i * 100 + Math.random() * 50,
+      -350 + i * 70 + Math.random() * 40,
       height / 2,
-      -250 - Math.random() * 50,
+      -260 - Math.random() * 60,
     )
     mountain.rotation.y = Math.random() * Math.PI
     scene.add(mountain)
   }
 
-  // Ambient light (subtle)
+  // Floating geometric objects
+  const objectCount = 15
+  const geometries = [
+    new THREE.TetrahedronGeometry(3),
+    new THREE.OctahedronGeometry(3),
+    new THREE.IcosahedronGeometry(2.5),
+    new THREE.TorusGeometry(2, 0.5, 8, 16),
+  ]
+  for (let i = 0; i < objectCount; i++) {
+    const geometry = geometries[Math.floor(Math.random() * geometries.length)]
+    const material = new THREE.MeshBasicMaterial({
+      color: [0xFF00FF, 0x00FFFF, 0xFF6B00, 0x00FF88][Math.floor(Math.random() * 4)],
+      wireframe: true,
+      transparent: true,
+      opacity: 0.6,
+    })
+    const mesh = new THREE.Mesh(geometry, material)
+    mesh.position.set(
+      (Math.random() - 0.5) * 300,
+      20 + Math.random() * 60,
+      -50 - Math.random() * 100,
+    )
+    mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI)
+    mesh.userData = {
+      rotSpeedX: (Math.random() - 0.5) * 0.02,
+      rotSpeedY: (Math.random() - 0.5) * 0.02,
+      floatSpeed: 0.5 + Math.random() * 1,
+      floatOffset: Math.random() * Math.PI * 2,
+      originalY: mesh.position.y,
+    }
+    floatingObjects.push(mesh)
+    scene.add(mesh)
+  }
+
+  // Ambient light
   const ambientLight = new THREE.AmbientLight(0x202030, 0.5)
   scene.add(ambientLight)
 
@@ -195,6 +365,19 @@ function initThree() {
 
 function animate() {
   animationId = requestAnimationFrame(animate)
+  const time = performance.now() * 0.001
+
+  // Update aurora
+  if (auroraMaterial) {
+    auroraMaterial.uniforms.time.value = time
+  }
+
+  // Animate floating objects
+  floatingObjects.forEach((obj) => {
+    obj.rotation.x += obj.userData.rotSpeedX
+    obj.rotation.y += obj.userData.rotSpeedY
+    obj.position.y = obj.userData.originalY + Math.sin(time * obj.userData.floatSpeed + obj.userData.floatOffset) * 3
+  })
 
   // Smooth mouse parallax
   const smoothing = 0.05
@@ -202,8 +385,8 @@ function animate() {
   currentRotation.y += (targetRotation.y - currentRotation.y) * smoothing
 
   // Apply parallax to camera
-  camera.rotation.y = -currentRotation.y * 0.3
-  camera.rotation.x = -currentRotation.x * 0.15
+  camera.rotation.y = -currentRotation.y * 0.2
+  camera.rotation.x = -currentRotation.x * 0.1
 
   // Slowly decay rotation back to center
   targetRotation.x *= 0.995
@@ -221,11 +404,8 @@ function handleResize() {
 }
 
 function handleMouseMove(e: MouseEvent) {
-  // Normalize mouse position to -1 to 1
   mouse.x = (e.clientX / window.innerWidth) * 2 - 1
   mouse.y = (e.clientY / window.innerHeight) * 2 - 1
-
-  // Update target rotation based on mouse position
   targetRotation.x = mouse.y
   targetRotation.y = mouse.x
 }
@@ -245,6 +425,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   cancelAnimationFrame(animationId)
+  clearTimeout(meteorTimeout)
   window.removeEventListener('resize', handleResize)
   window.removeEventListener('mousemove', handleMouseMove)
   if (renderer)
@@ -266,7 +447,7 @@ onUnmounted(() => {
           欢迎来到kai的web3世界
         </h1>
         <p class="subtitle">
-          Explore the decentralized future
+          {{ isNightMode ? 'Explore the decentralized future' : 'Embrace the digital dawn' }}
         </p>
         <button class="explore-btn" @click="showDeveloping">
           探索更多
