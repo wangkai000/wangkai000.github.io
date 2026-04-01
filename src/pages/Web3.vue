@@ -24,12 +24,21 @@ function initThree() {
   scene.fog = new THREE.FogExp2(0x0A0A1A, 0.002)
 
   // Camera
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+  camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000,
+  )
   camera.position.set(0, 2, 0)
   camera.lookAt(0, 10, -100)
 
   // Renderer
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
+  renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true,
+    alpha: true,
+  })
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
@@ -86,15 +95,28 @@ function initThree() {
     positions[i + 1] = r * Math.cos(phi) + 50
     positions[i + 2] = r * Math.sin(phi) * Math.sin(theta)
   }
-  starsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-  const starsMaterial = new THREE.PointsMaterial({ color: 0xFFFFFF, size: 1, transparent: true, opacity: 0.8 })
+  starsGeometry.setAttribute(
+    'position',
+    new THREE.BufferAttribute(positions, 3),
+  )
+  const starsMaterial = new THREE.PointsMaterial({
+    color: 0xFFFFFF,
+    size: 1,
+    transparent: true,
+    opacity: 0.8,
+  })
   const stars = new THREE.Points(starsGeometry, starsMaterial)
   scene.add(stars)
 
   // Create grid floor
   const gridSize = 800
   const divisions = 80
-  const gridHelper = new THREE.GridHelper(gridSize, divisions, 0xFF00FF, 0x00FFFF)
+  const gridHelper = new THREE.GridHelper(
+    gridSize,
+    divisions,
+    0xFF00FF,
+    0x00FFFF,
+  )
   gridHelper.position.y = 0
   scene.add(gridHelper)
 
@@ -155,7 +177,11 @@ function initThree() {
     const height = 30 + Math.random() * 50
     const mountainGeometry = new THREE.ConeGeometry(width, height, 4)
     const mountain = new THREE.Mesh(mountainGeometry, mountainMaterial)
-    mountain.position.set(-300 + i * 100 + Math.random() * 50, height / 2, -250 - Math.random() * 50)
+    mountain.position.set(
+      -300 + i * 100 + Math.random() * 50,
+      height / 2,
+      -250 - Math.random() * 50,
+    )
     mountain.rotation.y = Math.random() * Math.PI
     scene.add(mountain)
   }
