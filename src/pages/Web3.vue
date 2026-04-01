@@ -21,7 +21,7 @@ function initThree() {
 
   // Scene
   scene = new THREE.Scene()
-  scene.fog = new THREE.Fog(0x0A0A1A, 0, 500)
+  scene.fog = new THREE.FogExp2(0x0A0A1A, 0.002)
 
   // Camera
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -33,6 +33,64 @@ function initThree() {
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+  // Sky gradient dome
+  const skyGeometry = new THREE.SphereGeometry(500, 32, 32)
+  const skyMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+      topColor: { value: new THREE.Color(0x0A0A1A) },
+      middleColor: { value: new THREE.Color(0x1A0A2E) },
+      bottomColor: { value: new THREE.Color(0xFF4500) },
+      offset: { value: 0.4 },
+      exponent: { value: 0.6 },
+    },
+    vertexShader: `
+      varying vec3 vWorldPosition;
+      void main() {
+        vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+        vWorldPosition = worldPosition.xyz;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform vec3 topColor;
+      uniform vec3 middleColor;
+      uniform vec3 bottomColor;
+      uniform float offset;
+      uniform float exponent;
+      varying vec3 vWorldPosition;
+      void main() {
+        float h = normalize(vWorldPosition).y;
+        vec3 color;
+        if (h > offset) {
+          color = mix(middleColor, topColor, pow((h - offset) / (1.0 - offset), exponent));
+        } else {
+          color = mix(bottomColor, middleColor, pow(h / offset, exponent * 0.5));
+        }
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `,
+    side: THREE.BackSide,
+  })
+  const sky = new THREE.Mesh(skyGeometry, skyMaterial)
+  scene.add(sky)
+
+  // Stars
+  const starsGeometry = new THREE.BufferGeometry()
+  const starsCount = 1000
+  const positions = new Float32Array(starsCount * 3)
+  for (let i = 0; i < starsCount * 3; i += 3) {
+    const theta = Math.random() * Math.PI * 2
+    const phi = Math.random() * Math.PI * 0.5
+    const r = 400
+    positions[i] = r * Math.sin(phi) * Math.cos(theta)
+    positions[i + 1] = r * Math.cos(phi) + 50
+    positions[i + 2] = r * Math.sin(phi) * Math.sin(theta)
+  }
+  starsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+  const starsMaterial = new THREE.PointsMaterial({ color: 0xFFFFFF, size: 1, transparent: true, opacity: 0.8 })
+  const stars = new THREE.Points(starsGeometry, starsMaterial)
+  scene.add(stars)
+
   // Create grid floor
   const gridSize = 800
   const divisions = 80
@@ -40,7 +98,23 @@ function initThree() {
   gridHelper.position.y = 0
   scene.add(gridHelper)
 
-  // Sun/Orb
+  // Sun glow layers (outer to inner)
+  const glowColors = [0xFF4500, 0xFF6B00, 0xFF00FF]
+  const glowSizes = [80, 60, 45]
+  glowColors.forEach((color, i) => {
+    const glowGeometry = new THREE.CircleGeometry(glowSizes[i], 64)
+    const glowMaterial = new THREE.MeshBasicMaterial({
+      color,
+      transparent: true,
+      opacity: 0.15 - i * 0.04,
+      side: THREE.DoubleSide,
+    })
+    const glow = new THREE.Mesh(glowGeometry, glowMaterial)
+    glow.position.set(0, 25, -201 - i * 0.5)
+    scene.add(glow)
+  })
+
+  // Sun/Orb with stripes
   const sunGeometry = new THREE.CircleGeometry(30, 64)
   const sunMaterial = new THREE.ShaderMaterial({
     uniforms: {
@@ -74,8 +148,8 @@ function initThree() {
   sun.position.set(0, 25, -200)
   scene.add(sun)
 
-  // Mountains (silhouette)
-  const mountainMaterial = new THREE.MeshBasicMaterial({ color: 0x0A0A1A })
+  // Mountains (silhouette with slight color)
+  const mountainMaterial = new THREE.MeshBasicMaterial({ color: 0x1A0A2E })
   for (let i = 0; i < 8; i++) {
     const width = 100 + Math.random() * 150
     const height = 30 + Math.random() * 50
@@ -86,8 +160,8 @@ function initThree() {
     scene.add(mountain)
   }
 
-  // Ambient light (subtle, for overall visibility)
-  const ambientLight = new THREE.AmbientLight(0x202030, 0.8)
+  // Ambient light (subtle)
+  const ambientLight = new THREE.AmbientLight(0x202030, 0.5)
   scene.add(ambientLight)
 
   animate()
@@ -163,16 +237,16 @@ onUnmounted(() => {
       </Transition>
       <div class="content">
         <h1 class="title">
-          Welcome to Kai's web3 world
+          欢迎来到kai的web3世界
         </h1>
         <p class="subtitle">
           Explore the decentralized future
         </p>
         <button class="explore-btn" @click="showDeveloping">
-          More
+          探索更多
         </button>
         <div class="tags">
-          <span class="tag">News</span>
+          <span class="tag">Blockchain</span>
           <span class="tag">DeFi</span>
           <span class="tag">NFT</span>
           <span class="tag">DAO</span>
