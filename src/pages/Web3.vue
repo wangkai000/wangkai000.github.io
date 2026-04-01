@@ -11,7 +11,7 @@ const CONFIG = {
   enableCity: true, // 城市天际线
   enableFloatingObjects: true, // 悬浮几何体
   enableRandomDayNight: true, // 随机日夜模式（关闭则默认夜间）
-  sunHeight: 120, // 太阳高度（y轴），默认40比地平线高
+  sunHeight: 50, // 太阳高度（y轴），默认40比地平线高
   sunZ: -350, // 太阳深度位置
   // 夜间天空颜色
   nightSkyTop: 0x0A0A1A,
@@ -34,7 +34,8 @@ const CONFIG = {
   cityWindowProbability: 0.5, // 窗户出现概率
   // 太阳参数
   sunSize: 50, // 太阳主体大小
-  sunGlowSizes: [80, 60, 45], // 太阳光晕从小到大
+  sunGlowSizes: [100, 80, 45], // 太阳光晕从小到大
+  sunStripeGap: 0, // 太阳条纹缝隙（0为纯色太阳，不闪烁）
   // 地平线网格参数
   gridDivisions: 80, // 网格线条个数
   gridColor1: 0xFF00FF, // 主线条颜色
@@ -48,6 +49,7 @@ let scene: THREE.Scene
 let camera: THREE.PerspectiveCamera
 let renderer: THREE.WebGLRenderer
 let auroraMaterial: THREE.ShaderMaterial | null = null
+let sunMaterial: THREE.ShaderMaterial | null = null
 const floatingObjects: THREE.Mesh[] = []
 
 // Mouse parallax state
@@ -286,7 +288,11 @@ function initThree() {
     scene.add(cityGroup)
   }
 
-  // Sun glow layers (outer to inner) - z: -350 (BEHIND city)
+  // Sun group - 确保渲染顺序一致
+  const sunGroup = new THREE.Group()
+  sunGroup.renderOrder = 999
+
+  // Sun glow layers (outer to inner)
   const glowColors = [0xFF4500, 0xFF6B00, 0xFF00FF]
   glowColors.forEach((color, i) => {
     const glowGeometry = new THREE.CircleGeometry(CONFIG.sunGlowSizes[i], 64)
@@ -294,20 +300,20 @@ function initThree() {
       color,
       transparent: true,
       opacity: 0.15 - i * 0.04,
-      side: THREE.DoubleSide,
     })
     const glow = new THREE.Mesh(glowGeometry, glowMaterial)
     glow.position.set(0, CONFIG.sunHeight, CONFIG.sunZ - i * 0.5)
-    scene.add(glow)
+    sunGroup.add(glow)
   })
 
-  // Sun/Orb with stripes - z: -350 (BEHIND city)
+  // Sun/Orb with stripes
   const sunGeometry = new THREE.CircleGeometry(CONFIG.sunSize, 64)
-  const sunMaterial = new THREE.ShaderMaterial({
+  sunMaterial = new THREE.ShaderMaterial({
     uniforms: {
       color1: { value: new THREE.Color(0xFF6B00) },
       color2: { value: new THREE.Color(0xFF00FF) },
       time: { value: 0 },
+      stripeGap: { value: CONFIG.sunStripeGap },
     },
     vertexShader: `
       varying vec2 vUv;
@@ -320,20 +326,26 @@ function initThree() {
       uniform vec3 color1;
       uniform vec3 color2;
       uniform float time;
+      uniform float stripeGap;
       varying vec2 vUv;
       void main() {
-        float stripes = step(0.5, fract(vUv.y * 20.0 + time * 0.5));
-        vec3 color = mix(color1, color2, stripes * 0.7);
-        float alpha = mix(1.0, 0.0, stripes * 0.8);
+        vec3 color = mix(color1, color2, 0.5);
+        float alpha = 1.0;
+        if (stripeGap > 0.0) {
+          float stripe = sin(vUv.y * 40.0 + time) * 0.5 + 0.5;
+          alpha = smoothstep(0.5 - stripeGap, 0.5 + stripeGap, stripe);
+        }
         gl_FragColor = vec4(color, alpha);
       }
     `,
     transparent: true,
-    side: THREE.DoubleSide,
+    depthWrite: false,
   })
   const sun = new THREE.Mesh(sunGeometry, sunMaterial)
   sun.position.set(0, CONFIG.sunHeight, CONFIG.sunZ)
-  scene.add(sun)
+  sunGroup.add(sun)
+
+  scene.add(sunGroup)
 
   // Mountains
   const mountainMaterial = new THREE.MeshBasicMaterial({
@@ -403,6 +415,11 @@ function animate() {
   // Update aurora
   if (auroraMaterial) {
     auroraMaterial.uniforms.time.value = time
+  }
+
+  // Update sun stripes
+  if (sunMaterial) {
+    sunMaterial.uniforms.time.value = time
   }
 
   // Animate floating objects
@@ -476,16 +493,16 @@ onUnmounted(() => {
       </Transition>
       <div class="content">
         <h1 class="title">
-          欢迎来到kai的web3世界
+          Welcome to Kai's web3 world
         </h1>
         <p class="subtitle">
           {{ isNightMode ? 'Explore the decentralized future' : 'Embrace the digital dawn' }}
         </p>
         <button class="explore-btn" @click="showDeveloping">
-          探索更多
+          More
         </button>
         <div class="tags">
-          <span class="tag">Blockchain</span>
+          <span class="tag">News</span>
           <span class="tag">DeFi</span>
           <span class="tag">NFT</span>
           <span class="tag">DAO</span>
