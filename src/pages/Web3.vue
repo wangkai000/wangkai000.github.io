@@ -218,7 +218,48 @@ function initThree() {
   gridHelper.position.y = 0
   scene.add(gridHelper)
 
-  // Sun glow layers (outer to inner) - z: -201
+  // City skyline - z: -200 (IN FRONT of sun)
+  if (CONFIG.enableCity) {
+    const cityGroup = new THREE.Group()
+    const buildingCount = 30
+    for (let i = 0; i < buildingCount; i++) {
+      const width = 5 + Math.random() * 15
+      const height = 20 + Math.random() * 80
+      const depth = 5 + Math.random() * 15
+      const buildingGeometry = new THREE.BoxGeometry(width, height, depth)
+      const buildingMaterial = new THREE.MeshBasicMaterial({
+        color: isNightMode.value ? 0x0A0A2A : 0x2A3A5A,
+        transparent: true,
+        opacity: 0.9,
+      })
+      const building = new THREE.Mesh(buildingGeometry, buildingMaterial)
+      building.position.set(-200 + i * 15 + Math.random() * 10, height / 2, -180 - Math.random() * 30)
+      cityGroup.add(building)
+
+      // Window lights (night only)
+      if (isNightMode.value && Math.random() > 0.5) {
+        const windowCount = Math.floor(Math.random() * 8) + 2
+        for (let w = 0; w < windowCount; w++) {
+          const windowGeometry = new THREE.PlaneGeometry(1, 1)
+          const windowMaterial = new THREE.MeshBasicMaterial({
+            color: Math.random() > 0.5 ? 0xFF00FF : 0x00FFFF,
+            transparent: true,
+            opacity: 0.8,
+          })
+          const windowMesh = new THREE.Mesh(windowGeometry, windowMaterial)
+          windowMesh.position.set(
+            (Math.random() - 0.5) * width * 0.8,
+            (Math.random() - 0.5) * height * 0.8,
+            depth / 2 + 0.1,
+          )
+          building.add(windowMesh)
+        }
+      }
+    }
+    scene.add(cityGroup)
+  }
+
+  // Sun glow layers (outer to inner) - z: -350 (BEHIND city)
   const glowColors = [0xFF4500, 0xFF6B00, 0xFF00FF]
   const glowSizes = [80, 60, 45]
   glowColors.forEach((color, i) => {
@@ -230,11 +271,11 @@ function initThree() {
       side: THREE.DoubleSide,
     })
     const glow = new THREE.Mesh(glowGeometry, glowMaterial)
-    glow.position.set(0, 25, -201 - i * 0.5)
+    glow.position.set(0, 25, -350 - i * 0.5)
     scene.add(glow)
   })
 
-  // Sun/Orb with stripes - z: -200
+  // Sun/Orb with stripes - z: -350 (BEHIND city)
   const sunGeometry = new THREE.CircleGeometry(30, 64)
   const sunMaterial = new THREE.ShaderMaterial({
     uniforms: {
@@ -265,49 +306,8 @@ function initThree() {
     side: THREE.DoubleSide,
   })
   const sun = new THREE.Mesh(sunGeometry, sunMaterial)
-  sun.position.set(0, 25, -200)
+  sun.position.set(0, 25, -350)
   scene.add(sun)
-
-  // City skyline - z: -280 (behind sun at -200)
-  if (CONFIG.enableCity) {
-    const cityGroup = new THREE.Group()
-    const buildingCount = 30
-    for (let i = 0; i < buildingCount; i++) {
-      const width = 5 + Math.random() * 15
-      const height = 20 + Math.random() * 80
-      const depth = 5 + Math.random() * 15
-      const buildingGeometry = new THREE.BoxGeometry(width, height, depth)
-      const buildingMaterial = new THREE.MeshBasicMaterial({
-        color: isNightMode.value ? 0x0A0A2A : 0x2A3A5A,
-        transparent: true,
-        opacity: 0.9,
-      })
-      const building = new THREE.Mesh(buildingGeometry, buildingMaterial)
-      building.position.set(-200 + i * 15 + Math.random() * 10, height / 2, -280 - Math.random() * 30)
-      cityGroup.add(building)
-
-      // Window lights (night only)
-      if (isNightMode.value && Math.random() > 0.5) {
-        const windowCount = Math.floor(Math.random() * 8) + 2
-        for (let w = 0; w < windowCount; w++) {
-          const windowGeometry = new THREE.PlaneGeometry(1, 1)
-          const windowMaterial = new THREE.MeshBasicMaterial({
-            color: Math.random() > 0.5 ? 0xFF00FF : 0x00FFFF,
-            transparent: true,
-            opacity: 0.8,
-          })
-          const windowMesh = new THREE.Mesh(windowGeometry, windowMaterial)
-          windowMesh.position.set(
-            (Math.random() - 0.5) * width * 0.8,
-            (Math.random() - 0.5) * height * 0.8,
-            depth / 2 + 0.1,
-          )
-          building.add(windowMesh)
-        }
-      }
-    }
-    scene.add(cityGroup)
-  }
 
   // Mountains
   const mountainMaterial = new THREE.MeshBasicMaterial({
