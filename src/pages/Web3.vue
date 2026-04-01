@@ -22,7 +22,7 @@ const CONFIG = {
   daySkyMiddle: 0x4A90D9,
   daySkyBottom: 0x87CEEB,
   // 城市楼房参数
-  cityBuildingCount: 30, // 楼房数量
+  cityBuildingCount: 10, // 楼房数量
   cityBuildingWidthMin: 5,
   cityBuildingWidthMax: 20,
   cityBuildingHeightMin: 20,
@@ -32,6 +32,13 @@ const CONFIG = {
   cityWindowCountMin: 2,
   cityWindowCountMax: 10,
   cityWindowProbability: 0.5, // 窗户出现概率
+  // 太阳参数
+  sunSize: 50, // 太阳主体大小
+  sunGlowSizes: [80, 60, 45], // 太阳光晕从小到大
+  // 地平线网格参数
+  gridDivisions: 80, // 网格线条个数
+  gridColor1: 0xFF00FF, // 主线条颜色
+  gridColor2: 0x00FFFF, // 副线条颜色
 }
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
@@ -234,8 +241,7 @@ function initThree() {
 
   // Create grid floor
   const gridSize = 800
-  const divisions = 80
-  const gridHelper = new THREE.GridHelper(gridSize, divisions, 0xFF00FF, 0x00FFFF)
+  const gridHelper = new THREE.GridHelper(gridSize, CONFIG.gridDivisions, CONFIG.gridColor1, CONFIG.gridColor2)
   gridHelper.position.y = 0
   scene.add(gridHelper)
 
@@ -282,9 +288,8 @@ function initThree() {
 
   // Sun glow layers (outer to inner) - z: -350 (BEHIND city)
   const glowColors = [0xFF4500, 0xFF6B00, 0xFF00FF]
-  const glowSizes = [80, 60, 45]
   glowColors.forEach((color, i) => {
-    const glowGeometry = new THREE.CircleGeometry(glowSizes[i], 64)
+    const glowGeometry = new THREE.CircleGeometry(CONFIG.sunGlowSizes[i], 64)
     const glowMaterial = new THREE.MeshBasicMaterial({
       color,
       transparent: true,
@@ -297,7 +302,7 @@ function initThree() {
   })
 
   // Sun/Orb with stripes - z: -350 (BEHIND city)
-  const sunGeometry = new THREE.CircleGeometry(30, 64)
+  const sunGeometry = new THREE.CircleGeometry(CONFIG.sunSize, 64)
   const sunMaterial = new THREE.ShaderMaterial({
     uniforms: {
       color1: { value: new THREE.Color(0xFF6B00) },
