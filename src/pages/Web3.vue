@@ -575,33 +575,33 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="web3-container">
-    <canvas ref="canvasRef" class="webgl-canvas" />
-    <div class="web3-overlay">
+  <div class="web3-container fixed inset-0 overflow-hidden bg-[#0a0a1a]">
+    <canvas ref="canvasRef" class="webgl-canvas absolute inset-0 w-full h-full" />
+    <div class="web3-overlay absolute inset-0 flex items-center justify-center pointer-events-none">
       <Transition name="toast">
-        <div v-if="showToast" class="toast">
+        <div v-if="showToast" class="toast fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-8 py-4 bg-pink-500/90 text-white text-lg rounded-lg shadow-[0_0_40px_rgba(255,0,255,0.8)] z-[200]">
           正在开发中...
         </div>
       </Transition>
-      <div class="content">
-        <h1 class="title">
+      <div class="content text-center z-[100] pointer-events-auto">
+        <h1 class="title text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-wide leading-tight mb-4" style="font-family: 'Orbitron', 'Rajdhani', system-ui, sans-serif; text-shadow: 0 0 40px rgba(255, 0, 255, 0.8), 0 0 80px rgba(0, 255, 255, 0.5);">
           Welcome to Kai's web3 world
         </h1>
-        <p class="subtitle">
+        <p class="subtitle text-base md:text-lg lg:text-xl font-medium text-white/80 tracking-widest leading-relaxed mb-8" style="font-family: 'Rajdhani', 'Exo 2', system-ui, sans-serif;">
           {{
             isNightMode
               ? "Explore the decentralized future"
               : "Embrace the digital dawn"
           }}
         </p>
-        <button class="explore-btn" @click="showDeveloping">
+        <button class="explore-btn inline-block px-12 py-4 mb-8 text-base font-semibold text-[#0a0a1a] rounded-full cursor-pointer tracking-widest transition-all duration-300 hover:scale-105" style="background: linear-gradient(135deg, #ff00ff, #00ffff); box-shadow: 0 0 30px rgba(255, 0, 255, 0.5), 0 0 60px rgba(0, 255, 255, 0.3);" @click="showDeveloping">
           More
         </button>
-        <div class="tags">
-          <span class="tag">News</span>
-          <span class="tag">DeFi</span>
-          <span class="tag">NFT</span>
-          <span class="tag">DAO</span>
+        <div class="tags flex flex-wrap justify-center gap-4 px-2">
+          <!-- <span class="tag px-4 py-2 text-sm md:text-base font-semibold text-cyan-400 border-2 border-cyan-400 tracking-wide whitespace-nowrap" style="font-family: 'Rajdhani', 'Exo 2', system-ui, sans-serif; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5); box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);">News</span>
+          <span class="tag px-4 py-2 text-sm md:text-base font-semibold text-cyan-400 border-2 border-cyan-400 tracking-wide whitespace-nowrap" style="font-family: 'Rajdhani', 'Exo 2', system-ui, sans-serif; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5); box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);">DeFi</span>
+          <span class="tag px-4 py-2 text-sm md:text-base font-semibold text-cyan-400 border-2 border-cyan-400 tracking-wide whitespace-nowrap" style="font-family: 'Rajdhani', 'Exo 2', system-ui, sans-serif; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5); box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);">NFT</span>
+          <span class="tag px-4 py-2 text-sm md:text-base font-semibold text-cyan-400 border-2 border-cyan-400 tracking-wide whitespace-nowrap" style="font-family: 'Rajdhani', 'Exo 2', system-ui, sans-serif; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5); box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);">DAO</span> -->
         </div>
       </div>
     </div>
@@ -609,116 +609,7 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.web3-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background: #0a0a1a;
-}
-
-.webgl-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.web3-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-
-.content {
-  text-align: center;
-  z-index: 100;
-  pointer-events: auto;
-}
-
-.title {
-  font-size: 3.5rem;
-  font-weight: 900;
-  color: #fff;
-  text-shadow:
-    0 0 40px rgba(255, 0, 255, 0.8),
-    0 0 80px rgba(0, 255, 255, 0.5);
-  margin: 0 0 1rem;
-  letter-spacing: 0.1em;
-}
-
-.subtitle {
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin: 0 0 2rem;
-  letter-spacing: 0.2em;
-}
-
-.explore-btn {
-  display: inline-block;
-  padding: 1rem 3rem;
-  margin-bottom: 2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #0a0a1a;
-  background: linear-gradient(135deg, #ff00ff, #00ffff);
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  letter-spacing: 0.15em;
-  transition: all 0.3s ease;
-  box-shadow:
-    0 0 30px rgba(255, 0, 255, 0.5),
-    0 0 60px rgba(0, 255, 255, 0.3);
-}
-
-.explore-btn:hover {
-  transform: scale(1.05);
-  box-shadow:
-    0 0 50px rgba(255, 0, 255, 0.8),
-    0 0 100px rgba(0, 255, 255, 0.5);
-}
-
-.tags {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.tag {
-  padding: 0.5rem 1.5rem;
-  border: 2px solid #00ffff;
-  color: #00ffff;
-  font-size: 0.9rem;
-  letter-spacing: 0.1em;
-  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-}
-
-.toast {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 1rem 2rem;
-  background: rgba(255, 0, 255, 0.9);
-  color: #fff;
-  font-size: 1.2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 40px rgba(255, 0, 255, 0.8);
-  z-index: 200;
-}
-
+/* Toast transitions */
 .toast-enter-active,
 .toast-leave-active {
   transition: opacity 0.3s ease;
