@@ -21,6 +21,17 @@ const CONFIG = {
   daySkyTop: 0x87CEEB,
   daySkyMiddle: 0x4A90D9,
   daySkyBottom: 0x87CEEB,
+  // 城市楼房参数
+  cityBuildingCount: 30, // 楼房数量
+  cityBuildingWidthMin: 5,
+  cityBuildingWidthMax: 20,
+  cityBuildingHeightMin: 20,
+  cityBuildingHeightMax: 100,
+  cityBuildingDepthMin: 5,
+  cityBuildingDepthMax: 20,
+  cityWindowCountMin: 2,
+  cityWindowCountMax: 10,
+  cityWindowProbability: 0.5, // 窗户出现概率
 }
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
@@ -231,11 +242,11 @@ function initThree() {
   // City skyline - z: -200 (IN FRONT of sun)
   if (CONFIG.enableCity) {
     const cityGroup = new THREE.Group()
-    const buildingCount = 30
+    const buildingCount = CONFIG.cityBuildingCount
     for (let i = 0; i < buildingCount; i++) {
-      const width = 5 + Math.random() * 15
-      const height = 20 + Math.random() * 80
-      const depth = 5 + Math.random() * 15
+      const width = CONFIG.cityBuildingWidthMin + Math.random() * (CONFIG.cityBuildingWidthMax - CONFIG.cityBuildingWidthMin)
+      const height = CONFIG.cityBuildingHeightMin + Math.random() * (CONFIG.cityBuildingHeightMax - CONFIG.cityBuildingHeightMin)
+      const depth = CONFIG.cityBuildingDepthMin + Math.random() * (CONFIG.cityBuildingDepthMax - CONFIG.cityBuildingDepthMin)
       const buildingGeometry = new THREE.BoxGeometry(width, height, depth)
       const buildingMaterial = new THREE.MeshBasicMaterial({
         color: isNightMode.value ? 0x0A0A2A : 0x2A3A5A,
@@ -247,8 +258,8 @@ function initThree() {
       cityGroup.add(building)
 
       // Window lights (night only)
-      if (isNightMode.value && Math.random() > 0.5) {
-        const windowCount = Math.floor(Math.random() * 8) + 2
+      if (isNightMode.value && Math.random() < CONFIG.cityWindowProbability) {
+        const windowCount = CONFIG.cityWindowCountMin + Math.floor(Math.random() * (CONFIG.cityWindowCountMax - CONFIG.cityWindowCountMin))
         for (let w = 0; w < windowCount; w++) {
           const windowGeometry = new THREE.PlaneGeometry(1, 1)
           const windowMaterial = new THREE.MeshBasicMaterial({
