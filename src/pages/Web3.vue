@@ -11,6 +11,8 @@ const CONFIG = {
   enableCity: true, // 城市天际线
   enableFloatingObjects: true, // 悬浮几何体
   enableRandomDayNight: true, // 随机日夜模式（关闭则默认夜间）
+  sunHeight: 40, // 太阳高度（y轴），默认40比地平线高
+  sunZ: -350, // 太阳深度位置
 }
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
@@ -57,8 +59,8 @@ function initThree() {
   const skyMaterial = new THREE.ShaderMaterial({
     uniforms: {
       topColor: { value: new THREE.Color(isNightMode.value ? 0x0A0A1A : 0x87CEEB) },
-      middleColor: { value: new THREE.Color(isNightMode.value ? 0x1A0A2E : 0xFFA500) },
-      bottomColor: { value: new THREE.Color(isNightMode.value ? 0xFF4500 : 0xFFD700) },
+      middleColor: { value: new THREE.Color(isNightMode.value ? 0x1A0A2E : 0x4A90D9) },
+      bottomColor: { value: new THREE.Color(isNightMode.value ? 0xFF4500 : 0x87CEEB) },
       offset: { value: 0.4 },
       exponent: { value: 0.6 },
     },
@@ -271,7 +273,7 @@ function initThree() {
       side: THREE.DoubleSide,
     })
     const glow = new THREE.Mesh(glowGeometry, glowMaterial)
-    glow.position.set(0, 25, -350 - i * 0.5)
+    glow.position.set(0, CONFIG.sunHeight, CONFIG.sunZ - i * 0.5)
     scene.add(glow)
   })
 
@@ -306,7 +308,7 @@ function initThree() {
     side: THREE.DoubleSide,
   })
   const sun = new THREE.Mesh(sunGeometry, sunMaterial)
-  sun.position.set(0, 25, -350)
+  sun.position.set(0, CONFIG.sunHeight, CONFIG.sunZ)
   scene.add(sun)
 
   // Mountains
