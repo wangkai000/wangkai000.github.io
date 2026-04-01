@@ -11,8 +11,16 @@ const CONFIG = {
   enableCity: true, // 城市天际线
   enableFloatingObjects: true, // 悬浮几何体
   enableRandomDayNight: true, // 随机日夜模式（关闭则默认夜间）
-  sunHeight: 40, // 太阳高度（y轴），默认40比地平线高
+  sunHeight: 120, // 太阳高度（y轴），默认40比地平线高
   sunZ: -350, // 太阳深度位置
+  // 夜间天空颜色
+  nightSkyTop: 0x0A0A1A,
+  nightSkyMiddle: 0x1A0A2E,
+  nightSkyBottom: 0xFF4500,
+  // 白天天空颜色
+  daySkyTop: 0x87CEEB,
+  daySkyMiddle: 0x4A90D9,
+  daySkyBottom: 0x87CEEB,
 }
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
@@ -58,9 +66,9 @@ function initThree() {
   const skyGeometry = new THREE.SphereGeometry(500, 32, 32)
   const skyMaterial = new THREE.ShaderMaterial({
     uniforms: {
-      topColor: { value: new THREE.Color(isNightMode.value ? 0x0A0A1A : 0x87CEEB) },
-      middleColor: { value: new THREE.Color(isNightMode.value ? 0x1A0A2E : 0x4A90D9) },
-      bottomColor: { value: new THREE.Color(isNightMode.value ? 0xFF4500 : 0x87CEEB) },
+      topColor: { value: new THREE.Color(isNightMode.value ? CONFIG.nightSkyTop : CONFIG.daySkyTop) },
+      middleColor: { value: new THREE.Color(isNightMode.value ? CONFIG.nightSkyMiddle : CONFIG.daySkyMiddle) },
+      bottomColor: { value: new THREE.Color(isNightMode.value ? CONFIG.nightSkyBottom : CONFIG.daySkyBottom) },
       offset: { value: 0.4 },
       exponent: { value: 0.6 },
     },
