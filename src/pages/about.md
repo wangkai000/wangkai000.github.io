@@ -45,7 +45,7 @@
 
 ## 📖 博客来源
 
-这个博客源于对技术的热爱与分享的渴望。在这个信息爆炸的时代，我希望通过文字记录自己的一点历程、技术心得和生活感悟，为自己留下一份成长的印记，也为可能需要的朋友提供一点参考......
+这个博客源于对技术的热爱与分享的渴望。在这个AI信息爆炸的时代，我希望通过文字记录自己的一点历程、技术心得和生活感悟，为自己留下一份成长的印记，也为可能需要的朋友提供一点参考......
 
 ## 💰 支持与打赏
 
@@ -96,7 +96,7 @@
     <p class="text-sm text-gray-500 mt-4">添加微信好友请注明"博客读者"</p>
   </div>
   <div class="flex flex-col items-center justify-center">
-    <p class="font-medium mb-2 text-center">公众号：天渺STU的开发日志</p>
+    <p class="font-medium mb-2 text-center">公众号：天渺DevLog</p>
     <img src="/static/qrcode/gongzhonghao.jpg" alt="微信公众号二维码" style="width:160px; border-radius: 8px;" />
     <p class="text-sm text-gray-500 mt-2 text-center">扫码关注获取更多</p>
   </div>
