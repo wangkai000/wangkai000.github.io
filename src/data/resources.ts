@@ -760,13 +760,15 @@ export const resources: Resource[] = [
     description: '一款设计师友好的建站工具',
     url: 'https://www.creght.com/',
     tags: ['资源', '建站', '设计'],
-    imageUrl: 'https://fsu.creght.com/project/mVnidfGADfS/lZLMxdMuGEY__logo_(1).png?w=768&fmt=webp',
+    imageUrl:
+            'https://fsu.creght.com/project/mVnidfGADfS/lZLMxdMuGEY__logo_(1).png?w=768&fmt=webp',
     imageError: false,
   },
   {
     id: 85,
     title: 'Conflux Network',
-    description: 'Conflux 是一个高性能的 Layer 1 区块链公链，专注于为 Web3 提供可靠、高效的基础设施',
+    description:
+            'Conflux 是一个高性能的 Layer 1 区块链公链，专注于为 Web3 提供可靠、高效的基础设施',
     url: 'https://confluxnetwork.org/',
     tags: ['Web3.0'],
     imageUrl: 'https://confluxnetwork.org/favicon.ico',
@@ -820,7 +822,8 @@ export const resources: Resource[] = [
   {
     id: 96,
     title: 'UI中国',
-    description: '国内知名设计师社区，提供UI设计、交互设计、用户体验等专业设计资源',
+    description:
+            '国内知名设计师社区，提供UI设计、交互设计、用户体验等专业设计资源',
     url: 'https://www.ui.cn/',
     tags: ['设计', 'UI', '社区'],
     imageUrl: 'https://www.ui.cn/favicon.ico',
@@ -874,7 +877,8 @@ export const resources: Resource[] = [
   {
     id: 102,
     title: 'TapTap AI Maker',
-    description: 'TapTap 制造 是一款专为游戏爱好者打造的 零门槛 AI 游戏创作智能体。对话即创作，完成即发布。',
+    description:
+            'TapTap 制造 是一款专为游戏爱好者打造的 零门槛 AI 游戏创作智能体。对话即创作，完成即发布。',
     url: 'https://maker.taptap.cn/',
     tags: ['AI', '游戏', '开发', '游戏开发引擎'],
     imageUrl: 'https://maker.taptap.cn/taptap-maker-logo.svg',

@@ -66,19 +66,33 @@ function initThree() {
     return
 
   // Random day/night
-  isNightMode.value = CONFIG.enableRandomDayNight ? Math.random() > 0.3 : true
+  isNightMode.value = CONFIG.enableRandomDayNight
+    ? Math.random() > 0.3
+    : true
 
   // Scene
   scene = new THREE.Scene()
-  scene.fog = new THREE.FogExp2(isNightMode.value ? 0x0A0A1A : 0x1A2A4A, 0.0015)
+  scene.fog = new THREE.FogExp2(
+    isNightMode.value ? 0x0A0A1A : 0x1A2A4A,
+    0.0015,
+  )
 
   // Camera
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+  camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000,
+  )
   camera.position.set(0, 2, 0)
   camera.lookAt(0, 10, -100)
 
   // Renderer
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
+  renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true,
+    alpha: true,
+  })
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
@@ -86,9 +100,25 @@ function initThree() {
   const skyGeometry = new THREE.SphereGeometry(500, 32, 32)
   const skyMaterial = new THREE.ShaderMaterial({
     uniforms: {
-      topColor: { value: new THREE.Color(isNightMode.value ? CONFIG.nightSkyTop : CONFIG.daySkyTop) },
-      middleColor: { value: new THREE.Color(isNightMode.value ? CONFIG.nightSkyMiddle : CONFIG.daySkyMiddle) },
-      bottomColor: { value: new THREE.Color(isNightMode.value ? CONFIG.nightSkyBottom : CONFIG.daySkyBottom) },
+      topColor: {
+        value: new THREE.Color(
+          isNightMode.value ? CONFIG.nightSkyTop : CONFIG.daySkyTop,
+        ),
+      },
+      middleColor: {
+        value: new THREE.Color(
+          isNightMode.value
+            ? CONFIG.nightSkyMiddle
+            : CONFIG.daySkyMiddle,
+        ),
+      },
+      bottomColor: {
+        value: new THREE.Color(
+          isNightMode.value
+            ? CONFIG.nightSkyBottom
+            : CONFIG.daySkyBottom,
+        ),
+      },
       offset: { value: 0.4 },
       exponent: { value: 0.6 },
     },
@@ -136,7 +166,10 @@ function initThree() {
       positions[i + 1] = r * Math.cos(phi) + 50
       positions[i + 2] = r * Math.sin(phi) * Math.sin(theta)
     }
-    starsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    starsGeometry.setAttribute(
+      'position',
+      new THREE.BufferAttribute(positions, 3),
+    )
     const starsMaterial = new THREE.PointsMaterial({
       color: 0xFFFFFF,
       size: 1.5,
@@ -201,10 +234,19 @@ function initThree() {
       const cloudGroup = new THREE.Group()
       const cloudCount = 8 + layer * 4
       for (let i = 0; i < cloudCount; i++) {
-        const cloudGeometry = new THREE.PlaneGeometry(80 + Math.random() * 120, 20 + Math.random() * 30, 1, 1)
+        const cloudGeometry = new THREE.PlaneGeometry(
+          80 + Math.random() * 120,
+          20 + Math.random() * 30,
+          1,
+          1,
+        )
         const cloudMaterial = new THREE.ShaderMaterial({
           uniforms: {
-            color: { value: new THREE.Color(isNightMode.value ? 0x2A1A4A : 0xFFFFFF) },
+            color: {
+              value: new THREE.Color(
+                isNightMode.value ? 0x2A1A4A : 0xFFFFFF,
+              ),
+            },
             opacity: { value: 0.1 - layer * 0.02 },
           },
           vertexShader: `
@@ -243,7 +285,12 @@ function initThree() {
 
   // Create grid floor
   const gridSize = 800
-  const gridHelper = new THREE.GridHelper(gridSize, CONFIG.gridDivisions, CONFIG.gridColor1, CONFIG.gridColor2)
+  const gridHelper = new THREE.GridHelper(
+    gridSize,
+    CONFIG.gridDivisions,
+    CONFIG.gridColor1,
+    CONFIG.gridColor2,
+  )
   gridHelper.position.y = 0
   scene.add(gridHelper)
 
@@ -252,22 +299,49 @@ function initThree() {
     const cityGroup = new THREE.Group()
     const buildingCount = CONFIG.cityBuildingCount
     for (let i = 0; i < buildingCount; i++) {
-      const width = CONFIG.cityBuildingWidthMin + Math.random() * (CONFIG.cityBuildingWidthMax - CONFIG.cityBuildingWidthMin)
-      const height = CONFIG.cityBuildingHeightMin + Math.random() * (CONFIG.cityBuildingHeightMax - CONFIG.cityBuildingHeightMin)
-      const depth = CONFIG.cityBuildingDepthMin + Math.random() * (CONFIG.cityBuildingDepthMax - CONFIG.cityBuildingDepthMin)
-      const buildingGeometry = new THREE.BoxGeometry(width, height, depth)
+      const width
+                = CONFIG.cityBuildingWidthMin
+                + Math.random()
+                * (CONFIG.cityBuildingWidthMax - CONFIG.cityBuildingWidthMin)
+      const height
+                = CONFIG.cityBuildingHeightMin
+                + Math.random()
+                * (CONFIG.cityBuildingHeightMax
+                - CONFIG.cityBuildingHeightMin)
+      const depth
+                = CONFIG.cityBuildingDepthMin
+                + Math.random()
+                * (CONFIG.cityBuildingDepthMax - CONFIG.cityBuildingDepthMin)
+      const buildingGeometry = new THREE.BoxGeometry(
+        width,
+        height,
+        depth,
+      )
       const buildingMaterial = new THREE.MeshBasicMaterial({
         color: isNightMode.value ? 0x0A0A2A : 0x2A3A5A,
         transparent: true,
         opacity: 0.9,
       })
       const building = new THREE.Mesh(buildingGeometry, buildingMaterial)
-      building.position.set(-200 + i * 15 + Math.random() * 10, height / 2, -180 - Math.random() * 30)
+      building.position.set(
+        -200 + i * 15 + Math.random() * 10,
+        height / 2,
+        -180 - Math.random() * 30,
+      )
       cityGroup.add(building)
 
       // Window lights (night only)
-      if (isNightMode.value && Math.random() < CONFIG.cityWindowProbability) {
-        const windowCount = CONFIG.cityWindowCountMin + Math.floor(Math.random() * (CONFIG.cityWindowCountMax - CONFIG.cityWindowCountMin))
+      if (
+        isNightMode.value
+        && Math.random() < CONFIG.cityWindowProbability
+      ) {
+        const windowCount
+                    = CONFIG.cityWindowCountMin
+                    + Math.floor(
+                      Math.random()
+                      * (CONFIG.cityWindowCountMax
+                      - CONFIG.cityWindowCountMin),
+                    )
         for (let w = 0; w < windowCount; w++) {
           const windowGeometry = new THREE.PlaneGeometry(1, 1)
           const windowMaterial = new THREE.MeshBasicMaterial({
@@ -275,7 +349,10 @@ function initThree() {
             transparent: true,
             opacity: 0.8,
           })
-          const windowMesh = new THREE.Mesh(windowGeometry, windowMaterial)
+          const windowMesh = new THREE.Mesh(
+            windowGeometry,
+            windowMaterial,
+          )
           windowMesh.position.set(
             (Math.random() - 0.5) * width * 0.8,
             (Math.random() - 0.5) * height * 0.8,
@@ -295,7 +372,10 @@ function initThree() {
   // Sun glow layers (outer to inner)
   const glowColors = [0xFF4500, 0xFF6B00, 0xFF00FF]
   glowColors.forEach((color, i) => {
-    const glowGeometry = new THREE.CircleGeometry(CONFIG.sunGlowSizes[i], 64)
+    const glowGeometry = new THREE.CircleGeometry(
+      CONFIG.sunGlowSizes[i],
+      64,
+    )
     const glowMaterial = new THREE.MeshBasicMaterial({
       color,
       transparent: true,
@@ -375,9 +455,12 @@ function initThree() {
       new THREE.TorusGeometry(2, 0.5, 8, 16),
     ]
     for (let i = 0; i < objectCount; i++) {
-      const geometry = geometries[Math.floor(Math.random() * geometries.length)]
+      const geometry
+                = geometries[Math.floor(Math.random() * geometries.length)]
       const material = new THREE.MeshBasicMaterial({
-        color: [0xFF00FF, 0x00FFFF, 0xFF6B00, 0x00FF88][Math.floor(Math.random() * 4)],
+        color: [0xFF00FF, 0x00FFFF, 0xFF6B00, 0x00FF88][
+          Math.floor(Math.random() * 4)
+        ],
         wireframe: true,
         transparent: true,
         opacity: 0.6,
@@ -388,7 +471,11 @@ function initThree() {
         20 + Math.random() * 60,
         -50 - Math.random() * 100,
       )
-      mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI)
+      mesh.rotation.set(
+        Math.random() * Math.PI,
+        Math.random() * Math.PI,
+        Math.random() * Math.PI,
+      )
       mesh.userData = {
         rotSpeedX: (Math.random() - 0.5) * 0.02,
         rotSpeedY: (Math.random() - 0.5) * 0.02,
@@ -426,7 +513,12 @@ function animate() {
   floatingObjects.forEach((obj) => {
     obj.rotation.x += obj.userData.rotSpeedX
     obj.rotation.y += obj.userData.rotSpeedY
-    obj.position.y = obj.userData.originalY + Math.sin(time * obj.userData.floatSpeed + obj.userData.floatOffset) * 3
+    obj.position.y
+            = obj.userData.originalY
+            + Math.sin(
+              time * obj.userData.floatSpeed + obj.userData.floatOffset,
+            )
+            * 3
   })
 
   // Smooth mouse parallax
@@ -496,7 +588,11 @@ onUnmounted(() => {
           Welcome to Kai's web3 world
         </h1>
         <p class="subtitle">
-          {{ isNightMode ? 'Explore the decentralized future' : 'Embrace the digital dawn' }}
+          {{
+            isNightMode
+              ? "Explore the decentralized future"
+              : "Embrace the digital dawn"
+          }}
         </p>
         <button class="explore-btn" @click="showDeveloping">
           More

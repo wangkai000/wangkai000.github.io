@@ -9,13 +9,7 @@ const musicStore = useMusicPlayerStore()
 const isMinimized = ref(true)
 const currentTime = ref(0)
 const duration = ref(0)
-const updateTimer: number | null = null
-
-// 更新进度
-function updateProgress() {
-  // 这里可以添加进度更新逻辑，如果需要的话
-  // 但由于我们使用 store 管理播放状态，可能不需要本地进度跟踪
-}
+const _updateTimer: number | null = null
 
 // 切换最小化状态
 function toggleMinimize() {
@@ -30,9 +24,12 @@ function formatTime(seconds: number): string {
 }
 
 // 监听当前曲目变化
-watch(() => musicStore.currentTrack, () => {
-  // 当曲目变化时可以执行一些操作
-})
+watch(
+  () => musicStore.currentTrack,
+  () => {
+    // 当曲目变化时可以执行一些操作
+  },
+)
 
 // 组件挂载时初始化
 onMounted(() => {
@@ -58,22 +55,35 @@ defineExpose({
       <div class="header-content">
         <span class="music-icon">
           <div :class="{ 'animate-slow-spin': musicStore.isPlaying }">
-            <Icon
-              icon="carbon:music"
-              width="18"
-              height="18"
-            />
+            <Icon icon="carbon:music" width="18" height="18" />
           </div>
         </span>
-        <span v-if="!isMinimized && musicStore.tracks.length > 0" class="track-title-mini">
+        <span
+          v-if="!isMinimized && musicStore.tracks.length > 0"
+          class="track-title-mini"
+        >
           {{ musicStore.tracks[musicStore.currentTrack].title }}
-          <span v-if="musicStore.tracks[musicStore.currentTrack].artist" class="track-artist-mini">
-            - {{ musicStore.tracks[musicStore.currentTrack].artist }}
+          <span
+            v-if="musicStore.tracks[musicStore.currentTrack].artist"
+            class="track-artist-mini"
+          >
+            -
+            {{ musicStore.tracks[musicStore.currentTrack].artist }}
           </span>
         </span>
         <button class="minimize-btn">
-          <Icon v-if="isMinimized" icon="carbon:chevron-up" width="12" height="12" />
-          <Icon v-else icon="carbon:chevron-down" width="12" height="12" />
+          <Icon
+            v-if="isMinimized"
+            icon="carbon:chevron-up"
+            width="12"
+            height="12"
+          />
+          <Icon
+            v-else
+            icon="carbon:chevron-down"
+            width="12"
+            height="12"
+          />
         </button>
       </div>
     </div>
@@ -83,7 +93,10 @@ defineExpose({
         <div class="track-title">
           {{ musicStore.tracks[musicStore.currentTrack].title }}
         </div>
-        <div v-if="musicStore.tracks[musicStore.currentTrack].artist" class="track-artist">
+        <div
+          v-if="musicStore.tracks[musicStore.currentTrack].artist"
+          class="track-artist"
+        >
           {{ musicStore.tracks[musicStore.currentTrack].artist }}
         </div>
       </div>
@@ -94,8 +107,18 @@ defineExpose({
         </button>
         <button class="play-btn" @click="musicStore.togglePlay">
           <div :class="{ 'animate-spin': musicStore.isPlaying }">
-            <Icon v-if="musicStore.isPlaying" icon="carbon:stop-filled" width="20" height="20" />
-            <Icon v-else icon="carbon:play-filled" width="20" height="20" />
+            <Icon
+              v-if="musicStore.isPlaying"
+              icon="carbon:stop-filled"
+              width="20"
+              height="20"
+            />
+            <Icon
+              v-else
+              icon="carbon:play-filled"
+              width="20"
+              height="20"
+            />
           </div>
         </button>
         <button class="control-btn" @click="musicStore.nextTrack">
@@ -111,7 +134,11 @@ defineExpose({
           :max="duration"
           :value="currentTime"
           class="progress-slider"
-          @input="(e) => { /* 进度控制逻辑 */ }"
+          @input="
+            (e) => {
+              /* 进度控制逻辑 */
+            }
+          "
         >
         <span class="time">{{ formatTime(duration) }}</span>
       </div>
@@ -125,7 +152,14 @@ defineExpose({
           step="0.01"
           :value="musicStore.volume"
           class="volume-slider"
-          @input="(e) => musicStore.setVolume(parseFloat((e.target as HTMLInputElement).value))"
+          @input="
+            (e) =>
+              musicStore.setVolume(
+                parseFloat(
+                  (e.target as HTMLInputElement).value,
+                ),
+              )
+          "
         >
         <Icon icon="carbon:volume-up" width="16" height="16" />
       </div>
@@ -309,3 +343,4 @@ defineExpose({
 .animate-slow-spin {
   animation: slow-spin 2s linear infinite;
 }
+</style>
