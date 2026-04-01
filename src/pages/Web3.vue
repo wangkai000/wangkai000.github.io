@@ -3,10 +3,16 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import * as THREE from 'three'
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
+const showToast = ref(false)
 let animationId: number
 let scene: THREE.Scene
 let camera: THREE.PerspectiveCamera
 let renderer: THREE.WebGLRenderer
+
+// Mouse parallax state
+const mouse = { x: 0, y: 0 }
+const targetRotation = { x: 0, y: 0 }
+const currentRotation = { x: 0, y: 0 }
 
 function initThree() {
   const canvas = canvasRef.value
@@ -33,18 +39,6 @@ function initThree() {
   const gridHelper = new THREE.GridHelper(gridSize, divisions, 0xFF00FF, 0x00FFFF)
   gridHelper.position.y = 0
   scene.add(gridHelper)
-
-  // Add glowing lines effect
-  const lineMaterial = new THREE.LineBasicMaterial({ color: 0xFF00FF, transparent: true, opacity: 0.5 })
-  for (let i = 0; i < 20; i++) {
-    const points: THREE.Vector3[] = []
-    const z = -i * 40 - 10
-    points.push(new THREE.Vector3(-400, 0, z))
-    points.push(new THREE.Vector3(400, 0, z))
-    const lineGeometry = new THREE.BufferGeometry().setFromPoints(points)
-    const line = new THREE.Line(lineGeometry, lineMaterial)
-    scene.add(line)
-  }
 
   // Sun/Orb
   const sunGeometry = new THREE.CircleGeometry(30, 64)
@@ -92,18 +86,9 @@ function initThree() {
     scene.add(mountain)
   }
 
-  // Ambient light
-  const ambientLight = new THREE.AmbientLight(0x404040, 0.5)
+  // Ambient light (subtle, for overall visibility)
+  const ambientLight = new THREE.AmbientLight(0x202030, 0.8)
   scene.add(ambientLight)
-
-  // Point lights for glow
-  const pinkLight = new THREE.PointLight(0xFF00FF, 2, 200)
-  pinkLight.position.set(-50, 20, -50)
-  scene.add(pinkLight)
-
-  const cyanLight = new THREE.PointLight(0x00FFFF, 2, 200)
-  cyanLight.position.set(50, 20, -50)
-  scene.add(cyanLight)
 
   animate()
 }
@@ -111,10 +96,18 @@ function initThree() {
 function animate() {
   animationId = requestAnimationFrame(animate)
 
-  // Rotate grid slightly for movement effect
-  if (scene.children[0]) {
-    scene.children[0].rotation.z += 0.0005
-  }
+  // Smooth mouse parallax
+  const smoothing = 0.05
+  currentRotation.x += (targetRotation.x - currentRotation.x) * smoothing
+  currentRotation.y += (targetRotation.y - currentRotation.y) * smoothing
+
+  // Apply parallax to camera
+  camera.rotation.y = -currentRotation.y * 0.3
+  camera.rotation.x = -currentRotation.x * 0.15
+
+  // Slowly decay rotation back to center
+  targetRotation.x *= 0.995
+  targetRotation.y *= 0.995
 
   renderer.render(scene, camera)
 }
@@ -127,14 +120,33 @@ function handleResize() {
   renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
+function handleMouseMove(e: MouseEvent) {
+  // Normalize mouse position to -1 to 1
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1
+  mouse.y = (e.clientY / window.innerHeight) * 2 - 1
+
+  // Update target rotation based on mouse position
+  targetRotation.x = mouse.y
+  targetRotation.y = mouse.x
+}
+
+function showDeveloping() {
+  showToast.value = true
+  setTimeout(() => {
+    showToast.value = false
+  }, 2000)
+}
+
 onMounted(() => {
   initThree()
   window.addEventListener('resize', handleResize)
+  window.addEventListener('mousemove', handleMouseMove)
 })
 
 onUnmounted(() => {
   cancelAnimationFrame(animationId)
   window.removeEventListener('resize', handleResize)
+  window.removeEventListener('mousemove', handleMouseMove)
   if (renderer)
     renderer.dispose()
 })
@@ -144,15 +156,23 @@ onUnmounted(() => {
   <div class="web3-container">
     <canvas ref="canvasRef" class="webgl-canvas" />
     <div class="web3-overlay">
+      <Transition name="toast">
+        <div v-if="showToast" class="toast">
+          正在开发中...
+        </div>
+      </Transition>
       <div class="content">
         <h1 class="title">
-          Web3
+          Welcome to Kai's web3 world
         </h1>
         <p class="subtitle">
-          Coming Soon...
+          Explore the decentralized future
         </p>
+        <button class="explore-btn" @click="showDeveloping">
+          More
+        </button>
         <div class="tags">
-          <span class="tag">Blockchain</span>
+          <span class="tag">News</span>
           <span class="tag">DeFi</span>
           <span class="tag">NFT</span>
           <span class="tag">DAO</span>
@@ -195,27 +215,51 @@ onUnmounted(() => {
 
 .content {
   text-align: center;
-  z-index: 10;
+  z-index: 100;
+  pointer-events: auto;
 }
 
 .title {
-  font-size: 6rem;
+  font-size: 3.5rem;
   font-weight: 900;
-  color: transparent;
-  background: linear-gradient(135deg, #ff00ff, #00ffff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  text-shadow: 0 0 60px rgba(255, 0, 255, 0.5);
-  margin: 0;
-  letter-spacing: 0.2em;
+  color: #fff;
+  text-shadow:
+    0 0 40px rgba(255, 0, 255, 0.8),
+    0 0 80px rgba(0, 255, 255, 0.5);
+  margin: 0 0 1rem;
+  letter-spacing: 0.1em;
 }
 
 .subtitle {
-  font-size: 1.5rem;
-  color: #ff00ff;
-  text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
-  margin: 1rem 0 2rem;
-  letter-spacing: 0.3em;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 2rem;
+  letter-spacing: 0.2em;
+}
+
+.explore-btn {
+  display: inline-block;
+  padding: 1rem 3rem;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0a0a1a;
+  background: linear-gradient(135deg, #ff00ff, #00ffff);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  letter-spacing: 0.15em;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 30px rgba(255, 0, 255, 0.5),
+    0 0 60px rgba(0, 255, 255, 0.3);
+}
+
+.explore-btn:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 0 50px rgba(255, 0, 255, 0.8),
+    0 0 100px rgba(0, 255, 255, 0.5);
 }
 
 .tags {
@@ -233,5 +277,29 @@ onUnmounted(() => {
   letter-spacing: 0.1em;
   text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem 2rem;
+  background: rgba(255, 0, 255, 0.9);
+  color: #fff;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 40px rgba(255, 0, 255, 0.8);
+  z-index: 200;
+}
+
+.toast-enter-active,
+.toast-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.toast-enter-from,
+.toast-leave-to {
+  opacity: 0;
 }
 </style>
