@@ -25,8 +25,8 @@
 
 ### 个人爱好
 
-- **生活方面**：乒乓球、长距离徒步、爬山
-- **技术方面**：技术编程研发、UI/UX/UE设计、AI产品、Web3、剧本编写、视频剪辑
+- **生活方面**：爬山、爬山、爬山、爬山、爬山...
+- **技术方面**：技术编程研发、平面设计、AI产品、Web3、剧本编写、视频剪辑
 - **其他**：喜欢各种新奇事物，闲时爱瞎折腾
 
 ### 个人信念
@@ -49,7 +49,7 @@
 
 ## 💰 支持与打赏
 
-如果我的内容对您有所帮助，欢迎通过以下方式支持我：
+如果我的内容对您有所帮助，欢迎通过以下方式支持我🐶：
 
 ### 📱 移动支付
 
@@ -93,7 +93,7 @@
       <li><strong>Telegram</strong>：......</li>
       <li><strong>GitHub</strong>：<a href="https://github.com/wangkai000" target="_blank" rel="noopener noreferrer">github.com/wangkai000</a></li>
     </ul>
-    <p class="text-sm text-gray-500 mt-4">添加微信好友请注明"博客读者"</p>
+    <p class="text-sm text-gray-500 mt-4">添加微信好友请注明"博客读者"哦</p>
   </div>
   <div class="flex flex-col items-center justify-center">
     <p class="font-medium mb-2 text-center">公众号：天渺DevLog</p>

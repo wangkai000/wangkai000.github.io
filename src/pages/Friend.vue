@@ -74,14 +74,14 @@ const sites = ref([
 
 // 个人博客链接
 const personalBlogs = ref([
-  // Deleted:  {
-  // Deleted:    title: '十年之约',
-  // Deleted:    description:
-  // Deleted:            '一个人的寂寞，一群人的狂欢。十年之约是一个记录、展示独立博客的平台，即从加入这个活动起，我们的博客 10 年不关闭或者更久，保持更新和活力。把博客从爱好变成一种习惯，坚持 10 年，是一项很有意义的活动，我们希望更多的博主加入！',
-  // Deleted:    avatar: 'https://www.foreverblog.cn/favicon.ico',
-  // Deleted:    url: 'https://www.foreverblog.cn/',
-  // Deleted:    avatarFailed: false,
-  // Deleted:  },
+  {
+    title: '匠心独运',
+    description: '一个有追求的程序员（某手机厂资深技术专家）',
+    avatar: 'https://wujian.xyz/static/images/avatar_256.jpg',
+    url: 'https://wujian.xyz',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
   {
     title: 'dev-zuo',
     description: 'dev-zuo 技术日常',
@@ -246,13 +246,6 @@ const personalBlogs = ref([
     avatarFailed: false,
     avatarLoaded: false,
   },
-  // Deleted:  {
-  // Deleted:    title: 'POETIZE',
-  // Deleted:    description: '这是一个 Vue2 Vue3 与 SpringBoot 结合的产物～',
-  // Deleted:    avatar: 'https://s1.ax1x.com/2022/11/10/z9E7X4.jpg',
-  // Deleted:    url: 'https://poetize.cn',
-  // Deleted:    avatarFailed: false,
-  // Deleted:  },
   // {
   //   title: '唐志远',
   //   description: '立志成为一名架构师',
@@ -310,14 +303,14 @@ const personalBlogs = ref([
     avatarFailed: false,
     avatarLoaded: false,
   },
-  {
-    title: 'Dale',
-    description: 'Wir müssen wissen ! Wir werden wissen !',
-    avatar: 'https://picscdn.dalechu.cn/dale_avt.png',
-    url: 'https://www.dalechu.cn',
-    avatarFailed: false,
-    avatarLoaded: false,
-  },
+  // {
+  //   title: 'Dale',
+  //   description: 'Wir müssen wissen ! Wir werden wissen !',
+  //   avatar: 'https://picscdn.dalechu.cn/dale_avt.png',
+  //   url: 'https://www.dalechu.cn',
+  //   avatarFailed: false,
+  //   avatarLoaded: false,
+  // },
   // {
   //   title: '小鹿的个人网站',
   //   description: '跳吧，在无比宏大的星系！',

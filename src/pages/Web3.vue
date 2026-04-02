@@ -11,7 +11,7 @@ const CONFIG = {
   enableCity: true, // 城市天际线
   enableFloatingObjects: true, // 悬浮几何体
   enableRandomDayNight: true, // 随机日夜模式（关闭则默认夜间）
-  sunHeight: 50, // 太阳高度（y轴），默认40比地平线高
+  sunHeight: 30, // 太阳高度（y轴），默认40比地平线高
   sunZ: -350, // 太阳深度位置
   // 夜间天空颜色
   nightSkyTop: 0x0A0A1A,
