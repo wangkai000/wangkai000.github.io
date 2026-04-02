@@ -557,219 +557,220 @@ watchOnce(giscusRootRef, (root) => {
 </script>
 
 <template>
-  <div class="min-h-screen">
-    <div class="mx-auto max-w-6xl px-4 py-8">
-      <!-- 站点类链接 -->
-      <div class="mb-12">
-        <div
-          class="mb-8 text-center p-6 rounded-xl bg-gradient-to-br from-slate-50 via-purple-50/60 to-slate-50 dark:from-gray-800 dark:via-purple-900/20 dark:to-gray-800 border border-slate-200/50 dark:border-gray-600 shadow-sm max-w-2xl mx-auto"
-        >
-          <div class="mx-auto max-w-prose text-center">
-            <h2
-              class="text-xl md:text-2xl font-bold text-slate-700 dark:text-white mb-2 flex items-center justify-center"
-            >
-              <Icon
-                icon="mdi:web"
-                class="mr-3 text-purple-400 text-2xl"
-              />
-              站点导航
-            </h2>
-            <p class="text-slate-600 dark:text-slate-300 text-sm">
-              优质的综合性站点和资源平台
-            </p>
-          </div>
-        </div>
-
-        <div
-          class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 md:gap-4"
-        >
-          <a
-            v-for="(site, index) in sites"
-            :key="`site-${index}`"
-            :href="site.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="site-card group flex flex-col items-center text-center rounded-xl bg-white dark:bg-gray-800 p-4 shadow-sm transition-all duration-300 border border-slate-200/60 dark:border-gray-700 hover:border-purple-300/60 dark:hover:border-purple-600/40"
+  <main>
+    <div class="min-h-screen">
+      <div class="mx-auto max-w-6xl px-4 py-8">
+        <!-- 站点类链接 -->
+        <div class="mb-12">
+          <div
+            class="mb-8 text-center p-6 rounded-xl bg-gradient-to-br from-slate-50 via-purple-50/60 to-slate-50 dark:from-gray-800 dark:via-purple-900/20 dark:to-gray-800 border border-slate-200/50 dark:border-gray-600 shadow-sm max-w-2xl mx-auto"
           >
-            <!-- 头像容器 -->
-            <div class="relative mb-3 avatar-container-site">
-              <!-- 骨架屏（加载中） -->
-              <div
-                v-if="!site.avatarLoaded && !site.avatarFailed"
-                class="avatar-skeleton-site rounded-full border-2 border-slate-200/60 dark:border-gray-700 animate-pulse"
-              />
-
-              <!-- 实际头像 -->
-              <img
-                v-if="!site.avatarFailed"
-                :src="site.avatar"
-                :alt="site.title"
-                class="avatar-image-site rounded-full object-cover border-2 border-slate-200/60 dark:border-gray-700 opacity-0 transition-opacity duration-500"
-                loading="lazy"
-                @load="handleSiteAvatarLoad(site)"
-                @error="handleSiteAvatarError(site)"
-              >
-
-              <!-- 加载失败占位符 -->
-              <div
-                v-else
-                class="avatar-fallback-site rounded-full border-2 border-slate-200/60 dark:border-gray-700 flex items-center justify-center bg-slate-50 dark:bg-gray-700"
+            <div class="mx-auto max-w-prose text-center">
+              <h2
+                class="text-xl md:text-2xl font-bold text-slate-700 dark:text-white mb-2 flex items-center justify-center"
               >
                 <Icon
                   icon="mdi:web"
-                  class="text-slate-400 dark:text-slate-400 text-2xl"
+                  class="mr-3 text-purple-400 text-2xl"
                 />
-              </div>
+                站点导航
+              </h2>
+              <p class="text-slate-600 dark:text-slate-300 text-sm">
+                优质的综合性站点和资源平台
+              </p>
             </div>
+          </div>
 
-            <h3
-              class="text-base font-medium text-gray-800 dark:text-gray-100 mb-2"
+          <div
+            class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 md:gap-4"
+          >
+            <a
+              v-for="(site, index) in sites"
+              :key="`site-${index}`"
+              :href="site.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="site-card group flex flex-col items-center text-center rounded-xl bg-white dark:bg-gray-800 p-4 shadow-sm transition-all duration-300 border border-slate-200/60 dark:border-gray-700 hover:border-purple-300/60 dark:hover:border-purple-600/40"
             >
-              {{ site.title }}
-            </h3>
-            <p
-              class="text-xs text-gray-600 dark:text-gray-400 line-clamp-3"
-            >
-              {{ site.description || "暂无描述" }}
-            </p>
-          </a>
-        </div>
-      </div>
+              <!-- 头像容器 -->
+              <div class="relative mb-3 avatar-container-site">
+                <!-- 骨架屏（加载中） -->
+                <div
+                  v-if="!site.avatarLoaded && !site.avatarFailed"
+                  class="avatar-skeleton-site rounded-full border-2 border-slate-200/60 dark:border-gray-700 animate-pulse"
+                />
 
-      <!-- 个人博客链接 -->
-      <div class="mb-16">
-        <div
-          class="mb-8 text-center p-6 rounded-xl bg-gradient-to-br from-slate-50 via-blue-50/60 to-slate-50 dark:from-gray-800 dark:via-blue-900/20 dark:to-gray-800 border border-slate-200/50 dark:border-gray-600 shadow-sm max-w-2xl mx-auto"
-        >
-          <div class="mx-auto max-w-prose text-center">
-            <h2
-              class="text-xl md:text-2xl font-bold text-slate-700 dark:text-white mb-2 flex items-center justify-center"
-            >
-              <Icon
-                icon="mdi:account-circle"
-                class="mr-3 text-blue-400 text-2xl"
-              />
-              个人博客
-            </h2>
-            <p class="text-slate-600 dark:text-slate-300 text-sm">
-              来自各位博主的个人技术博客与生活分享
-            </p>
+                <!-- 实际头像 -->
+                <img
+                  v-if="!site.avatarFailed"
+                  :src="site.avatar"
+                  :alt="site.title"
+                  class="avatar-image-site rounded-full object-cover border-2 border-slate-200/60 dark:border-gray-700 opacity-0 transition-opacity duration-500"
+                  loading="lazy"
+                  @load="handleSiteAvatarLoad(site)"
+                  @error="handleSiteAvatarError(site)"
+                >
+
+                <!-- 加载失败占位符 -->
+                <div
+                  v-else
+                  class="avatar-fallback-site rounded-full border-2 border-slate-200/60 dark:border-gray-700 flex items-center justify-center bg-slate-50 dark:bg-gray-700"
+                >
+                  <Icon
+                    icon="mdi:web"
+                    class="text-slate-400 dark:text-slate-400 text-2xl"
+                  />
+                </div>
+              </div>
+
+              <h3
+                class="text-base font-medium text-gray-800 dark:text-gray-100 mb-2"
+              >
+                {{ site.title }}
+              </h3>
+              <p
+                class="text-xs text-gray-600 dark:text-gray-400 line-clamp-3"
+              >
+                {{ site.description || "暂无描述" }}
+              </p>
+            </a>
           </div>
         </div>
 
-        <div
-          class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-6"
-        >
-          <a
-            v-for="(blog, index) in personalBlogs"
-            :key="`blog-${index}`"
-            :href="blog.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="friend-card group flex items-center rounded-xl bg-white dark:bg-gray-800 p-4 shadow-sm transition-all duration-300 border border-slate-200/60 dark:border-gray-700 hover:border-blue-300/60 dark:hover:border-blue-600/40"
+        <!-- 个人博客链接 -->
+        <div class="mb-16">
+          <div
+            class="mb-8 text-center p-6 rounded-xl bg-gradient-to-br from-slate-50 via-blue-50/60 to-slate-50 dark:from-gray-800 dark:via-blue-900/20 dark:to-gray-800 border border-slate-200/50 dark:border-gray-600 shadow-sm max-w-2xl mx-auto"
           >
-            <!-- 头像容器 -->
-            <div class="relative flex-shrink-0 avatar-container">
-              <!-- 骨架屏（加载中） -->
-              <div
-                v-if="!blog.avatarLoaded && !blog.avatarFailed"
-                class="avatar-skeleton rounded-full border-2 border-slate-200/60 dark:border-gray-700 animate-pulse"
-              />
-
-              <!-- 实际头像 -->
-              <img
-                v-if="!blog.avatarFailed"
-                :src="blog.avatar"
-                :alt="blog.title"
-                class="avatar-image rounded-full object-cover border-2 border-slate-200/60 dark:border-gray-700 opacity-0 transition-opacity duration-500"
-                loading="lazy"
-                @load="handleAvatarLoad(blog)"
-                @error="handleAvatarError(blog)"
-              >
-
-              <!-- 加载失败占位符 -->
-              <div
-                v-else
-                class="avatar-fallback rounded-full border-2 border-slate-200/60 dark:border-gray-700 flex items-center justify-center bg-slate-50 dark:bg-gray-700"
+            <div class="mx-auto max-w-prose text-center">
+              <h2
+                class="text-xl md:text-2xl font-bold text-slate-700 dark:text-white mb-2 flex items-center justify-center"
               >
                 <Icon
-                  icon="mdi:link-variant"
-                  class="text-slate-400 dark:text-slate-400 text-2xl"
+                  icon="mdi:account-circle"
+                  class="mr-3 text-blue-400 text-2xl"
                 />
-              </div>
-            </div>
-
-            <div class="ml-4 flex-1 flex flex-col justify-center">
-              <h2
-                class="text-lg font-medium text-gray-800 dark:text-gray-100 md:text-xl"
-              >
-                {{ blog.title }}
+                个人博客
               </h2>
-              <p
-                class="mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2 flex-grow"
-              >
-                {{ blog.description || "暂无描述" }}
+              <p class="text-slate-600 dark:text-slate-300 text-sm">
+                来自各位博主的个人技术博客与生活分享
               </p>
             </div>
-          </a>
-        </div>
-      </div>
+          </div>
 
-      <!-- 互换友链区块 -->
-      <div
-        class="friend-request-card p-6 md:p-8 mb-16 bg-gradient-to-br from-slate-50 via-blue-50/50 to-slate-50 dark:from-gray-800 dark:via-blue-900/15 dark:to-gray-800 border border-slate-200/50 dark:border-gray-600 rounded-xl shadow-sm"
-      >
-        <div class="flex-1">
-          <h2
-            class="text-2xl font-bold text-slate-700 dark:text-white mb-6 flex items-center"
+          <div
+            class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-6"
           >
-            <Icon
-              icon="mdi:handshake"
-              class="mr-3 text-blue-400 text-2xl"
-            />
-            互换友链
-          </h2>
-
-          <p class="text-slate-600 dark:text-slate-300 mb-6">
-            欢迎互换友链！以下是本站信息：
-          </p>
-
-          <!-- JSON代码块 -->
-          <div class="relative rounded-xl overflow-hidden mb-6 group">
-            <div
-              class="bg-gray-800 px-4 py-2 flex items-center justify-between border-b border-gray-700"
+            <a
+              v-for="(blog, index) in personalBlogs"
+              :key="`blog-${index}`"
+              :href="blog.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="friend-card group flex items-center rounded-xl bg-white dark:bg-gray-800 p-4 shadow-sm transition-all duration-300 border border-slate-200/60 dark:border-gray-700 hover:border-blue-300/60 dark:hover:border-blue-600/40"
             >
-              <div class="flex space-x-2">
-                <div class="w-3 h-3 rounded-full bg-red-500" />
+              <!-- 头像容器 -->
+              <div class="relative flex-shrink-0 avatar-container">
+                <!-- 骨架屏（加载中） -->
                 <div
-                  class="w-3 h-3 rounded-full bg-yellow-500"
+                  v-if="!blog.avatarLoaded && !blog.avatarFailed"
+                  class="avatar-skeleton rounded-full border-2 border-slate-200/60 dark:border-gray-700 animate-pulse"
                 />
+
+                <!-- 实际头像 -->
+                <img
+                  v-if="!blog.avatarFailed"
+                  :src="blog.avatar"
+                  :alt="blog.title"
+                  class="avatar-image rounded-full object-cover border-2 border-slate-200/60 dark:border-gray-700 opacity-0 transition-opacity duration-500"
+                  loading="lazy"
+                  @load="handleAvatarLoad(blog)"
+                  @error="handleAvatarError(blog)"
+                >
+
+                <!-- 加载失败占位符 -->
                 <div
-                  class="w-3 h-3 rounded-full bg-green-500"
-                />
-              </div>
-              <div class="flex items-center">
-                <span class="text-gray-400 text-sm mr-2">site-info.json</span>
-                <button
-                  class="text-gray-400 hover:text-white transition-colors p-1"
-                  :title="isCopied ? '已复制' : '复制'"
-                  @click="copyJson"
+                  v-else
+                  class="avatar-fallback rounded-full border-2 border-slate-200/60 dark:border-gray-700 flex items-center justify-center bg-slate-50 dark:bg-gray-700"
                 >
                   <Icon
-                    :icon="
-                      isCopied
-                        ? 'mdi:check'
-                        : 'mdi:content-copy'
-                    "
-                    class="w-4 h-4"
+                    icon="mdi:link-variant"
+                    class="text-slate-400 dark:text-slate-400 text-2xl"
                   />
-                </button>
+                </div>
               </div>
-            </div>
-            <div
-              class="bg-gray-900 p-4 md:p-6 font-mono text-sm md:text-base overflow-x-auto"
+
+              <div class="ml-4 flex-1 flex flex-col justify-center">
+                <h2
+                  class="text-lg font-medium text-gray-800 dark:text-gray-100 md:text-xl"
+                >
+                  {{ blog.title }}
+                </h2>
+                <p
+                  class="mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2 flex-grow"
+                >
+                  {{ blog.description || "暂无描述" }}
+                </p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- 互换友链区块 -->
+        <div
+          class="friend-request-card p-6 md:p-8 mb-16 bg-gradient-to-br from-slate-50 via-blue-50/50 to-slate-50 dark:from-gray-800 dark:via-blue-900/15 dark:to-gray-800 border border-slate-200/50 dark:border-gray-600 rounded-xl shadow-sm"
+        >
+          <div class="flex-1">
+            <h2
+              class="text-2xl font-bold text-slate-700 dark:text-white mb-6 flex items-center"
             >
-              <pre class="text-gray-300 leading-relaxed m-0">
+              <Icon
+                icon="mdi:handshake"
+                class="mr-3 text-blue-400 text-2xl"
+              />
+              互换友链
+            </h2>
+
+            <p class="text-slate-600 dark:text-slate-300 mb-6">
+              欢迎互换友链！以下是本站信息：
+            </p>
+
+            <!-- JSON代码块 -->
+            <div class="relative rounded-xl overflow-hidden mb-6 group">
+              <div
+                class="bg-gray-800 px-4 py-2 flex items-center justify-between border-b border-gray-700"
+              >
+                <div class="flex space-x-2">
+                  <div class="w-3 h-3 rounded-full bg-red-500" />
+                  <div
+                    class="w-3 h-3 rounded-full bg-yellow-500"
+                  />
+                  <div
+                    class="w-3 h-3 rounded-full bg-green-500"
+                  />
+                </div>
+                <div class="flex items-center">
+                  <span class="text-gray-400 text-sm mr-2">site-info.json</span>
+                  <button
+                    class="text-gray-400 hover:text-white transition-colors p-1"
+                    :title="isCopied ? '已复制' : '复制'"
+                    @click="copyJson"
+                  >
+                    <Icon
+                      :icon="
+                        isCopied
+                          ? 'mdi:check'
+                          : 'mdi:content-copy'
+                      "
+                      class="w-4 h-4"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div
+                class="bg-gray-900 p-4 md:p-6 font-mono text-sm md:text-base overflow-x-auto"
+              >
+                <pre class="text-gray-300 leading-relaxed m-0">
 <span class="text-blue-400">{</span>
   <span class="text-yellow-300">"title"</span>: <span class="text-green-400">"{{ mySite.title }}"</span>,
   <span class="text-yellow-300">"description"</span>: <span class="text-green-400">"{{ mySite.description }}"</span>,
@@ -778,76 +779,78 @@ watchOnce(giscusRootRef, (root) => {
   <span class="text-yellow-300">"RSS"</span>: <span class="text-green-400">"{{ mySite.rss }}"</span>
 <span class="text-blue-400">}</span>
               </pre>
+              </div>
             </div>
-          </div>
 
-          <h3
-            class="text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center"
-          >
-            <Icon
-              icon="mdi:check-circle"
-              class="mr-2 text-blue-500"
-            />
-            互换要求：
-          </h3>
-          <div class="space-y-3">
-            <div class="flex items-center">
-              <span
-                class="requirement-badge px-3 py-1 rounded-full text-sm font-medium mr-3"
-              >1</span>
-              <span class="text-gray-700 dark:text-gray-300">网站需部署 HTTPS</span>
-            </div>
-            <div class="flex items-center">
-              <span
-                class="requirement-badge px-3 py-1 rounded-full text-sm font-medium mr-3"
-              >2</span>
-              <span class="text-gray-700 dark:text-gray-300">网站长期维护，内容积极健康</span>
-            </div>
-            <div class="flex items-center">
-              <span
-                class="requirement-badge px-3 py-1 rounded-full text-sm font-medium mr-3"
-              >3</span>
-              <span class="text-gray-700 dark:text-gray-300">申请前请将本网站添加为友链</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 讨论区 -->
-      <div
-        class="comment-section overflow-hidden border border-gray-200 dark:border-gray-700 rounded-xl"
-      >
-        <div
-          class="comment-header p-4 md:p-6 bg-gray-50 dark:bg-gray-800"
-        >
-          <div class="flex items-center">
-            <div
-              class="discuss-icon w-12 h-12 rounded-full flex items-center justify-center mr-3 bg-gradient-to-r from-blue-500 to-indigo-600"
+            <h3
+              class="text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center"
             >
               <Icon
-                icon="mdi:forum"
-                class="text-white text-2xl"
+                icon="mdi:check-circle"
+                class="mr-2 text-blue-500"
               />
-            </div>
-            <div>
-              <h3
-                class="text-xl font-bold text-gray-800 dark:text-white"
-              >
-                友链申请讨论区
-              </h3>
+              互换要求：
+            </h3>
+            <div class="space-y-3">
+              <div class="flex items-center">
+                <span
+                  class="requirement-badge px-3 py-1 rounded-full text-sm font-medium mr-3"
+                >1</span>
+                <span class="text-gray-700 dark:text-gray-300">网站需部署 HTTPS</span>
+              </div>
+              <div class="flex items-center">
+                <span
+                  class="requirement-badge px-3 py-1 rounded-full text-sm font-medium mr-3"
+                >2</span>
+                <span class="text-gray-700 dark:text-gray-300">网站长期维护，内容积极健康</span>
+              </div>
+              <div class="flex items-center">
+                <span
+                  class="requirement-badge px-3 py-1 rounded-full text-sm font-medium mr-3"
+                >3</span>
+                <span class="text-gray-700 dark:text-gray-300">申请前请将本网站添加为友链</span>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- 讨论区 -->
         <div
-          class="github-comments-container bg-white dark:bg-gray-900 p-6 min-h-[300px] flex items-center justify-center"
+          class="comment-section overflow-hidden border border-gray-200 dark:border-gray-700 rounded-xl"
         >
-          <div class="text-center">
-            <div id="giscusRoot" ref="giscusRootRef" />
+          <div
+            class="comment-header p-4 md:p-6 bg-gray-50 dark:bg-gray-800"
+          >
+            <div class="flex items-center">
+              <div
+                class="discuss-icon w-12 h-12 rounded-full flex items-center justify-center mr-3 bg-gradient-to-r from-blue-500 to-indigo-600"
+              >
+                <Icon
+                  icon="mdi:forum"
+                  class="text-white text-2xl"
+                />
+              </div>
+              <div>
+                <h3
+                  class="text-xl font-bold text-gray-800 dark:text-white"
+                >
+                  友链申请讨论区
+                </h3>
+              </div>
+            </div>
+          </div>
+          <div
+            class="github-comments-container bg-white dark:bg-gray-900 p-6 min-h-[300px] flex items-center justify-center"
+          >
+            <div class="text-center">
+              <div id="giscusRoot" ref="giscusRootRef" />
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    <ScrollTopButton />
+  </main>
 </template>
 
 <style scoped>

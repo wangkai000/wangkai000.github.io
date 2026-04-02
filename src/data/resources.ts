@@ -806,7 +806,7 @@ export const resources: Resource[] = [
     title: 'Sketchfab',
     description: '高品质的模型素材网站，为你的设计提供丰富的素材',
     url: 'https://sketchfab.com/',
-    tags: ['资源', '3D模型', '设计'],
+    tags: ['资源', '设计'],
     imageUrl: 'https://sketchfab.com/favicon.ico',
     imageError: false,
   },
