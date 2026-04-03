@@ -11,7 +11,7 @@ const CONFIG = {
   enableCity: true, // 城市天际线
   enableFloatingObjects: true, // 悬浮几何体
   enableRandomDayNight: true, // 随机日夜模式（关闭则默认夜间）
-  sunHeight: 30, // 太阳高度（y轴），默认40比地平线高
+  sunHeight: 60, // 太阳高度（y轴），默认40比地平线高
   sunZ: -350, // 太阳深度位置
   // 夜间天空颜色
   nightSkyTop: 0x0A0A1A,
@@ -35,7 +35,7 @@ const CONFIG = {
   // 太阳参数
   sunSize: 50, // 太阳主体大小
   sunGlowSizes: [100, 80, 45], // 太阳光晕从小到大
-  sunStripeGap: 0, // 太阳条纹缝隙（0为纯色太阳，不闪烁）
+  sunStripeGap: 6, // 太阳条纹缝隙（0为纯色太阳，不闪烁）
   // 地平线网格参数
   gridDivisions: 80, // 网格线条个数
   gridColor1: 0xFF00FF, // 主线条颜色
@@ -369,17 +369,20 @@ function initThree() {
   const sunGroup = new THREE.Group()
   sunGroup.renderOrder = 999
 
-  // Sun glow layers (outer to inner)
+  // Sun glow layers (outer to inner) - 使用 RingGeometry 避免深度排序问题
   const glowColors = [0xFF4500, 0xFF6B00, 0xFF00FF]
+  const glowOpacities = [0.15, 0.11, 0.07]
+  const glowSizes = [CONFIG.sunGlowSizes[0], CONFIG.sunGlowSizes[1], CONFIG.sunGlowSizes[2]]
   glowColors.forEach((color, i) => {
-    const glowGeometry = new THREE.CircleGeometry(
-      CONFIG.sunGlowSizes[i],
-      64,
-    )
+    const innerRadius = CONFIG.sunSize * (0.8 - i * 0.15)
+    const outerRadius = glowSizes[i]
+    const glowGeometry = new THREE.RingGeometry(innerRadius, outerRadius, 64)
     const glowMaterial = new THREE.MeshBasicMaterial({
       color,
       transparent: true,
-      opacity: 0.15 - i * 0.04,
+      opacity: glowOpacities[i],
+      side: THREE.DoubleSide,
+      depthWrite: false,
     })
     const glow = new THREE.Mesh(glowGeometry, glowMaterial)
     glow.position.set(0, CONFIG.sunHeight, CONFIG.sunZ - i * 0.5)
