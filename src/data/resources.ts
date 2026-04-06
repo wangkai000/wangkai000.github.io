@@ -884,4 +884,22 @@ export const resources: Resource[] = [
     imageUrl: 'https://maker.taptap.cn/taptap-maker-logo.svg',
     imageError: false,
   },
+  {
+    id: 103,
+    title: 'MEK.txt',
+    description: 'MEK.txt Mek Gallery 是一个复古风格的资源分享网站',
+    url: 'https://www.mek.gallery/',
+    tags: ['像素', '资源'],
+    imageUrl: 'https://framerusercontent.com/images/GgGZEpdp0k0EuePiSwgr1d2jRtA.svg',
+    imageError: false,
+  },
+  {
+    id: 104,
+    title: 'PXLKit',
+    description: 'PXLKit 是一个像素 UI 组件库',
+    url: 'https://pxlkit.xyz/',
+    tags: ['UI组件库', '像素'],
+    imageUrl: 'https://pxlkit.xyz/favicon.svg',
+    imageError: false,
+  },
 ]
