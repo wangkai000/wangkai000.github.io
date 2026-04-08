@@ -77,6 +77,16 @@ onUnmounted(() => {
 const posts = ref([
   {
     author: defaultAuthor,
+    timestamp: 1775653166773, // 2小时前
+    location: '月球',
+    content: '这个世界终究是个人情社会啊😑',
+    images: [],
+    likes: 0,
+    liked: false,
+    likedUsers: ['李四', '王五', '赵六'],
+  },
+  {
+    author: defaultAuthor,
     timestamp: 1764074400000, // 2小时前
     location: '深圳大鹏新区坝光白沙湾',
     content: '三水线徒步路线挑战结束，只完成了85%',
