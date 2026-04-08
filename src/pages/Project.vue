@@ -18,7 +18,7 @@ const projects: Project[] = [
   {
     name: 'MyNuxtNav资源导航站',
     desc: '基于 Nuxt 3 + TS + Element Plus + Tailwind 开发的静态导航站，高度还原老版 One Nav 模板 UI。',
-    cover: 'https://s3.bmp.ovh/2026/03/22/WlMQJA3r.jpg',
+    cover: 'https://s3.bmp.ovh/2026/04/08/m2yOziB4.png',
     tags: ['Nuxt.js'],
     github: 'https://github.com/wangkai000/nuxt-one-nav',
     demoUrl: 'https://nav.tianmiao.site/',
