@@ -84,7 +84,7 @@ const navFilter: NavItem[] = [
             },
             {
                 label: "资源收录",
-                route: "/record",
+                route: "https://nav.tianmiao.site/",
                 icon: "📚",
                 title: "资源收录库",
                 children: [],
