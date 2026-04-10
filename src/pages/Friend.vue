@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Icon } from '@iconify/vue'
+import { NTooltip } from 'naive-ui'
 import { registerGiscus } from '~/utils/giscus'
 
 // 站点类链接（非个人博客）
@@ -719,7 +720,7 @@ watchOnce(giscusRootRef, (root) => {
           </div>
 
           <div
-            class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-6"
+            class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 md:gap-4"
           >
             <a
               v-for="(blog, index) in personalBlogs"
@@ -766,11 +767,16 @@ watchOnce(giscusRootRef, (root) => {
                 >
                   {{ blog.title }}
                 </h2>
-                <p
-                  class="mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2 flex-grow"
-                >
-                  {{ blog.description || "暂无描述" }}
-                </p>
+                <NTooltip trigger="hover" :disabled="!blog.description">
+                  <template #trigger>
+                    <p
+                      class="mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2 flex-grow cursor-default"
+                    >
+                      {{ blog.description || "暂无描述" }}
+                    </p>
+                  </template>
+                  {{ blog.description }}
+                </NTooltip>
               </div>
             </a>
           </div>
@@ -1249,5 +1255,21 @@ pre {
 }
 .site-card:nth-child(6) {
   animation-delay: 0.3s;
+}
+
+/* 自定义tooltip样式 */
+:deep(.n-tooltip) {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  color: #333 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+:deep(.n-tooltip__content) {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.dark :deep(.n-tooltip) {
+  background-color: rgba(50, 50, 50, 0.95) !important;
+  color: #e5e5e5 !important;
 }
 </style>
