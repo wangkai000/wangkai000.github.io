@@ -70,10 +70,27 @@ const sites = ref([
     avatarFailed: false,
     avatarLoaded: false,
   },
+  {
+    title: '数字游牧人（大佬）',
+    description: '数字游牧人 samuel 的博客',
+    avatar: 'https://www.qzq.at/Hero.jpeg',
+    url: 'https://www.qzq.at/',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
+
 ])
 
 // 个人博客链接
-const personalBlogs = ref([
+const personalBlogs = ref<{
+  title: string
+  description: string
+  avatar: string
+  url: string
+  rss?: string
+  avatarFailed: boolean
+  avatarLoaded: boolean
+}[]>([
   {
     title: '匠心独运',
     description: '一个有追求的程序员（某手机厂资深技术专家）',
@@ -145,14 +162,14 @@ const personalBlogs = ref([
     avatarFailed: false,
     avatarLoaded: false,
   },
-  {
-    title: 'Nibbles 尼布',
-    description: '向着终生成长者迈进！',
-    avatar: 'https://studio.nibbles.cn/avatar.jpg',
-    url: 'https://nibbles.cn/',
-    avatarFailed: false,
-    avatarLoaded: false,
-  },
+  // {
+  //   title: 'Nibbles 尼布',
+  //   description: '向着终生成长者迈进！',
+  //   avatar: 'https://studio.nibbles.cn/avatar.jpg',
+  //   url: 'https://nibbles.cn/',
+  //   avatarFailed: false,
+  //   avatarLoaded: false,
+  // },
   // {
   //     title: "姚远",
   //     description: "A vegetable student",
@@ -295,14 +312,7 @@ const personalBlogs = ref([
     avatarFailed: false,
     avatarLoaded: false,
   },
-  {
-    title: '数字游牧人（大佬）',
-    description: '数字游牧人 samuel 的博客',
-    avatar: 'https://www.qzq.at/Hero.jpeg',
-    url: 'https://www.qzq.at/',
-    avatarFailed: false,
-    avatarLoaded: false,
-  },
+
   // {
   //   title: 'Dale',
   //   description: 'Wir müssen wissen ! Wir werden wissen !',
@@ -371,14 +381,6 @@ const personalBlogs = ref([
     description: '什么都略懂一点，生活更多彩一些',
     avatar: 'https://img.167891.xyz/v2/3VHU8UR.png',
     url: 'https://ailmel.top/',
-    avatarFailed: false,
-    avatarLoaded: false,
-  },
-  {
-    title: '加密鲸拓',
-    description: 'B 站 web3up',
-    avatar: 'https://leapwhale.com/favicon.ico',
-    url: 'https://leapwhale.com/',
     avatarFailed: false,
     avatarLoaded: false,
   },
@@ -467,6 +469,7 @@ const personalBlogs = ref([
     description: '沉墨满纸，一笑若白。',
     avatar: 'https://files.blog.lmb.blue/assets/img/logo/pink-black.png',
     url: 'https://blog.lmb.blue/',
+    rss: 'https://xifeng.net/feed/',
     avatarFailed: false,
     avatarLoaded: false,
   },
@@ -507,6 +510,55 @@ const personalBlogs = ref([
     description: '柳影曳曳，清酒孤灯，扬笔撒墨，心境如霜',
     avatar: 'https://blog.liushen.fun/info/avatar.ico',
     url: 'https://blog.liushen.fun/',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
+  {
+    title: '梁栋烨',
+    description: '今天空气真好，天气真不错！',
+    avatar: 'https://090909.top/assets/images/avatar.webp',
+    url: 'https://090909.top',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
+  {
+    title: 'Wcowin\'s Blog',
+    description: '循此苦旅，以达星辰',
+    avatar: 'https://s1.imagehub.cc/images/2025/12/06/28380affd86b014a6dcaf082fcc97064.png',
+    url: 'https://wcowin.work/',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
+  {
+    title: 'Fengc Blog',
+    description: '欢迎来到我的摄影世界',
+    avatar: 'https://fengc-img.880200.xyz/api/rfile/fengc-logo.png',
+    url: 'http://fengcblog.880200.xyz',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
+  {
+    title: '西风',
+    description: '爱好驱动生产',
+    avatar: 'https://xifeng.net/images/avatar.svg',
+    url: 'https://xifeng.net/',
+    rss: 'https://xifeng.net/feed/',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
+  {
+    title: '韩小韩博客',
+    description: '运气是计划之外的东西.',
+    avatar: 'https://q1.qlogo.cn/g?b=qq&nk=1655466387&s=640',
+    url: 'https://www.vvhan.com/',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
+  {
+    title: '加密鲸拓',
+    description: 'B 站 web3up',
+    avatar: 'https://leapwhale.com/favicon.ico',
+    url: 'https://leapwhale.com/',
     avatarFailed: false,
     avatarLoaded: false,
   },
@@ -740,7 +792,7 @@ watchOnce(giscusRootRef, (root) => {
             </h2>
 
             <p class="text-slate-600 dark:text-slate-300 mb-6">
-              欢迎互换友链！以下是本站信息：
+              欢迎互换友链！如果想要匿名添加，请发送邮件至<a href="mailto:wangkai233@qq.com" class="text-pink-500 hover:text-pink-600 underline">wangkai233@qq.com</a>。以下是本站信息：
             </p>
 
             <!-- JSON代码块 -->
