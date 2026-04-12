@@ -13,3 +13,38 @@ cypress/downloads
 auto-imports.d.ts
 components.d.ts
 typed-router.d.ts
+
+# AI/Crawler bots
+# CodeBuddy
+.codebuddy/
+
+# Cline
+.cline/
+
+# Claude
+Claude-Web/
+claude-.*/
+# GPTBot
+CCBot/
+GPTBot/
+ChatGPT-User/
+# Common AI crawlers
+anthropic-*/
+ClaudeBot/
+diffbot/
+Bytespider/
+Google-Extended/
+GPTBot/
+Img2Prompt/
+PerplexityBot/
+YouBot/
+# SEO bots that may be used for AI training
+AhrefsBot/
+SemrushBot/
+MJ12bot/
+DotBot/
+# AI training related
+AI2Bot/
+BingPreview/
+Applebot/
+
