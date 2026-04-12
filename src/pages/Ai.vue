@@ -64,73 +64,73 @@ function autoResize() {
 // 发送消息
 // ────────────────────────────────────────────
 async function sendMessage() {
-    const userInput = inputText.value.trim();
-    if (!userInput) {
-        message.warning("请输入消息内容！");
-        return;
+    message.info("AI对话功能正在紧张开发中，敬请期待！");
+}
+
+// 按 Enter 发送（Shift+Enter 换行）
+function handleKeydown(e: KeyboardEvent) {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
     }
+}
 
-    // 添加用户消息
-    messages.value.push({
-        id: idCounter++,
-        role: "user",
-        content: userInput,
-        time: formatTime(new Date()),
-    });
+// 清空对话
+function clearMessages() {
+    idCounter = 0;
+    messages.value = [
+        {
+            id: idCounter++,
+            role: "assistant",
+            content: "对话已清空，我们重新开始吧！",
+            time: formatTime(new Date()),
+        },
+    ];
+}
+</script>
 
-    // 清空输入框
-    inputText.value = "";
-    if (textareaRef.value) {
-        textareaRef.value.style.height = "auto";
-    }
-
-    // 滚动到底部
-    _scrollToBottom();
-
-    // 处理特殊命令和梗
-    const lowerInput = userInput.toLowerCase();
-    
-    // 雪豹闭嘴梗
-    if (lowerInput.includes("雪豹") || lowerInput.includes("闭嘴")) {
-        setTimeout(() => {
-            messages.value.push({
-                id: idCounter++,
-                role: "assistant",
-                content: "雪豹闭嘴！🐆🤫（AI正在努力学习中，暂时还不会说话）",
-                time: formatTime(new Date()),
-            });
-            _scrollToBottom();
-        }, 500);
-        return;
-    }
-
-    // 丁真梗（参考已有的dingzhen-skill）
-    if (lowerInput.includes("丁真") || lowerInput.includes("电子烟") || lowerInput.includes("理塘")) {
-        const dingzhenQuotes = [
-            "比你优秀的人还比你努力，那你努力还有什么用？",
-            "钱是给女人看的，不是给女人花的。",
-            "永远不要为一个女人是否单身，如果她喜欢你，那她就是单身。",
-            "脚踏万条船，翻也翻不完。",
-            "好女孩别辜负，坏女孩别浪费。赶进来了就珍惜，感情没了先去挣钱。",
-            "不是越漂亮的女人越会骗人，而是不漂亮的骗你你不信。",
-            "大学四年你不吃苦，将来就要苦40年。大学四年肯吃苦，那你就要苦44年。",
-            "少了一份没用的付出，人生不会无路可走，因为你还有死路一条。"
-        ];
-        setTimeout(() => {
-            const randomQuote = dingzhenQuotes[Math.floor(Math.random() * dingzhenQuotes.length)];
-            messages.value.push({
-                id: idCounter++,
-                role: "assistant",
-                content: `丁真语录：${randomQuote}`,
-                time: formatTime(new Date()),
-            });
-            _scrollToBottom();
-        }, 500);
-        return;
-    }
-
-    // AI相关梗
-    if (lowerInput.includes("ai") || lowerInput.includes("人工智能") || lowerInput.includes
+<template>
+    <div
+        class="min-h-screen flex flex-col items-center px-3 sm:px-4 py-6 sm:py-8 bg-gray-50 dark:bg-gray-900 rounded-xl max-w-full sm:max-w-[90%] md:max-w-[85%] lg:max-w-[80%] mx-auto transition-colors duration-300"
+    >
+        <div
+            class="w-full max-w-full sm:max-w-[90%] md:max-w-[80%] lg:max-w-[70%] flex flex-col px-3 sm:px-4 md:px-6"
+            style="height: calc(100vh - 100px); min-height: 400px"
+        >
+            <!-- 顶部标题栏 -->
+            <div
+                class="flex items-center justify-between mb-4 px-1 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-gray-100 dark:border-gray-700/50 transition-all duration-300"
+            >
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <div
+                        class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-md ring-2 ring-violet-500/20"
+                    >
+                        <Icon
+                            icon="carbon:bot"
+                            class="text-white text-sm sm:text-xl"
+                        />
+                    </div>
+                    <div>
+                        <h1
+                            class="text-base sm:text-lg font-bold text-gray-800 dark:text-gray-100 leading-tight"
+                        >
+                            AI分身
+                        </h1>
+                        <p
+                            class="text-xs text-gray-400 dark:text-gray-500 truncate max-w-[120px] sm:max-w-none"
+                        >
+                            由 {{ selectedModel }} 驱动
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1 sm:gap-2">
+                    <button
+                        class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-200"
+                        @click="clearMessages"
+                    >
+                        <Icon icon="lucide:trash-2" class="w-3.5 h-3.5" />
+                        <span class="hidden sm:inline">清空</span>
+                    </button>
                 </div>
             </div>
 
