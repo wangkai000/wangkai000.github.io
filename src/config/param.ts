@@ -105,7 +105,7 @@ export const giscusSetting = {
   'data-repo-id': 'R_kgDOJohJlw',
   'data-category': 'General',
   'data-category-id': 'DIC_kwDOJohJl84CjIV4',
-  'data-mapping': 'og:title',
+  'data-mapping': 'pathname', // 改成按 URL 路径匹配
   'data-strict': '0',
   'data-reactions-enabled': '1',
   'data-emit-metadata': '0',
