@@ -1,69 +1,67 @@
 <!doctype html>
 <html lang="zh_CN">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="天渺工作室" content="天渺工作室" />
-        <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-        <meta name="revisit-after" content="7 days" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="天渺工作室" content="天渺工作室" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-        <meta name="description" content="天渺工作室" />
-        <meta name="keywords" content="天渺工作室的小站" />
-        <meta property="og:title" content="天渺工作室" />
-        <meta property="og:description" content="首页 | 文章 | 博客" />
-        <meta property="og:type" content="website" />
-        <meta property="og:locale" content="zh_CN" />
+    <meta name="description" content="天渺工作室" />
+    <meta name="keywords" content="天渺工作室的小站" />
+    <meta property="og:title" content="天渺工作室" />
+    <meta property="og:description" content="首页 | 文章 | 博客" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
 
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="mask-icon" href="/favicon.svg" color="#f3f3f3" />
-        <meta name="msapplication-TileColor" content="#f3f3f3" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="mask-icon" href="/favicon.svg" color="#f3f3f3" />
+    <meta name="msapplication-TileColor" content="#f3f3f3" />
 
-        <link rel="canonical" href="https://tianmiao.site" />
+    <link rel="canonical" href="https://tianmiao.site" />
 
-        <title>天渺studio的小站</title>
+    <title>天渺studio的小站</title>
 
-        <script>
-            (function () {
-                const prefersDark =
-                    window.matchMedia &&
-                    window.matchMedia("(prefers-color-scheme: dark)").matches;
-                const setting =
-                    localStorage.getItem("vueuse-color-scheme") || "auto";
-                if (setting === "dark" || (prefersDark && setting !== "light"))
-                    document.documentElement.classList.toggle("dark", true);
-            })();
-        </script>
-        <!--网站使用侦测-->
-        <!-- <script type="text/javascript" defer>
+    <script>
+      ;(function () {
+        const prefersDark =
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+        const setting = localStorage.getItem('vueuse-color-scheme') || 'auto'
+        if (setting === 'dark' || (prefersDark && setting !== 'light'))
+          document.documentElement.classList.toggle('dark', true)
+      })()
+    </script>
+    <!--网站使用侦测-->
+    <!-- <script type="text/javascript" defer>
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "p8r4krye0r");
     </script> -->
-    </head>
-    <body class="font-sans">
-        <div id="app"></div>
-        <script type="module" src="/src/main.ts"></script>
-        <noscript>
-            This website requires JavaScript to function properly. Please enable
-            JavaScript to continue.
-        </noscript>
-        <script defer>
-            var _hmt = _hmt || [];
-            (function () {
-                var hm = document.createElement("script");
-                hm.src =
-                    "https://hm.baidu.com/hm.js?ba6eb8985ee60a314d384a9a205ad484";
-                var s = document.getElementsByTagName("script")[0];
-                s.parentNode.insertBefore(hm, s);
-            })();
-        </script>
-        <!-- <script
+  </head>
+  <body class="font-sans">
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+    <noscript>
+      This website requires JavaScript to function properly. Please enable
+      JavaScript to continue.
+    </noscript>
+    <script defer>
+      var _hmt = _hmt || []
+      ;(function () {
+        var hm = document.createElement('script')
+        hm.src = 'https://hm.baidu.com/hm.js?ba6eb8985ee60a314d384a9a205ad484'
+        var s = document.getElementsByTagName('script')[0]
+        s.parentNode.insertBefore(hm, s)
+      })()
+    </script>
+    <!-- <script
       defer
       src="https://platform.twitter.com/widgets.js"
       charset="utf-8"
     ></script> -->
-    </body>
+  </body>
 </html>
