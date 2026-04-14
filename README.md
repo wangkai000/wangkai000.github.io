@@ -2,7 +2,7 @@
 
 [🌐 在线浏览](https://tianmiao.site/)
 
-一个现代化的个人博客/作品集站点，基于 Vue3 + TypeScript + Vite 构建。
+一个魔改别人基础模板的个人博客，基于 Vue3 + TypeScript + Vite 构建。
 
 ## 特性
 
