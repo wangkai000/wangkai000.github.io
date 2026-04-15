@@ -598,6 +598,14 @@ const personalBlogs = ref<
     avatarFailed: false,
     avatarLoaded: false,
   },
+  {
+    title: 'qlAD',
+    description: '一名小小的计算机爱好者',
+    avatar: 'https://cdn.qladgk.com/images/qlAD.jpg',
+    url: 'https://www.qladgk.com/',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
 ])
 // 我的网站信息
 const mySite = ref({
