@@ -583,6 +583,10 @@ export function getCurrentWallpaper(): Wallpaper {
           url: 'https://s3.bmp.ovh/2026/04/04/wMIwABFE.jpg',
           description: '塞尔达风格的草地与远山，冒险的气息扑面而来',
         },
+        {
+          url: 'https://s3.bmp.ovh/2026/04/18/rYSOnVbD.webp',
+          description: '登上神山的顶峰，我理解了艾瓦的精神世界',
+        },
       ],
       lateNight: [
         {
@@ -635,6 +639,10 @@ export function getCurrentWallpaper(): Wallpaper {
         {
           url: 'https://s3.bmp.ovh/imgs/2025/07/20/966dd8452edb17b1.jpg',
           description: '森林都睡了，你也闭上眼睛吧，晚安，好梦',
+        },
+        {
+          url: 'https://s3.bmp.ovh/2026/04/18/rYSOnVbD.webp',
+          description: '登上神山的顶峰，我理解了艾瓦的精神世界',
         },
       ],
     },
