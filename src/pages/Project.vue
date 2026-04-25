@@ -37,6 +37,12 @@ const projects = ref<Project[]>([
     tags: ['工具', 'TypeScript'],
     github: 'https://github.com/wangkai000/update-notify-js',
   },
+  {
+    name: 'vite-plugin-pack-orchestrator',
+    desc: 'Vite 插件，构建完成后自动将 dist 打包为 ZIP/TAR/7Z，支持 MD5/SHA1/SHA256 校验和计算、自动重命名（占位符：name/version/timestamp/hash），内置 7z 高压缩，零额外依赖，轻松集成 CI/CD 流水线。',
+    tags: ['工具', 'TypeScript', 'Vite'],
+    github: 'https://github.com/wangkai000/vite-plugin-pack-orchestrator',
+  },
 ])
 
 // 当前选中的标签
