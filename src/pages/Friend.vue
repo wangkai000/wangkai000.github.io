@@ -631,6 +631,14 @@ const personalBlogs = ref<
     avatarFailed: false,
     avatarLoaded: false,
   },
+  {
+    title: 'Sincerecsl',
+    description: '一名前端开发工程师，热爱探索新技术，喜欢在空间时间中学习与沉淀。',
+    avatar: 'https://sincerecsl.github.io/images/avatar.png',
+    url: 'https://sincerecsl.github.io/',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
 ])
 // 我的网站信息
 const mySite = ref({

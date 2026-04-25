@@ -16,7 +16,7 @@ interface Project {
 // 项目数据
 const projects = ref<Project[]>([
   {
-    name: '渺途导航-资源导航站',
+    name: '星途导航-资源导航站',
     desc: '基于 Nuxt 4 + TS + Element Plus + Tailwind 开发的静态导航站，高度还原老版 One Nav 模板 UI。',
     cover: 'https://s3.bmp.ovh/2026/04/18/QqaMDixq.png',
     tags: ['Nuxt.js'],
