@@ -386,6 +386,10 @@ export function getCurrentWallpaper(): Wallpaper {
           url: 'https://s3.bmp.ovh/2026/03/21/O3USxWTt.jpg',
           description: '深夜的宁静，属于思考者的时刻',
         },
+        {
+          url: 'https://s3.bmp.ovh/2026/04/27/TYc0XwN0.jpg',
+          description: 'Elliot｜Hello friend!!',
+        },
       ],
     },
     // 周三
@@ -434,6 +438,10 @@ export function getCurrentWallpaper(): Wallpaper {
           url: 'https://s21.ax1x.com/2025/07/20/pV8efRU.jpg',
           description: '快睡吧，梦里有好风景',
         },
+        {
+          url: 'https://s3.bmp.ovh/2026/04/27/USHE6OGF.jpg',
+          description: '风之旅人 | 长路漫漫，终有一归',
+        },
       ],
     },
     // 周四
@@ -481,6 +489,10 @@ export function getCurrentWallpaper(): Wallpaper {
         {
           url: 'https://s3.bmp.ovh/imgs/2025/07/20/58fe51baac0e6faf.jpg',
           description: '沙漠的夜很静，适合好好做梦，明天再努力也不迟',
+        },
+        {
+          url: 'https://s3.bmp.ovh/2026/04/27/ZLiwlUZI.jpg',
+          description: '风之旅人 | 沙漠，雪山变成了流动的诗',
         },
       ],
     },
@@ -587,6 +599,10 @@ export function getCurrentWallpaper(): Wallpaper {
           url: 'https://s3.bmp.ovh/2026/04/18/rYSOnVbD.webp',
           description: '登上神山的顶峰，我理解了艾瓦的精神世界',
         },
+        {
+          url: 'https://s3.bmp.ovh/2026/04/27/fIh4Fhoo.png',
+          description: '林中之夜 | 黄昏下的破败小镇，我们艰难地成为大人',
+        },
       ],
       lateNight: [
         {
@@ -631,8 +647,8 @@ export function getCurrentWallpaper(): Wallpaper {
           description: '日落温柔，适合整理心情，和本周好好告别',
         },
         {
-          url: 'https://s3.bmp.ovh/imgs/2025/11/01/18261e2e191690d8.jpeg',
-          description: '周日傍晚，准备好迎接新的一周',
+          url: 'https://s3.bmp.ovh/2026/04/27/fIh4Fhoo.png',
+          description: '周日晚上了，早点休息吧💤',
         },
       ],
       lateNight: [

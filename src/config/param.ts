@@ -25,7 +25,7 @@ export const SITE = {
   avatar: 'https://s21.ax1x.com/2024/12/22/pAXAGEn.jpg',
   description: '记录 kai 的history',
   profileContent:
-        '我是kai，曾创过业。喜欢 Vue、React、Android、Flutter、Nodejs。目前在从事Node全栈，Android开发的工作。',
+        '我是kai，曾创过业。喜欢 Vue、React、Android、Flutter、Nodejs。目前在从事Node全栈，Android开发的工作。闲暇搞搞独立游戏开发和剧本写作。',
   keywords: 'kai, Blog, 前端, Vue, 博客',
   cv: 'https://cv.tianmiao.site',
   justin: 'https://juejin.cn/user/1169536102179325/posts',
