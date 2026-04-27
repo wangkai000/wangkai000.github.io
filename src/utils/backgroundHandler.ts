@@ -390,6 +390,10 @@ export function getCurrentWallpaper(): Wallpaper {
           url: 'https://s3.bmp.ovh/2026/04/27/TYc0XwN0.jpg',
           description: 'Elliot｜Hello friend!!',
         },
+        {
+          url: 'https://s3.bmp.ovh/2026/04/28/CCziNhnT.webp',
+          description: '有时候我梦想拯救世界。从无形之手下拯救大家，那只每天偷偷地控制我们的手。',
+        },
       ],
     },
     // 周三
@@ -550,6 +554,10 @@ export function getCurrentWallpaper(): Wallpaper {
           url: 'https://s3.bmp.ovh/imgs/2025/07/21/f8b24e04da6ebc42.jpg',
           description: '夜再美也不如你的梦，晚安，好好休息呀',
         },
+        {
+          url: 'https://s3.bmp.ovh/2026/04/28/qlBiJtca.webp',
+          description: '你如果想改变什么，或许该试试从内部改造。',
+        },
       ],
     },
     // 周六
@@ -608,6 +616,10 @@ export function getCurrentWallpaper(): Wallpaper {
         {
           url: 'https://s3.bmp.ovh/imgs/2025/07/27/5512f4d2508ca10f.jpg',
           description: '周末的觉要睡够呀，星星会替你看好夜色的，晚安',
+        },
+        {
+          url: 'https://s3.bmp.ovh/2026/04/27/Y0brpbaN.jpg',
+          description: '我要让人们看到真实的世界。',
         },
       ],
     },
