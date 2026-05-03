@@ -36,6 +36,8 @@ export const SITE = {
   twitterUrl: 'https://twitter.com/',
   githubId: 'pinky-pig',
   githubHome: 'https://github.com/wangkai000',
+  giteeHome: 'https://gitee.com/wangkai000',
+  devToHome: 'https://dev.to/kai000',
   weeklyUrl: 'https://snake.timeline.ink',
   repo: 'pinky-pig/what-is-my-astro-blog',
   notion: 'https://www.notion.com/',

@@ -87,6 +87,14 @@ const sites = ref([
     avatarFailed: false,
     avatarLoaded: false,
   },
+  {
+    title: 'Itomdev Blog',
+    description: '一个交互很好看的blog',
+    avatar: 'https://itomdev.com/favico.png',
+    url: 'https://itomdev.com',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
 ])
 
 // 个人博客链接
@@ -636,6 +644,14 @@ const personalBlogs = ref<
     description: '一名前端开发工程师，热爱探索新技术，喜欢在空间时间中学习与沉淀。',
     avatar: 'https://sincerecsl.github.io/images/avatar.png',
     url: 'https://sincerecsl.github.io/',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
+  {
+    title: '李文周的blog',
+    description: '目前在一线做后端开发，坚持把项目经验整理成图文、视频教程，在快速变化的时代快速成长...',
+    avatar: 'https://liwenzhou.com/images/profile.webp',
+    url: 'https://liwenzhou.com/',
     avatarFailed: false,
     avatarLoaded: false,
   },
