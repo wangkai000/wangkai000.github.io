@@ -655,6 +655,14 @@ const personalBlogs = ref<
     avatarFailed: false,
     avatarLoaded: false,
   },
+  {
+    title: 'Ryan Wang',
+    description: 'Hi there 👋',
+    avatar: 'https://ryanc.cc/avatar',
+    url: 'https://ryanc.cc',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
 ])
 // 我的网站信息
 const mySite = ref({
