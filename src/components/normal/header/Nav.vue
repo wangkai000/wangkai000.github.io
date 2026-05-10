@@ -138,6 +138,13 @@ const navFilter: NavItem[] = [
                 children: [],
                 title: "个人原创小说",
             },
+            {
+                label: "其他",
+                route: "/other",
+                icon: "📦",
+                children: [],
+                title: "其他内容",
+            },
         ],
     },
 ];
