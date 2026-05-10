@@ -672,6 +672,15 @@ const personalBlogs = ref<
     avatarFailed: false,
     avatarLoaded: false,
   },
+  {
+    title: 'YuHuan的博客',
+    description: '探索数字世界的宝藏角落 | 分享实用资源与技术思考',
+    avatar: 'https://i.postimg.cc/FKwTvfsG/Yu-Huan-blog-logo.png',
+    url: 'https://blog.317188.xyz',
+    rss: 'https://blog.317188.xyz/feed',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
 ])
 // 我的网站信息
 const mySite = ref({
