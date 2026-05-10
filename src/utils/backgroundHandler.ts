@@ -599,9 +599,13 @@ export function getCurrentWallpaper(): Wallpaper {
           url: 'https://s3.bmp.ovh/imgs/2025/11/01/44f7ca7bfd18464d.jpg',
           description: '周六夜晚，浪漫而温馨',
         },
+        // {
+        //   url: 'https://s3.bmp.ovh/2026/04/04/wMIwABFE.jpg',
+        //   description: '草地与远山，冒险的气息扑面而来',
+        // },
         {
-          url: 'https://s3.bmp.ovh/2026/04/04/wMIwABFE.jpg',
-          description: '塞尔达风格的草地与远山，冒险的气息扑面而来',
+          url: 'https://s3.bmp.ovh/2026/04/28/CCziNhnT.webp',
+          description: '有时候我梦想拯救世界。从无形之手下拯救大家，那只每天偷偷地控制我们的手。',
         },
         {
           url: 'https://s3.bmp.ovh/2026/04/18/rYSOnVbD.webp',
