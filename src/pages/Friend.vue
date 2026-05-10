@@ -681,6 +681,14 @@ const personalBlogs = ref<
     avatarFailed: false,
     avatarLoaded: false,
   },
+  {
+    title: '语初博客',
+    description: '致力于互联网优质资源共享',
+    avatar: 'https://file.icve.com.cn/file_doc/1775486276275-szrqpk.jpg',
+    url: 'https://www.yc520.top',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
 ])
 // 我的网站信息
 const mySite = ref({
