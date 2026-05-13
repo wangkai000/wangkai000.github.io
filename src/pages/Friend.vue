@@ -689,6 +689,22 @@ const personalBlogs = ref<
     avatarFailed: false,
     avatarLoaded: false,
   },
+  {
+    title: '蓝胖子',
+    description: '一名热爱技术的开发者，专注于前端与全栈开发',
+    avatar: '',
+    url: 'https://lpz1096.netlify.app',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
+  {
+    title: '大佬论坛',
+    description: '大佬站长论坛',
+    avatar: 'https://www.dalao.net/img/dalao-svg.svg',
+    url: 'https://www.dalao.net',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
 ])
 // 我的网站信息
 const mySite = ref({
