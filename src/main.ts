@@ -1,94 +1,98 @@
-import { ViteSSG } from "vite-ssg";
-import { setupLayouts } from "virtual:generated-layouts";
+import { ViteSSG } from 'vite-ssg'
+import { setupLayouts } from 'virtual:generated-layouts'
+import { createHead } from '@vueuse/head'
 
 // import Previewer from 'virtual:vue-component-preview'
-import autoRoutes from "pages-generated";
-import NProgress from "nprogress";
-import { setupRouterScroller } from "vue-router-better-scroller";
+import autoRoutes from 'pages-generated'
+import NProgress from 'nprogress'
+import { setupRouterScroller } from 'vue-router-better-scroller'
 // import {
 //   type UpdateNotifierOptions,
 //   createUpdateNotifier,
 // } from 'update-notify-js'
-import App from "./App.vue";
-import "@shikijs/twoslash/style-rich.css";
-import "shiki-magic-move/style.css";
-import type { UserModule } from "./types";
-import "./styles/global.css";
-import { backgroundTool, getCurrentWallpaper } from "./utils/backgroundHandler";
+import App from './App.vue'
+import '@shikijs/twoslash/style-rich.css'
+import 'shiki-magic-move/style.css'
+import type { UserModule } from './types'
+import './styles/global.css'
+import { backgroundTool, getCurrentWallpaper } from './utils/backgroundHandler'
 
 const routes = autoRoutes.map((i: { path: string }) => {
-    return {
-        ...i,
-        alias: i.path.endsWith("/") ? `${i.path}index.html` : `${i.path}.html`,
-    };
-});
+  return {
+    ...i,
+    alias: i.path.endsWith('/') ? `${i.path}index.html` : `${i.path}.html`,
+  }
+})
 
 // 判断字符串是否包含中文
 function hasChinese(str: string) {
-    return /[\u4E00-\u9FA5]+/.test(str);
+  return /[\u4E00-\u9FA5]+/.test(str)
 }
 
 // https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(
-    App,
-    {
-        routes: setupLayouts(routes),
-        base: import.meta.env.BASE_URL,
-    },
-    (ctx) => {
-        // install all modules under `modules/`
-        Object.values(
-            import.meta.glob<{ install: UserModule }>("./modules/*.ts", {
-                eager: true,
-            }),
-        ).forEach((i) => i.install?.(ctx));
+  App,
+  {
+    routes: setupLayouts(routes),
+    base: import.meta.env.BASE_URL,
+  },
+  (ctx) => {
+    const { app } = ctx
+    app.use(createHead())
 
-        const { router, isClient } = ctx;
-        if (isClient) {
-            // https://github.com/antfu/vue-router-better-scroller
-            const html = document.querySelector("html")!;
-            setupRouterScroller(router, {
-                selectors: {
-                    html(ctx) {
-                        // 页面内容加载动画（暂无设置）
-                        if (ctx.savedPosition?.top)
-                            html.classList.add("no-sliding");
-                        else html.classList.remove("no-sliding");
-                        return true;
-                    },
-                    // 解决同一个 layout 路由切换页面没有回到顶部的问题
-                    window() {
-                        return {
-                            top: 0,
-                            behavior: "smooth",
-                        };
-                    },
-                },
-                behavior: "auto",
-            });
+    // install all modules under `modules/`
+    Object.values(
+      import.meta.glob<{ install: UserModule }>('./modules/*.ts', {
+        eager: true,
+      }),
+    ).forEach(i => i.install?.(ctx))
 
-            router.beforeEach((val) => {
-                const decodePath = decodeURIComponent(val.path);
+    const { router, isClient } = ctx
+    if (isClient) {
+      // https://github.com/antfu/vue-router-better-scroller
+      const html = document.querySelector('html')!
+      setupRouterScroller(router, {
+        selectors: {
+          html(ctx) {
+            // 页面内容加载动画（暂无设置）
+            if (ctx.savedPosition?.top)
+              html.classList.add('no-sliding')
+            else html.classList.remove('no-sliding')
+            return true
+          },
+          // 解决同一个 layout 路由切换页面没有回到顶部的问题
+          window() {
+            return {
+              top: 0,
+              behavior: 'smooth',
+            }
+          },
+        },
+        behavior: 'auto',
+      })
 
-                // 判断是否出现中文，将中文 replace 重新跳转
-                if (hasChinese(decodePath) && decodePath !== val.path) {
-                    router.replace(val.fullPath.replace(val.path, decodePath));
-                }
+      router.beforeEach((val) => {
+        const decodePath = decodeURIComponent(val.path)
 
-                NProgress.start();
-            });
-            router.afterEach(() => {
-                NProgress.done();
-            });
+        // 判断是否出现中文，将中文 replace 重新跳转
+        if (hasChinese(decodePath) && decodePath !== val.path) {
+          router.replace(val.fullPath.replace(val.path, decodePath))
         }
 
-        // ctx.app.use(createRouter({ history: createWebHistory(), routes}))
-    },
-);
+        NProgress.start()
+      })
+      router.afterEach(() => {
+        NProgress.done()
+      })
+    }
+
+    // ctx.app.use(createRouter({ history: createWebHistory(), routes}))
+  },
+)
 
 backgroundTool.set({
-    imageUrl: getCurrentWallpaper().url,
-});
+  imageUrl: getCurrentWallpaper().url,
+})
 
 // 仅生产环境和客户端启用
 // if (import.meta.env.PROD && typeof window !== 'undefined') {
