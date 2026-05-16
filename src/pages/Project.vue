@@ -10,7 +10,8 @@ interface Project {
   tags: string[]
   github?: string
   gitee?: string
-  demoUrl?: string
+  demoUrl?: string | string[]
+  pinned?: boolean
 }
 
 // 项目数据
@@ -19,10 +20,27 @@ const projects = ref<Project[]>([
     name: '星途导航-资源导航站',
     desc: '基于 Nuxt 4 + TS + Element Plus + Tailwind 开发的静态导航站，高度还原老版 One Nav 模板 UI。',
     cover: 'https://s3.bmp.ovh/2026/04/18/QqaMDixq.png',
-    tags: ['Nuxt.js'],
+    tags: ['Nuxt.js', '导航模板'],
     github: 'https://github.com/wangkai000/nuxt-one-nav',
     gitee: 'https://gitee.com/wangkai000/my-nuxt-nav',
-    demoUrl: 'https://nav.tianmiao.site/',
+    demoUrl: ['https://nav.tianmiao.site/', 'https://nav1.tianmiao.site/'],
+    pinned: true,
+  },
+  {
+    name: 'vite-plugin-pack-orchestrator',
+    desc: 'Vite插件构建完成后自动将 dist 打包为 ZIP/TAR/7Z，支持 MD5/SHA1/SHA256 校验和计算、自动重命名（占位符：name/version/timestamp/hash），内置 7z 高压缩，零额外依赖，轻松集成 CI/CD 流水线。',
+    tags: ['js插件', 'TypeScript', 'Vite'],
+    github: 'https://github.com/wangkai000/vite-plugin-pack-orchestrator',
+    gitee: 'https://gitee.com/wangkai000/vite-plugin-pack-orchestrator',
+    pinned: true,
+  },
+  {
+    name: 'adblock-easylist-detector',
+    desc: '一个广告拦截插件检测js库，基于 EasyList 规则反向探测 + CSS 诱饵元素双重检测的轻量 AdBlock 检测插件。',
+    tags: ['js插件', 'TypeScript', '广告'],
+    github: 'https://github.com/wangkai000/adblock-easylist-detector',
+    gitee: 'https://gitee.com/wangkai000/adblock-easylist-detector',
+    pinned: true,
   },
   {
     name: '我的博客',
@@ -30,20 +48,21 @@ const projects = ref<Project[]>([
     cover: 'https://s3.bmp.ovh/2026/03/22/WlMQJA3r.jpg',
     tags: ['Web', 'Vue'],
     github: 'https://github.com/wangkai000/my-blog',
-    demoUrl: 'https://tianmiao.site/',
+    demoUrl: ['https://tianmiao.site/', 'http://weblog.tianmiao.site/'],
   },
   {
     name: 'update-notify-js',
     desc: '一个轻量级的纯前端实现的版本更新自动检测和提示刷新插件。它能够自动监测应用的新版本发布，并通过友好的方式通知用户进行更新，确保用户始终使用最新版本的应用。',
-    tags: ['工具', 'TypeScript'],
+    tags: ['js插件', 'TypeScript'],
     github: 'https://github.com/wangkai000/update-notify-js',
+    gitee: 'https://gitee.com/wangkai000/update-notify-js',
   },
   {
-    name: 'vite-plugin-pack-orchestrator',
-    desc: 'Vite插件构建完成后自动将 dist 打包为 ZIP/TAR/7Z，支持 MD5/SHA1/SHA256 校验和计算、自动重命名（占位符：name/version/timestamp/hash），内置 7z 高压缩，零额外依赖，轻松集成 CI/CD 流水线。',
-    tags: ['工具', 'TypeScript', 'Vite'],
-    github: 'https://github.com/wangkai000/vite-plugin-pack-orchestrator',
-    gitee: 'https://gitee.com/wangkai000/vite-plugin-pack-orchestrator',
+    name: 'unplugin-pack-orchestrator',
+    desc: '基于 unplugin 的通用打包压缩插件，支持 Vite、Webpack、Rollup、ESBuild，可生成 ZIP / TAR / TAR.GZ / 7Z 文件，支持自动重命名归档文件。',
+    tags: ['js插件', 'TypeScript', 'Vite', 'Webpack', 'Rollup', 'Esbuild'],
+    github: 'https://github.com/wangkai000/unplugin-pack-orchestrator',
+    gitee: 'https://gitee.com/wangkai000/unplugin-pack-orchestrator',
   },
 ])
 
@@ -59,13 +78,21 @@ const allTags = computed(() => {
   return Array.from(tags)
 })
 
-// 过滤后的项目
+// 过滤后的项目（置顶优先，保持数组内顺序）
 const filteredProjects = computed(() => {
-  if (selectedTags.value.length === 0)
-    return projects.value
-  return projects.value.filter(project =>
-    selectedTags.value.some(tag => project.tags.includes(tag)),
-  )
+  let list = projects.value
+  if (selectedTags.value.length > 0) {
+    list = list.filter(project =>
+      selectedTags.value.some(tag => project.tags.includes(tag)),
+    )
+  }
+  return [...list].sort((a, b) => {
+    if (a.pinned && !b.pinned)
+      return -1
+    if (!a.pinned && b.pinned)
+      return 1
+    return 0
+  })
 })
 
 // 切换标签
@@ -93,7 +120,7 @@ function handleImageError(event: Event, projectName: string) {
 </script>
 
 <template>
-  <div class="max-w-5xl mx-auto px-4 py-8">
+  <div class="max-w-7xl mx-auto px-4 py-8">
     <!-- 顶部筛选区域 -->
     <div class="flex justify-center mb-8">
       <div
@@ -131,19 +158,26 @@ function handleImageError(event: Event, projectName: string) {
     </div>
 
     <!-- 项目展示区域 -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      <a
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div
         v-for="project in filteredProjects"
         :key="project.name"
-        :href="
-          project.demoUrl || project.github || project.gitee || '#'
-        "
-        target="_blank"
         class="group relative block rounded-2xl overflow-hidden shadow-lg border border-violet-100 dark:border-gray-700/50 transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98] bg-gradient-to-br from-white dark:from-gray-900 via-violet-50/80 dark:via-gray-800/80 to-indigo-100/60 dark:to-gray-800"
       >
-        <!-- 封面区域 -->
+        <!-- 置顶标识 -->
         <div
-          class="aspect-video bg-gray-100 dark:bg-gray-800 relative overflow-hidden"
+          v-if="project.pinned"
+          class="absolute top-3 right-3 z-[1] bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg flex items-center gap-1"
+        >
+          <Icon icon="mdi:pin" width="12" height="12" />
+          置顶
+        </div>
+
+        <!-- 封面区域 -->
+        <a
+          :href="Array.isArray(project.demoUrl) ? project.demoUrl[0] : (project.demoUrl || project.github || project.gitee || '#')"
+          target="_blank"
+          class="block aspect-video bg-gray-100 dark:bg-gray-800 relative overflow-hidden z-0"
         >
           <img
             v-if="project.cover"
@@ -157,11 +191,11 @@ function handleImageError(event: Event, projectName: string) {
             class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-violet-100 to-indigo-100 dark:from-gray-700 dark:to-gray-700"
           >
             <Icon
-              icon="mdi:folder-star-outline"
-              class="text-6xl text-violet-400 dark:text-violet-500"
+              icon="simple-icons:npm"
+              class="text-6xl text-red-500 dark:text-red-400"
             />
           </div>
-        </div>
+        </a>
 
         <!-- 内容区域 -->
         <div class="p-4">
@@ -170,11 +204,14 @@ function handleImageError(event: Event, projectName: string) {
           >
             {{ project.name }}
           </h3>
-          <p
-            class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed min-h-[2.5rem]"
-          >
-            {{ project.desc }}
-          </p>
+          <div class="desc-tooltip-wrapper">
+            <p class="desc-short text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+              {{ project.desc }}
+            </p>
+            <div class="desc-tooltip">
+              {{ project.desc }}
+            </div>
+          </div>
 
           <!-- 标签 -->
           <div class="flex flex-wrap gap-1.5 mt-3">
@@ -189,7 +226,7 @@ function handleImageError(event: Event, projectName: string) {
 
           <!-- 操作按钮 -->
           <div
-            class="flex items-center gap-3 mt-4 pt-3 border-t border-gray-100 dark:border-gray-700/50"
+            class="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-4 pt-3 border-t border-gray-100 dark:border-gray-700/50"
           >
             <a
               v-if="project.github"
@@ -215,57 +252,123 @@ function handleImageError(event: Event, projectName: string) {
               />
               Gitee
             </a>
-            <a
-              v-if="project.demoUrl"
-              :href="project.demoUrl"
-              target="_blank"
-              class="flex items-center gap-1 text-xs text-violet-600 dark:text-violet-400 hover:text-violet-800 dark:hover:text-violet-300 transition-colors ml-auto"
-              @click.stop
-            >
-              <Icon
-                icon="mdi:open-in-new"
-                width="16"
-                height="16"
-              />
-              预览
-            </a>
+            <template v-if="project.demoUrl">
+              <template v-if="Array.isArray(project.demoUrl)">
+                <a
+                  v-for="(url, index) in project.demoUrl"
+                  :key="url"
+                  :href="url"
+                  target="_blank"
+                  class="flex items-center gap-1 text-xs text-violet-600 dark:text-violet-400 hover:text-violet-800 dark:hover:text-violet-300 transition-colors"
+                  :class="{ 'ml-auto': index === 0 && !project.github && !project.gitee }"
+                  @click.stop
+                >
+                  <Icon
+                    icon="mdi:open-in-new"
+                    width="16"
+                    height="16"
+                  />
+                  {{ project.demoUrl.length === 1 ? '预览' : `预览${index + 1}` }}
+                </a>
+              </template>
+              <a
+                v-else
+                :href="project.demoUrl"
+                target="_blank"
+                class="flex items-center gap-1 text-xs text-violet-600 dark:text-violet-400 hover:text-violet-800 dark:hover:text-violet-300 transition-colors ml-auto"
+                @click.stop
+              >
+                <Icon
+                  icon="mdi:open-in-new"
+                  width="16"
+                  height="16"
+                />
+                预览
+              </a>
+            </template>
           </div>
         </div>
-      </a>
-    </div>
-
-    <!-- 空状态 -->
-    <div
-      v-if="filteredProjects.length === 0"
-      class="flex flex-col items-center justify-center py-20 text-center"
-    >
-      <div
-        class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4"
-      >
-        <Icon
-          icon="mdi:folder-off-outline"
-          class="text-4xl text-gray-400"
-        />
       </div>
-      <p class="text-gray-500 dark:text-gray-400 text-lg">
-        暂无匹配的项目
-      </p>
-      <button
-        v-if="selectedTags.length > 0"
-        class="mt-4 px-6 py-2 bg-violet-500 text-white rounded-full hover:bg-violet-600 transition-colors"
-        @click="clearSelectedTags"
+
+      <!-- 空状态 -->
+      <div
+        v-if="filteredProjects.length === 0"
+        class="flex flex-col items-center justify-center py-20 text-center"
       >
-        清除筛选
-      </button>
+        <div
+          class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4"
+        >
+          <Icon
+            icon="mdi:folder-off-outline"
+            class="text-4xl text-gray-400"
+          />
+        </div>
+        <p class="text-gray-500 dark:text-gray-400 text-lg">
+          暂无匹配的项目
+        </p>
+        <button
+          v-if="selectedTags.length > 0"
+          class="mt-4 px-6 py-2 bg-violet-500 text-white rounded-full hover:bg-violet-600 transition-colors"
+          @click="clearSelectedTags"
+        >
+          清除筛选
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.line-clamp-2 {
+.desc-tooltip-wrapper {
+  position: relative;
+}
+
+.desc-short {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  min-height: 2.5rem;
+}
+
+.desc-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  background: rgba(31, 41, 55, 0.95);
+  backdrop-filter: blur(8px);
+  color: #f3f4f6;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.7;
+  box-shadow:
+    0 20px 40px -10px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+  width: max-content;
+  max-width: 320px;
+  word-break: break-word;
+}
+
+.desc-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+  border-top-color: rgba(31, 41, 55, 0.95);
+}
+
+.desc-tooltip-wrapper:hover .desc-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
 }
 </style>
