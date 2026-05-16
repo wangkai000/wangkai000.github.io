@@ -119,3 +119,6 @@ export const giscusSetting = {
 
 // 默认壁纸
 export const defaultImageUrl = '/static/qrcode/bg.jpg'
+
+// API 配置
+export const apiBase = 'https://api.tianmiao.site/api'
