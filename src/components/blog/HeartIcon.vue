@@ -60,6 +60,6 @@ onMounted(fetchLikeStatus)
       "
       @click="toggleLike"
     />
-    <span class="text-base font-medium text-gray-500 dark:text-gray-400">{{ count }}</span>
+    <span v-if="count" class="text-base font-medium text-gray-500 dark:text-gray-400">{{ count }}</span>
   </div>
 </template>

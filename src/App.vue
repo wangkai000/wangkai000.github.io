@@ -22,20 +22,20 @@ useHead({
       content:
         '天渺studio, 天渺工作室, Kai, 独立开发者, 独立游戏开发者, Blog, 前端, Vue, Node.js, Android, Flutter, 博客, 技术博客',
     },
-    { property: 'og:title', content: '天渺工作室' },
-    {
-      property: 'og:description',
-      content:
-        '天渺studio(天渺工作室)的小站 - 独立开发者/独立游戏开发者 Kai 的个人博客',
-    },
-    { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: 'https://tianmiao.site/' },
-    { property: 'og:locale', content: 'zh_CN' },
-    { property: 'og:site_name', content: '天渺studio的小站' },
-    {
-      property: 'og:image',
-      content: 'https://s21.ax1x.com/2024/12/22/pAXAGEn.jpg',
-    },
+    // { property: 'og:title', content: '天渺工作室' },
+    // {
+    //   property: 'og:description',
+    //   content:
+    //     '天渺studio(天渺工作室)的小站 - 独立开发者/独立游戏开发者 Kai 的个人博客',
+    // },
+    // { property: 'og:type', content: 'website' },
+    // { property: 'og:url', content: 'https://tianmiao.site/' },
+    // { property: 'og:locale', content: 'zh_CN' },
+    // { property: 'og:site_name', content: '天渺studio的小站' },
+    // {
+    //   property: 'og:image',
+    //   content: 'https://s21.ax1x.com/2024/12/22/pAXAGEn.jpg',
+    // },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:url', content: 'https://tianmiao.site/' },
     {

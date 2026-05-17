@@ -26,4 +26,21 @@ export const likeApi = {
   },
 }
 
+export const visitorApi = {
+  // 记录一次访问
+  record() {
+    return apiClient.get('/visitor/record')
+  },
+
+  // 获取访问统计
+  stats() {
+    return apiClient.get('/visitor/stats')
+  },
+
+  // 获取最近访客
+  recent() {
+    return apiClient.get('/visitor/recent')
+  },
+}
+
 export default apiClient
