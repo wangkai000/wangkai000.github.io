@@ -705,6 +705,14 @@ const personalBlogs = ref<
     avatarFailed: false,
     avatarLoaded: false,
   },
+  {
+    title: 'Starhiro',
+    description: '一位在读软件工程的大二学生，喜欢折腾技术，偶尔写写博客记录生活。',
+    avatar: 'https://boke.hiromu.top/images/hong.jpg',
+    url: 'https://boke.hiromu.top/',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
 ])
 // 我的网站信息
 const mySite = ref({

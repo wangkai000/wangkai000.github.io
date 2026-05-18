@@ -64,6 +64,13 @@ const projects = ref<Project[]>([
     github: 'https://github.com/wangkai000/unplugin-pack-orchestrator',
     gitee: 'https://gitee.com/wangkai000/unplugin-pack-orchestrator',
   },
+  {
+    name: 'vue-intercept-plugin',
+    desc: '一个可以拦截vue中点击事件的自定义拦截器，适用于权限控制等场景',
+    tags: ['Vue'],
+    github: 'https://github.com/wangkai000/vue-intercept-plugin',
+    gitee: 'https://gitee.com/wangkai000/vue-intercept-plugin',
+  },
 ])
 
 // 当前选中的标签
