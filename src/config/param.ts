@@ -121,4 +121,5 @@ export const giscusSetting = {
 export const defaultImageUrl = '/static/qrcode/bg.jpg'
 
 // API 配置
-export const apiBase = 'https://api.tianmiao.site/api'
+// export const apiBase = 'https://api.tianmiao.site/api'
+export const apiBase = 'http://121.43.120.9:3100/api'

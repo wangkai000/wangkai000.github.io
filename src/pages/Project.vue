@@ -17,6 +17,14 @@ interface Project {
 // 项目数据
 const projects = ref<Project[]>([
   {
+    name: 'jimi-notes',
+    desc: '基于 Next.js 16 + React 19 + TailwindCSS 4 构建的个人笔记网站',
+    cover: 'https://s3.bmp.ovh/2026/05/18/logo.png',
+    tags: ['Next.js', 'React', 'Web'],
+    demoUrl: 'https://jimi-notes.tianmiao.site/',
+    pinned: true,
+  },
+  {
     name: '星途导航-资源导航站',
     desc: '基于 Nuxt 4 + TS + Element Plus + Tailwind 开发的静态导航站，高度还原老版 One Nav 模板 UI。',
     cover: 'https://s3.bmp.ovh/2026/04/18/QqaMDixq.png',
