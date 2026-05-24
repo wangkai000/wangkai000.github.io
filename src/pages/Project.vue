@@ -17,10 +17,10 @@ interface Project {
 // 项目数据
 const projects = ref<Project[]>([
   {
-    name: 'jimi-notes',
-    desc: '基于 Next.js 16 + React 19 + TailwindCSS 4 构建的个人笔记网站',
-    cover: 'https://s3.bmp.ovh/2026/05/18/logo.png',
-    tags: ['Next.js', 'React', 'Web'],
+    name: '基米便签',
+    desc: '免费、极致轻量的桌面便签应用。安装包仅 ~3MB，运行内存 <30MB，多窗口独立便签、自定义配色、自动保存，纯离线零上传，暂未开源。',
+    cover: 'https://s41.ax1x.com/2026/05/25/pmCiPYt.png',
+    tags: ['Tauri', 'Rust', 'React'],
     demoUrl: 'https://jimi-notes.tianmiao.site/',
     pinned: true,
   },
