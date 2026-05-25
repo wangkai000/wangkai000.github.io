@@ -713,6 +713,14 @@ const personalBlogs = ref<
     avatarFailed: false,
     avatarLoaded: false,
   },
+  {
+    title: '羊先生',
+    description: '你好我是羊先生',
+    avatar: 'https://www.vipbic.com/logo.png',
+    url: 'https://www.vipbic.com',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
 ])
 // 我的网站信息
 const mySite = ref({

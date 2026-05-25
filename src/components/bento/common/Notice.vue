@@ -146,7 +146,7 @@ const cardVariants = computed(() => [
               >
                 {{
                   index === 0
-                    ? (totalVisits + 900 || '-')
+                    ? (totalVisits || '-')
                     : index === 1
                       ? (todayVisits || '-')
                       : daysRunning
