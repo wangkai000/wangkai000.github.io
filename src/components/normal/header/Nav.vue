@@ -201,7 +201,7 @@ function getPageTitle(path: string): string {
             if (child.route === path) return child.title || child.label;
         }
     }
-    return "天渺studio的小站";
+    return "天渺studio";
 }
 
 // 导航跳转处理（支持新标签页）
@@ -315,7 +315,7 @@ onMounted(() => {
     updateActiveState(route.path);
     // 初始化页面标题
     const initialTitle = getPageTitle(route.path);
-    document.title = `${initialTitle} - 天渺studio的小站`;
+    document.title = initialTitle;
 
     // 点击页面空白处关闭菜单
     document.addEventListener("click", closeAllMenus);
@@ -334,7 +334,7 @@ watch(
         updateActiveState(newPath);
         // 更新页面标题
         const currentTitle = getPageTitle(newPath);
-        document.title = `${currentTitle} - 天渺studio的小站`;
+        document.title = currentTitle;
     },
 );
 </script>
