@@ -62,7 +62,7 @@ const navFilter: NavItem[] = [
         route: "/ai",
         icon: "🤖️",
         children: [],
-        title: "AI探索",
+        title: "AI",
     },
     {
         label: "关于",
