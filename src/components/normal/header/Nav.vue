@@ -315,7 +315,7 @@ onMounted(() => {
     updateActiveState(route.path);
     // 初始化页面标题
     const initialTitle = getPageTitle(route.path);
-    document.title = initialTitle;
+    document.title = initialTitle === '天渺studio' ? initialTitle : `${initialTitle} - 天渺studio`;
 
     // 点击页面空白处关闭菜单
     document.addEventListener("click", closeAllMenus);
@@ -334,7 +334,7 @@ watch(
         updateActiveState(newPath);
         // 更新页面标题
         const currentTitle = getPageTitle(newPath);
-        document.title = currentTitle;
+        document.title = currentTitle === '天渺studio' ? currentTitle : `${currentTitle} - 天渺studio`;
     },
 );
 </script>
