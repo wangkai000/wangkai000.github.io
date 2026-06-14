@@ -6,7 +6,7 @@ import { AppSetup } from './utils/app'
 AppSetup()
 
 useHead({
-  title: '天渺studio的小站',
+  title: '天渺studio',
   titleTemplate: '%s | 天渺studio',
   meta: [
     { name: 'author', content: '天渺studio | 天渺工作室' },
@@ -31,7 +31,7 @@ useHead({
     { property: 'og:type', content: 'website' },
     { property: 'og:url', content: 'https://tianmiao.site/' },
     { property: 'og:locale', content: 'zh_CN' },
-    { property: 'og:site_name', content: '天渺studio的小站' },
+    { property: 'og:site_name', content: '天渺studio' },
     {
       property: 'og:image',
       content: 'https://s21.ax1x.com/2024/12/22/pAXAGEn.jpg',

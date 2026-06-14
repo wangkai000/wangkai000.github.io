@@ -158,7 +158,7 @@ const cardVariants = computed(() => [
               >
                 {{
                   index === 0
-                    ? "总访问量"
+                    ? "月访问量"
                     : index === 1
                       ? "今日访问"
                       : "运行天数"

@@ -721,6 +721,14 @@ const personalBlogs = ref<
     avatarFailed: false,
     avatarLoaded: false,
   },
+  {
+    title: 'HDAlex_John',
+    description: 'B站Up HDAlex_John',
+    avatar: 'https://hdalex.top/favicon.ico',
+    url: 'https://hdalex.top/',
+    avatarFailed: false,
+    avatarLoaded: false,
+  },
 ])
 // 我的网站信息
 const mySite = ref({
