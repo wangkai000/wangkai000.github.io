@@ -7,7 +7,6 @@ AppSetup()
 
 useHead({
   title: '天渺studio',
-  titleTemplate: '%s | 天渺studio',
   meta: [
     { name: 'author', content: '天渺studio | 天渺工作室' },
     { name: 'robots', content: 'index, follow' },
