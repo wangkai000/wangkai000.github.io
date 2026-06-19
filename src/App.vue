@@ -21,7 +21,7 @@ useHead({
       content:
         '天渺studio, 天渺工作室, Kai, 独立开发者, 独立游戏开发者, Blog, 前端, Vue, Node.js, Android, Flutter, 博客, 技术博客',
     },
-    { property: 'og:title', content: '天渺工作室' },
+    { property: 'og:title', content: '天渺studio(天渺工作室)的小站' },
     {
       property: 'og:description',
       content:
