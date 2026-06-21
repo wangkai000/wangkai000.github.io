@@ -4,6 +4,16 @@ import { Icon } from '@iconify/vue'
 import { NTooltip } from 'naive-ui'
 import { registerGiscus } from '~/utils/giscus'
 
+// 随机打乱数组（Fisher-Yates）
+function shuffle<T>(arr: T[]): T[] {
+  const result = [...arr]
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[result[i], result[j]] = [result[j], result[i]]
+  }
+  return result
+}
+
 // 站点类链接（非个人博客）
 const sites = ref([
   {
@@ -97,18 +107,19 @@ const sites = ref([
   },
 ])
 
+// 个人博客类型
+interface PersonalBlog {
+  title: string
+  description: string
+  avatar: string
+  url: string
+  rss?: string
+  avatarFailed: boolean
+  avatarLoaded: boolean
+}
+
 // 个人博客链接
-const personalBlogs = ref<
-  {
-    title: string
-    description: string
-    avatar: string
-    url: string
-    rss?: string
-    avatarFailed: boolean
-    avatarLoaded: boolean
-  }[]
->([
+const personalBlogs = ref(shuffle<PersonalBlog>([
   {
     title: '匠心独运',
     description: '一个有追求的程序员（某手机厂资深技术专家）',
@@ -729,7 +740,7 @@ const personalBlogs = ref<
     avatarFailed: false,
     avatarLoaded: false,
   },
-])
+]))
 // 我的网站信息
 const mySite = ref({
   title: '天渺studio',

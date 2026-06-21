@@ -1,5 +1,5 @@
 ---
-title: 关于天渺studio(天渺工作室)
+# title: About
 ---
 
 <div class="text-center mb-8">
