@@ -744,7 +744,7 @@ const personalBlogs = ref(shuffle<PersonalBlog>([
 // 我的网站信息
 const mySite = ref({
   title: '天渺studio',
-  description: '天渺工作室的小站&日志记录',
+  description: '天渺studio的小站&日志记录',
   url: 'https://tianmiao.site',
   avatar: 'https://s21.ax1x.com/2024/12/22/pAXtJat.jpg',
   rss: 'https://blog.tianmiao.site/feed.xml',

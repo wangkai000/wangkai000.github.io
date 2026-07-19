@@ -1,5 +1,6 @@
 ---
-title: Other
+title: 其他 - 天渺studio
+description: 天渺studio(天渺工作室)的其他内容与资源链接
 ---
 
 <div class="text-center mb-8">

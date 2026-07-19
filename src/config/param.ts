@@ -20,13 +20,13 @@ export const appDescription = 'tianMiao Web App'
 // ]
 
 export const SITE = {
-  title: '天渺studio的小站',
-  author: '天渺studio的小站',
+  title: '天渺studio(天渺工作室) - Kai的个人博客',
+  author: '天渺studio | 天渺工作室 | Kai',
   avatar: 'https://s21.ax1x.com/2024/12/22/pAXAGEn.jpg',
-  description: '记录 kai 的history',
+  description: '天渺studio(天渺工作室) - 独立开发者/独立游戏开发者 Kai 的个人博客，分享 Vue、React、Node.js、Android、Flutter、移动端开发等技术文章与生活感悟。',
   profileContent:
         '我是kai，曾创过业。喜欢 Vue、React、Android、Flutter、Nodejs。目前在从事Node全栈，Android开发的工作。闲暇搞搞独立游戏开发和剧本写作。',
-  keywords: 'kai, Blog, 前端, Vue, 博客',
+  keywords: '天渺studio, 天渺工作室, Kai, 独立开发者, 独立游戏开发者, Blog, 前端, Vue, React, Node.js, Android, Flutter, 移动端开发, 技术博客',
   cv: 'https://cv.tianmiao.site',
   justin: 'https://juejin.cn/user/1169536102179325/posts',
   mail: 'mailto:1071231288@qq.com',

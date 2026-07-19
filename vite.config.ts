@@ -1,316 +1,320 @@
-import path, { basename, dirname, resolve } from "node:path";
-import { defineConfig } from "vite";
-import Vue from "@vitejs/plugin-vue";
-import generateSitemap from "vite-ssg-sitemap";
-import Layouts from "vite-plugin-vue-layouts";
-import Components from "unplugin-vue-components/vite";
-import AutoImport from "unplugin-auto-import/vite";
-import Markdown from "unplugin-vue-markdown/vite";
-import VueI18n from "@intlify/unplugin-vue-i18n/vite";
-import { VitePWA } from "vite-plugin-pwa";
-import LinkAttributes from "markdown-it-link-attributes";
-import WebfontDownload from "vite-plugin-webfont-dl";
-import VueRouter from "unplugin-vue-router/vite";
-import { VueRouterAutoImports } from "unplugin-vue-router";
-import Pages from "vite-plugin-pages";
-import fs from "fs-extra";
-import matter from "gray-matter";
-import { visualizer } from "rollup-plugin-visualizer";
+import path, { basename, dirname, resolve } from 'node:path'
+import { defineConfig } from 'vite'
+import Vue from '@vitejs/plugin-vue'
+import generateSitemap from 'vite-ssg-sitemap'
+import Layouts from 'vite-plugin-vue-layouts'
+import Components from 'unplugin-vue-components/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import Markdown from 'unplugin-vue-markdown/vite'
+import VueI18n from '@intlify/unplugin-vue-i18n/vite'
+import { VitePWA } from 'vite-plugin-pwa'
+import LinkAttributes from 'markdown-it-link-attributes'
+import WebfontDownload from 'vite-plugin-webfont-dl'
+import VueRouter from 'unplugin-vue-router/vite'
+import { VueRouterAutoImports } from 'unplugin-vue-router'
+import Pages from 'vite-plugin-pages'
+import fs from 'fs-extra'
+import matter from 'gray-matter'
+import { visualizer } from 'rollup-plugin-visualizer'
 
-import MarkdownItShiki from "@shikijs/markdown-it";
-import { rendererRich, transformerTwoslash } from "@shikijs/twoslash";
-import tailwind from "tailwindcss";
-import autoprefixer from "autoprefixer";
-import anchor from "markdown-it-anchor";
-import GitHubAlerts from "markdown-it-github-alerts";
+import MarkdownItShiki from '@shikijs/markdown-it'
+import { rendererRich, transformerTwoslash } from '@shikijs/twoslash'
+import tailwind from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
+import anchor from 'markdown-it-anchor'
+import GitHubAlerts from 'markdown-it-github-alerts'
 
-import TOC from "markdown-it-table-of-contents";
-import sharp from "sharp";
+import TOC from 'markdown-it-table-of-contents'
+import sharp from 'sharp'
 // import { slugify } from './scripts/slugify'
-import operateBlogPlugin from "./plugins/operate-blog";
-import { SITE } from "@/config/param";
+import operateBlogPlugin from './plugins/operate-blog'
+import { SITE } from '@/config/param'
 
 export default defineConfig({
-    css: {
-        postcss: {
-            plugins: [tailwind(), autoprefixer()],
-        },
+  css: {
+    postcss: {
+      plugins: [tailwind(), autoprefixer()],
     },
-    resolve: {
-        alias: {
-            "~/": `${path.resolve(__dirname, "src")}/`,
-            "@/": `${path.resolve(__dirname, "src")}/`,
-        },
+  },
+  resolve: {
+    alias: {
+      '~/': `${path.resolve(__dirname, 'src')}/`,
+      '@/': `${path.resolve(__dirname, 'src')}/`,
     },
-    build: {
-        target: "es2019", // 1 browsers can handle the latest ES features
-        outDir: "docs",
-        // 打包后生成的静态资源名（[name] 会被替换为文件名，[hash] 是内容的 hash 值）
-        assetsDir: "assets",
-        // 打包后生成的 CSS 文件名
-        cssCodeSplit: true,
-        rollupOptions: {
-            output: {
-                // 自定义打包后的入口文件名
-                entryFileNames: "assets/[name]-[hash].js",
-                // 自定义打包后的 chunk 文件名
-                chunkFileNames: "chunks/[name]-[hash].js",
-                // 自定义打包后的 CSS 文件名
-                assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
-                // manualChunks: {
-                // vue vue-router合并打包
-                // vue: ['vue', 'vue-router'],
-                // },
+  },
+  build: {
+    target: 'es2019', // 1 browsers can handle the latest ES features
+    outDir: 'docs',
+    // 打包后生成的静态资源名（[name] 会被替换为文件名，[hash] 是内容的 hash 值）
+    assetsDir: 'assets',
+    // 打包后生成的 CSS 文件名
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        // 自定义打包后的入口文件名
+        entryFileNames: 'assets/[name]-[hash].js',
+        // 自定义打包后的 chunk 文件名
+        chunkFileNames: 'chunks/[name]-[hash].js',
+        // 自定义打包后的 CSS 文件名
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
+        // manualChunks: {
+        // vue vue-router合并打包
+        // vue: ['vue', 'vue-router'],
+        // },
+      },
+    },
+    // 启用/配置压缩
+    minify: 'terser' as const, // 使用 terser 压缩 JS
+    // terserOptions: {}, // 你可以在这里配置 terser 的选项
+
+    // 启用/禁用 source map
+    sourcemap: false,
+
+    // 启用/禁用构建后的文件大小报告
+    brotliSize: false, // 启用 Brotli 压缩大小报告
+    chunkSizeWarningLimit: 2000, // 警告的 chunk 大小限制（以 KB 为单位）
+  },
+
+  plugins: [
+    operateBlogPlugin(),
+    // visualizer({
+    //   open: false, // 构建完成后自动打开报告
+    //   filename: 'stats.html', // 报告文件的名称
+    //   gzipSize: true, // 收集gzip大小并显示
+    //   brotliSize: true, // 收集brotli大小并显示
+    //   // 其他可选配置...
+    // }),
+    Vue({
+      include: [/\.vue$/, /\.md$/],
+    }),
+
+    Pages({
+      extensions: ['vue', 'md'],
+      dirs: [
+        { dir: 'src/pages', baseRoute: '' },
+        // features dir for pages
+        { dir: 'blog', baseRoute: 'blog' },
+      ],
+      extendRoute(route) {
+        const path = resolve(__dirname, route.component.slice(1))
+
+        if (!path.includes('projects.md') && path.endsWith('.md')) {
+          const md = fs.readFileSync(path, 'utf-8')
+          const { data } = matter(md)
+          route.meta = Object.assign(route.meta || {}, {
+            frontmatter: {
+              ...data,
+              description: data.desc,
             },
+          })
+        }
+
+        return route
+      },
+    }),
+
+    // https://github.com/posva/unplugin-vue-router
+    VueRouter({
+      extensions: ['.vue', '.md'],
+      dts: 'src/typings/typed-router.d.ts',
+    }),
+
+    // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
+    Layouts(),
+
+    // https://github.com/antfu/unplugin-auto-import
+    AutoImport({
+      imports: [
+        'vue',
+        'vue-i18n',
+        '@vueuse/head',
+        '@vueuse/core',
+        // 正确使用VueRouterAutoImports
+        VueRouterAutoImports,
+        // 正确的包导入配置格式
+        { from: 'vue-router/auto', imports: ['useLink'] },
+        {
+          from: 'naive-ui',
+          imports: [
+            { name: 'useNotification', as: 'useNotification' },
+            { name: 'default', as: 'NaiveUI' },
+          ],
         },
-        // 启用/配置压缩
-        minify: "terser" as const, // 使用 terser 压缩 JS
-        // terserOptions: {}, // 你可以在这里配置 terser 的选项
+      ],
+      dts: 'src/typings/auto-imports.d.ts',
+      dirs: ['src/composables', 'src/stores'],
+      vueTemplate: true,
+    }),
 
-        // 启用/禁用 source map
-        sourcemap: false,
+    // https://github.com/antfu/unplugin-vue-components
+    Components({
+      // allow auto load markdown components under `./src/components/`
+      extensions: ['vue', 'md'],
+      // allow auto import and register components used in markdown
+      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+      dts: 'src/typings/components.d.ts',
+    }),
 
-        // 启用/禁用构建后的文件大小报告
-        brotliSize: false, // 启用 Brotli 压缩大小报告
-        chunkSizeWarningLimit: 2000, // 警告的 chunk 大小限制（以 KB 为单位）
-    },
+    // https://github.com/unplugin/unplugin-vue-markdown
+    Markdown({
+      wrapperComponent: id =>
+        id.includes('/demo/') ? 'WrapperDemo' : 'WrapperPost',
+      wrapperClasses: (id, code) =>
+        code.includes('@layout-full-width')
+          ? ''
+          : 'prose m-auto slide-enter-content',
 
-    plugins: [
-        operateBlogPlugin(),
-        // visualizer({
-        //   open: false, // 构建完成后自动打开报告
-        //   filename: 'stats.html', // 报告文件的名称
-        //   gzipSize: true, // 收集gzip大小并显示
-        //   brotliSize: true, // 收集brotli大小并显示
-        //   // 其他可选配置...
-        // }),
-        Vue({
-            include: [/\.vue$/, /\.md$/],
-        }),
-
-        Pages({
-            extensions: ["vue", "md"],
-            dirs: [
-                { dir: "src/pages", baseRoute: "" },
-                // features dir for pages
-                { dir: "blog", baseRoute: "blog" },
+      headEnabled: true,
+      async markdownItSetup(md) {
+        // https://shiki.style/guide/
+        md.use(
+          await MarkdownItShiki({
+            themes: {
+              dark: 'github-dark',
+              light: 'catppuccin-latte',
+            },
+            defaultColor: false,
+            cssVariablePrefix: '--s-',
+            transformers: [
+              transformerTwoslash({
+                explicitTrigger: true,
+                renderer: rendererRich(),
+              }),
             ],
-            extendRoute(route) {
-                const path = resolve(__dirname, route.component.slice(1));
+          }),
+        )
 
-                if (!path.includes("projects.md") && path.endsWith(".md")) {
-                    const md = fs.readFileSync(path, "utf-8");
-                    const { data } = matter(md);
-                    route.meta = Object.assign(route.meta || {}, {
-                        frontmatter: {
-                            ...data,
-                            description: data.desc,
-                        },
-                    });
-                }
+        // md.use(anchor, {
+        //   slugify,
+        //   permalink: anchor.permalink.linkInsideHeader({
+        //     symbol: '#',
+        //     renderAttrs: () => ({ 'aria-hidden': 'true' }),
+        //   }),
+        // })
 
-                return route;
-            },
-        }),
+        md.use(LinkAttributes, {
+          matcher: (link: string) => /^https?:\/\//.test(link),
+          attrs: {
+            target: '_blank',
+            rel: 'noopener',
+          },
+        })
 
-        // https://github.com/posva/unplugin-vue-router
-        VueRouter({
-            extensions: [".vue", ".md"],
-            dts: "src/typings/typed-router.d.ts",
-        }),
+        // md.use(TOC, {
+        //   includeLevel: [1, 2, 3, 4],
+        //   slugify,
+        //   containerHeaderHtml: `
+        //     <div class="table-of-contents-anchor hidden">
+        //       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M3 4h18v2H3zm0 7h12v2H3zm0 7h18v2H3z"/></svg>
+        //     </div>
+        //   `,
+        // })
 
-        // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
-        Layouts(),
+        md.use(GitHubAlerts)
+      },
+      // frontmatterPreprocess(frontmatter, options, id, defaults) {
+      //   (() => {
+      //     if (!id.endsWith('.md'))
+      //       return
+      //     const route = basename(id, '.md')
+      //     if (
+      //       route === 'index'
+      //       || frontmatter.image
+      //       || !frontmatter.title
+      //     ) {
+      //       return
+      //     }
+      //     const path = `og/${route}.png`
+      //     promises.push(
+      //       fs.existsSync(`${id.slice(0, -3)}.png`)
+      //         ? fs.copy(
+      //                             `${id.slice(0, -3)}.png`,
+      //                             `public/${path}`,
+      //         )
+      //         : generateOg(
+      //           frontmatter.title!.trim(),
+      //                             `public/${path}`,
+      //                             frontmatter.date as string,
+      //         ),
+      //     )
+      //     frontmatter.image = `https://mmeme.me/${encodeURIComponent(path)}`
+      //     frontmatter.description
+      //                   = (frontmatter?.desc as string) || ''
+      //   })()
+      //   const head = defaults(frontmatter, options)
+      //   return { head, frontmatter }
+      // },
+    }),
 
-        // https://github.com/antfu/unplugin-auto-import
-        AutoImport({
-            imports: [
-                "vue",
-                "vue-i18n",
-                "@vueuse/head",
-                "@vueuse/core",
-                // 正确使用VueRouterAutoImports
-                VueRouterAutoImports,
-                // 正确的包导入配置格式
-                { from: "vue-router/auto", imports: ["useLink"] },
-                {
-                    from: "naive-ui",
-                    imports: [
-                        { name: "useNotification", as: "useNotification" },
-                        { name: "default", as: "NaiveUI" },
-                    ],
-                },
-            ],
-            dts: "src/typings/auto-imports.d.ts",
-            dirs: ["src/composables", "src/stores"],
-            vueTemplate: true,
-        }),
+    // https://github.com/antfu/vite-plugin-pwa
+    VitePWA({
+      selfDestroying: true, // 禁用了
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.svg'],
+      manifest: {
+        name: '',
+        short_name: '天渺studio的小站',
+        theme_color: '#ffffff',
+        icons: [
+          {
+            src: '/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+          {
+            src: '/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable',
+          },
+        ],
+      },
+    }),
 
-        // https://github.com/antfu/unplugin-vue-components
-        Components({
-            // allow auto load markdown components under `./src/components/`
-            extensions: ["vue", "md"],
-            // allow auto import and register components used in markdown
-            include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-            dts: "src/typings/components.d.ts",
-        }),
+    // https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n
+    VueI18n({
+      runtimeOnly: true,
+      compositionOnly: true,
+      fullInstall: true,
+      include: [path.resolve(__dirname, 'locales/**')],
+    }),
 
-        // https://github.com/unplugin/unplugin-vue-markdown
-        Markdown({
-            wrapperComponent: (id) =>
-                id.includes("/demo/") ? "WrapperDemo" : "WrapperPost",
-            wrapperClasses: (id, code) =>
-                code.includes("@layout-full-width")
-                    ? ""
-                    : "prose m-auto slide-enter-content",
+    // https://github.com/feat-agency/vite-plugin-webfont-dl
+    WebfontDownload(),
+  ],
 
-            headEnabled: true,
-            async markdownItSetup(md) {
-                // https://shiki.style/guide/
-                md.use(
-                    await MarkdownItShiki({
-                        themes: {
-                            dark: "github-dark",
-                            light: "catppuccin-latte",
-                        },
-                        defaultColor: false,
-                        cssVariablePrefix: "--s-",
-                        transformers: [
-                            transformerTwoslash({
-                                explicitTrigger: true,
-                                renderer: rendererRich(),
-                            }),
-                        ],
-                    }),
-                );
-
-                // md.use(anchor, {
-                //   slugify,
-                //   permalink: anchor.permalink.linkInsideHeader({
-                //     symbol: '#',
-                //     renderAttrs: () => ({ 'aria-hidden': 'true' }),
-                //   }),
-                // })
-
-                md.use(LinkAttributes, {
-                    matcher: (link: string) => /^https?:\/\//.test(link),
-                    attrs: {
-                        target: "_blank",
-                        rel: "noopener",
-                    },
-                });
-
-                // md.use(TOC, {
-                //   includeLevel: [1, 2, 3, 4],
-                //   slugify,
-                //   containerHeaderHtml: `
-                //     <div class="table-of-contents-anchor hidden">
-                //       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M3 4h18v2H3zm0 7h12v2H3zm0 7h18v2H3z"/></svg>
-                //     </div>
-                //   `,
-                // })
-
-                md.use(GitHubAlerts);
-            },
-            // frontmatterPreprocess(frontmatter, options, id, defaults) {
-            //   (() => {
-            //     if (!id.endsWith('.md'))
-            //       return
-            //     const route = basename(id, '.md')
-            //     if (
-            //       route === 'index'
-            //       || frontmatter.image
-            //       || !frontmatter.title
-            //     ) {
-            //       return
-            //     }
-            //     const path = `og/${route}.png`
-            //     promises.push(
-            //       fs.existsSync(`${id.slice(0, -3)}.png`)
-            //         ? fs.copy(
-            //                             `${id.slice(0, -3)}.png`,
-            //                             `public/${path}`,
-            //         )
-            //         : generateOg(
-            //           frontmatter.title!.trim(),
-            //                             `public/${path}`,
-            //                             frontmatter.date as string,
-            //         ),
-            //     )
-            //     frontmatter.image = `https://mmeme.me/${encodeURIComponent(path)}`
-            //     frontmatter.description
-            //                   = (frontmatter?.desc as string) || ''
-            //   })()
-            //   const head = defaults(frontmatter, options)
-            //   return { head, frontmatter }
-            // },
-        }),
-
-        // https://github.com/antfu/vite-plugin-pwa
-        VitePWA({
-            selfDestroying: true, // 禁用了
-            registerType: "autoUpdate",
-            includeAssets: ["favicon.svg"],
-            manifest: {
-                name: "",
-                short_name: "天渺studio的小站",
-                theme_color: "#ffffff",
-                icons: [
-                    {
-                        src: "/pwa-192x192.png",
-                        sizes: "192x192",
-                        type: "image/png",
-                    },
-                    {
-                        src: "/pwa-512x512.png",
-                        sizes: "512x512",
-                        type: "image/png",
-                    },
-                    {
-                        src: "/pwa-512x512.png",
-                        sizes: "512x512",
-                        type: "image/png",
-                        purpose: "any maskable",
-                    },
-                ],
-            },
-        }),
-
-        // https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n
-        VueI18n({
-            runtimeOnly: true,
-            compositionOnly: true,
-            fullInstall: true,
-            include: [path.resolve(__dirname, "locales/**")],
-        }),
-
-        // https://github.com/feat-agency/vite-plugin-webfont-dl
-        WebfontDownload(),
-    ],
-
-    // https://github.com/antfu/vite-ssg
-    ssgOptions: {
-        script: "async",
-        formatting: "minify",
-        crittersOptions: {
-            reduceInlineStyles: false,
-        },
-        onFinished() {
-            generateSitemap();
-        },
+  // https://github.com/antfu/vite-ssg
+  ssgOptions: {
+    script: 'async',
+    formatting: 'minify',
+    crittersOptions: {
+      reduceInlineStyles: false,
     },
-
-    ssr: {
-        // TODO: workaround until they support native ESM
-        // 添加naive-ui到noExternal配置，解决CommonJS模块导入问题
-        noExternal: [
-            "workbox-window",
-            /vue-i18n/ as const,
-            "naive-ui",
-            "vueuc",
-        ] as (string | RegExp)[],
+    onFinished() {
+      generateSitemap({
+        hostname: 'https://tianmiao.site',
+        outDir: 'docs',
+        generateRobotsTxt: false, // 保留 public/robots.txt 自定义内容
+      })
     },
-});
+  },
+
+  ssr: {
+    // TODO: workaround until they support native ESM
+    // 添加naive-ui到noExternal配置，解决CommonJS模块导入问题
+    noExternal: [
+      'workbox-window',
+      /vue-i18n/ as const,
+      'naive-ui',
+      'vueuc',
+    ] as (string | RegExp)[],
+  },
+})
 
 // const ogSVg = fs.readFileSync('./scripts/og-template.svg', 'utf-8')
 

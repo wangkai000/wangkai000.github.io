@@ -1,5 +1,6 @@
 ---
-# title: About
+title: 关于 - 天渺studio(天渺工作室)
+description: 了解天渺studio（天渺工作室）Kai 的个人简介、技术栈与项目经历
 ---
 
 <div class="text-center mb-8">

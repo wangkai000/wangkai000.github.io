@@ -2,30 +2,27 @@
 import { NMessageProvider, NNotificationProvider } from 'naive-ui'
 import { useHead } from '@vueuse/head'
 import { AppSetup } from './utils/app'
+import { SITE } from '@/config/param'
 
 AppSetup()
 
 useHead({
-  title: '天渺studio',
+  title: SITE.title,
   meta: [
-    { name: 'author', content: '天渺studio | 天渺工作室' },
+    { name: 'author', content: SITE.author },
     { name: 'robots', content: 'index, follow' },
-    { name: 'revisit-after', content: '7 days' },
     {
       name: 'description',
-      content:
-        '天渺studio(天渺工作室)的小站 - 独立开发者/独立游戏开发者 Kai 的个人博客，分享 Vue、React、Node.js、Android、Flutter、移动端开发等技术文章与生活感悟。',
+      content: SITE.description,
     },
     {
       name: 'keywords',
-      content:
-        '天渺studio, 天渺工作室, Kai, 独立开发者, 独立游戏开发者, Blog, 前端, Vue, Node.js, Android, Flutter, 博客, 技术博客',
+      content: SITE.keywords,
     },
-    { property: 'og:title', content: '天渺studio(天渺工作室)的小站' },
+    { property: 'og:title', content: SITE.title },
     {
       property: 'og:description',
-      content:
-        '天渺studio(天渺工作室)的小站 - 独立开发者/独立游戏开发者 Kai 的个人博客',
+      content: SITE.description,
     },
     { property: 'og:type', content: 'website' },
     { property: 'og:url', content: 'https://tianmiao.site/' },
@@ -39,12 +36,11 @@ useHead({
     { name: 'twitter:url', content: 'https://tianmiao.site/' },
     {
       name: 'twitter:title',
-      content: '天渺studio(天渺工作室)的小站',
+      content: SITE.title,
     },
     {
       name: 'twitter:description',
-      content:
-        '天渺studio(天渺工作室)的小站 - 独立开发者/独立游戏开发者 Kai 的个人博客',
+      content: SITE.description,
     },
     {
       name: 'twitter:image',
@@ -61,9 +57,9 @@ useHead({
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'WebSite',
-        'name': '天渺studio(天渺工作室)的小站',
+        'name': SITE.title,
         'url': 'https://tianmiao.site/',
-        'description': '独立开发者/独立游戏开发者 Kai 的个人博客',
+        'description': SITE.description,
         'author': {
           '@type': 'Person',
           'name': 'Kai(天渺studio)',
